@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+header {
+    background: #0073e6;
+    color: #fff;
+    padding: 20px;
+}
+
+.logo img {
+    width: 150px;
+    margin-bottom: 10px;
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    gap: 50px; /* Adds space between hero image and form */
+}
+
+.left-content img {
+    width: 100%;
+    max-width: 500px;
+}
+
+.right-content {
+    background: #fff;
+    padding: 20px;
+    padding-right: 50px; /* Added right padding */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: left;
+}
+
+.right-content h2 {
+    text-align: center;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+form input[name="company"] {
+    margin-bottom: 20px;
+}
+
+
+form button {
+    width: 100%;
+    padding: 12px; /* Slightly increased padding for better appearance */
+    background: #0073e6;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+form button:hover {
+    background: #005bb5;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+}
