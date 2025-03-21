@@ -53,11 +53,6 @@ form input {
     box-sizing: border-box;
 }
 
-form input[name="company"] {
-    margin-bottom: 20px;
-}
-
-
 form button {
     width: 100%;
     padding: 12px; /* Slightly increased padding for better appearance */

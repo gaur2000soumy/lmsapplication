@@ -1,4 +1,4 @@
-package lmsapplication;
+package in.lms.lmsapplication;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
