@@ -1,6 +1,7 @@
 package in.lms.lmsapplication.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,66 +14,65 @@ import in.lms.lmsapplication.service.LoginUserService;
 
 @Controller
 class AuthController {
-    @Autowired
-    private UserRepository userRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private UserRepository userRepository;
 
-    private final LoginUserService loginUserService;
+	private final LoginUserService loginUserService;
 
-    @Autowired
-    public AuthController(LoginUserService loginUserService) {
-        this.loginUserService = loginUserService;
-    }
+	@Autowired
+	public AuthController(LoginUserService loginUserService) {
+		this.loginUserService = loginUserService;
+	}
 
-    @GetMapping("/")
-    public String welcome() {
-        return "welcome";
-    }
+	@GetMapping("/")
+	public String welcome() {
+		return "welcome";
+	}
 
-    @PostMapping("/signup")
-    public String signup(@RequestParam String fullName, 
-                         @RequestParam String email, 
-                         @RequestParam String phone, 
-                         @RequestParam String company, 
-                         @RequestParam String username, 
-                         @RequestParam String password, 
-                         @RequestParam String confirmPassword) {
-        
-        if (!password.equals(confirmPassword)) {
-            return "redirect:/signup?error=Passwords do not match";
-        }
+	@PostMapping("/signup")
+	public String signup(@RequestParam String fullName, @RequestParam String email, @RequestParam String phone,
+			@RequestParam String company, @RequestParam String username, @RequestParam String password,
+			@RequestParam String confirmPassword) {
 
-        LoginUser user = new LoginUser();
-        user.setFullName(fullName);
-        user.setEmail(email);
-        user.setPhoneNumber(phone);
-        user.setCompanyName(company);
-        user.setUsername(username);
-        user.setPassword(password);  
-        userRepository.save(user);
+		if (!password.equals(confirmPassword)) {
+			return "redirect:/signup?error=Passwords do not match";
+		}
 
-        return "redirect:/login";
-    }
+		LoginUser user = new LoginUser();
+		user.setFullName(fullName);
+		user.setEmail(email);
+		user.setPhoneNumber(phone);
+		user.setCompanyName(company);
+		user.setUsername(username);
+		user.setPassword(passwordEncoder.encode(password));
+		user.setRole("USER_ROLE");
+		userRepository.save(user);
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
+		return "redirect:/login";
+	}
 
-    @PostMapping("/login")
-    public String doLogin(@RequestParam String username, @RequestParam String password, Model model) {
-        LoginUser user = userRepository.findByUsername(username);
-        boolean isValid = loginUserService.validateLogin(username, password);
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
 
-        if (isValid) {
-            return "redirect:/dashboard";  // Redirect to dashboard if login is successful
-        } else {
-            model.addAttribute("error", "Invalid credentials, please try again.");
-            return "login";  // Return to the login page if credentials are invalid
-        }
-    }
+//    @PostMapping("/login")
+//    public String doLogin(@RequestParam String username, @RequestParam String password, Model model) {
+//        LoginUser user = userRepository.findByUsernameOrEmail(username,username);
+//        boolean isValid = loginUserService.validateLogin(username, password);
+//
+//        if (isValid) {
+//            return "redirect:/dashboard";  // Redirect to dashboard if login is successful
+//        } else {
+//            model.addAttribute("error", "Invalid credentials, please try again.");
+//            return "login";  // Return to the login page if credentials are invalid
+//        }
+//    }
 
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "dashboard";
-    }
+	@GetMapping("/dashboard")
+	public String dashboard() {
+		return "dashboard";
+	}
 }
