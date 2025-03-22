@@ -1,79 +1,170 @@
+/* Base styling */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    text-align: center;
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 }
 
+/* Fixed header at the top */
 header {
-    background: #0073e6;
-    color: #fff;
-    padding: 20px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 20px;
+	background: #DEEBFF;
+	width: 100%;
+	z-index: 10;
+}
+
+/* Logo styles */
+.logo {
+	display: flex;
+	align-items: center; /* Aligns items vertically */
+	height: 50px;
 }
 
 .logo img {
-    width: 150px;
-    margin-bottom: 10px;
+	width: 150px;
+	display: flex;
+	justify-content: flex-start;
+	margin-left: 20px;
+	object-fit: contain;
 }
 
+.logo div {
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	overflow: hidden;
+}
+
+.logo h1 {
+	font-size: 35px;
+	margin-left: 20px;
+}
+
+/* Main content: spaced between header and footer */
 .main-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-    gap: 50px; /* Adds space between hero image and form */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 40px;
+	gap: 50px; /* Adds space between hero image and form */
+	flex: 1;
+	margin-top: 100px;   /* Adjust based on header height */
+	margin-bottom: 60px; /* Adjust based on footer height */
+}
+
+/* Left content styles */
+.left-content {
+	margin-top: 10px;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .left-content img {
-    width: 100%;
-    max-width: 500px;
+	margin-top: 10px;
+	width: 100%;
 }
 
+/* Right content (form container) styles */
 .right-content {
-    background: #fff;
-    padding: 20px;
-    padding-right: 50px; /* Added right padding */
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    text-align: left;
+	background: #fff;
+	padding: 20px;
+	padding-right: 50px; /* Added right padding */
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	width: 350px;
+	text-align: left;
 }
 
 .right-content h2 {
-    text-align: center;
+	text-align: center;
 }
 
+/* Form elements */
 form input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
+	width: 100%;
+	padding: 10px;
+	margin: 10px 0;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-sizing: border-box;
 }
 
 form button {
-    width: 100%;
-    padding: 12px; /* Slightly increased padding for better appearance */
-    background: #0073e6;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+	width: 100%;
+	margin-top: 15px;
+	padding: 12px; /* Slightly increased padding for better appearance */
+	background: #0073e6;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
 }
 
 form button:hover {
-    background: #005bb5;
+	background: #005bb5;
 }
 
+/* Fixed footer at the bottom */
 footer {
-    background: #333;
-    color: #fff;
-    padding: 10px;
-    width: 100%;
-    text-align: center;
-    position: relative;
-    bottom: 0;
+	background: #333;
+	color: #fff;
+	padding: 10px;
+	width: 100%;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+	/* Header adjustments */
+	header {
+		padding: 10px;
+	}
+	
+	/* Logo adjustments */
+	.logo img {
+		width: 120px;
+		margin-left: 10px;
+	}
+	.logo h1 {
+		font-size: 28px;
+		margin-left: 10px;
+	}
+	
+	/* Main content adjustments */
+	.main-content {
+		flex-direction: column;
+		padding: 20px;
+		gap: 20px;
+		margin-top: 80px;   /* Less margin for smaller header */
+		margin-bottom: 50px; /* Adjust margin for footer */
+	}
+	
+	/* Right-content width adjustment */
+	.right-content {
+		width: 90%;
+		padding-right: 20px;
+	}
+	
+	/* Form button adjustments */
+	form button {
+		font-size: 14px;
+	}
+	
+	/* Footer adjustments */
+	footer {
+		padding: 8px;
+	}
 }
