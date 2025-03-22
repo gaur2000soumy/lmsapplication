@@ -1,33 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LMS Application - dashboard</title>
-    <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LMS Application - dashboard</title>
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-
-    <header>
-        <div class="logo">
-            <img src="/images/Logo1212.png" alt="LMS Logo">
+<header>
+    <div class="logo">
+        <img src="/images/lmslogo.png" alt="LMS Logo">
+    </div>
+    <nav class="navbar">
+        <div class="dropdown">
+            <span>Leads ▼</span>
+            <div class="dropdown-content">
+                <a href="#">All Leads</a>
+                <a href="#">My Leads</a>
+                <a href="#">Assigned Leads</a>
+            </div>
         </div>
-        <h1>Login to Your Account</h1>
-    </header>
-
-    <section class="main-content">
-        <div class="left-content">
-            <img src="images/hero-image.jpg" alt="Business Growth">
-        </div>
-
-   <h1>Welcome to Dashboard</h1>
-<a href="/">Logout</a>     
-    </section>
-
-    <footer>
-        <p>© 2024 LMS Application. All rights reserved.</p>
-    </footer>
-
+        <a href="#">Companies</a>
+        <a href="#">Admins</a>
+        <a href="#">Users</a>
+        <a href="#">Comments</a>
+        <a href="#">Profile</a>
+        <a href="#">Help</a>
+        <a href="/logout">Logout</a>
+    </nav>
+</header>
+	<section class="main-content">
+		<div class="form-container">
+			<h3>Add Lead</h3>
+			<input type="text" placeholder="Lead Name">
+			<button>Add</button>
+		</div>
+		<div class="form-container">
+			<h3>Add Company</h3>
+			<input type="text" placeholder="Company Name">
+			<button>Add</button>
+		</div>
+		<div class="form-container">
+			<h3>Add Admin</h3>
+			<input type="text" placeholder="Admin Name">
+			<button>Add</button>
+		</div>
+		<div class="form-container">
+			<h3>Add User</h3>
+			<input type="text" placeholder="User Name">
+			<button>Add</button>
+		</div>
+	</section>
+	<footer>
+		<p>© 2024 LMS Application. All rights reserved.</p>
+	</footer>
 </body>
 </html>
 

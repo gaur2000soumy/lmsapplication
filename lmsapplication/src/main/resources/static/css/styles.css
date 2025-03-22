@@ -1,170 +1,187 @@
-/* Base styling */
 body {
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+    width: 100%;
 }
 
-/* Fixed header at the top */
 header {
-	position: fixed;
-	top: 0;
-	left: 0;
-	padding: 20px;
-	background: #DEEBFF;
-	width: 100%;
-	z-index: 10;
-}
-
-/* Logo styles */
-.logo {
-	display: flex;
-	align-items: center; /* Aligns items vertically */
-	height: 50px;
+    padding: 20px;
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .logo img {
-	width: 150px;
-	display: flex;
-	justify-content: flex-start;
-	margin-left: 20px;
-	object-fit: contain;
+    width: 100px;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 20px;
+    object-fit: contain;
 }
-
 .logo div {
-	height: 50px;
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	overflow: hidden;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
 }
-
 .logo h1 {
-	font-size: 35px;
-	margin-left: 20px;
+    font-size: 35px;
+    margin-left: 20px;
 }
 
-/* Main content: spaced between header and footer */
+.navbar {
+    padding: 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.navbar a,
+.dropdown span {
+    color: #333;
+    text-decoration: none;
+    padding: 8px 10px;
+    font-size: 14px;
+}
+.navbar a:last-child {
+    margin-right: 10px; /* 10px gap from the right for Logout button */
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 150px;
+    z-index: 100;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropdown-content a {
+    color: black;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+}
+
 .main-content {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 40px;
-	gap: 50px; /* Adds space between hero image and form */
-	flex: 1;
-	margin-top: 100px;   /* Adjust based on header height */
-	margin-bottom: 60px; /* Adjust based on footer height */
+	background: #DEEBFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    flex: 1;
 }
 
-/* Left content styles */
 .left-content {
-	margin-top: 10px;
-	padding: 20px;
-	border-radius: 5px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    max-width: 600px;
+    text-align: left;
+    padding: 20px;
 }
-
+.left-content h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+.left-content p {
+    font-size: 1em;
+    line-height: 1.5;
+}
 .left-content img {
-	margin-top: 10px;
-	width: 100%;
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 5px;
 }
 
-/* Right content (form container) styles */
 .right-content {
-	background: #fff;
-	padding: 20px;
-	padding-right: 50px; /* Added right padding */
-	border-radius: 5px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	width: 350px;
-	text-align: left;
+    background: #fff;
+    padding: 20px 50px 20px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 350px;
+    text-align: left;
 }
-
 .right-content h2 {
-	text-align: center;
+    text-align: center;
 }
 
-/* Form elements */
-form input {
-	width: 100%;
-	padding: 10px;
-	margin: 10px 0;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	box-sizing: border-box;
+.form-container {
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    text-align: center;
 }
-
+form input,
 form button {
-	width: 100%;
-	margin-top: 15px;
-	padding: 12px; /* Slightly increased padding for better appearance */
-	background: #0073e6;
-	color: #fff;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	font-size: 16px;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
 }
-
+form button {
+    background: #0073e6;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
 form button:hover {
-	background: #005bb5;
+    background: #005bb5;
 }
 
-/* Fixed footer at the bottom */
 footer {
-	background: #333;
-	color: #fff;
-	padding: 10px;
-	width: 100%;
-	text-align: center;
-	position: fixed;
-	bottom: 0;
-	left: 0;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
 }
 
-/* Mobile adjustments */
+/* Responsive Design */
 @media (max-width: 600px) {
-	/* Header adjustments */
-	header {
-		padding: 10px;
-	}
-	
-	/* Logo adjustments */
-	.logo img {
-		width: 120px;
-		margin-left: 10px;
-	}
-	.logo h1 {
-		font-size: 28px;
-		margin-left: 10px;
-	}
-	
-	/* Main content adjustments */
-	.main-content {
-		flex-direction: column;
-		padding: 20px;
-		gap: 20px;
-		margin-top: 80px;   /* Less margin for smaller header */
-		margin-bottom: 50px; /* Adjust margin for footer */
-	}
-	
-	/* Right-content width adjustment */
-	.right-content {
-		width: 90%;
-		padding-right: 20px;
-	}
-	
-	/* Form button adjustments */
-	form button {
-		font-size: 14px;
-	}
-	
-	/* Footer adjustments */
-	footer {
-		padding: 8px;
-	}
+    header {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+    .logo img {
+        width: 120px;
+        margin-left: 10px;
+    }
+    .logo h1 {
+        font-size: 28px;
+        margin-left: 10px;
+    }
+    .main-content {
+        flex-direction: column;
+        padding: 20px;
+        gap: 20px;
+        margin-top: 80px;
+        margin-bottom: 50px;
+    }
+    .right-content {
+        width: 90%;
+        padding-right: 20px;
+    }
+    form button {
+        font-size: 14px;
+    }
+    footer {
+        padding: 8px;
+    }
 }
