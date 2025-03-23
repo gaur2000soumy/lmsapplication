@@ -11,41 +11,52 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
+
 	@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/signup", "/css/**", "/images/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(login -> login
-                .loginPage("/login")
-                .defaultSuccessUrl("/dashboard", true)
-                .permitAll()
-            )
-            .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/"));
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests(auth -> auth.requestMatchers("/", "/signup", "/css/**", "/images/**").permitAll()
+						.requestMatchers("/dashboard").hasRole("USER_ROLE").requestMatchers("/admin-dashboard")
+						.hasRole("ADMIN_ROLE").requestMatchers("/superadmin-dashboard").hasRole("SUPERADMIN_ROLE")
+						.anyRequest().authenticated())
+				.formLogin(login -> login.loginPage("/login").successHandler(successHandler()).permitAll())
+				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/"));
 
-        return http.build();
-    }
+		return http.build();
+	}
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Encrypt passwords
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder(); // Encrypt passwords
+	}
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(userDetailsService);
-        return provider;
-    }
+	@Bean
+	public AuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setPasswordEncoder(passwordEncoder());
+		provider.setUserDetailsService(userDetailsService);
+		return provider;
+	}
+
+	@Bean
+	public AuthenticationSuccessHandler successHandler() {
+		return (request, response, authentication) -> {
+			String role = authentication.getAuthorities().iterator().next().getAuthority();
+
+			if ("SUPERADMIN_ROLE".equals(role)) {
+				response.sendRedirect("/superadmin-dashboard");
+			} else if ("ADMIN_ROLE".equals(role)) {
+				response.sendRedirect("/admin-dashboard");
+			} else {
+				response.sendRedirect("/dashboard");
+			}
+		};
+	}
 }
-	
