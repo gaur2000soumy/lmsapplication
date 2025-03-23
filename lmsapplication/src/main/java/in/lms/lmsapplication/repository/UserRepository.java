@@ -6,6 +6,7 @@ import in.lms.lmsapplication.model.LoginUser;
 
 public interface UserRepository extends JpaRepository<LoginUser, Long> {
 
-	LoginUser findByUsernameOrEmail(String usernameOrEmail, String usernameOrEmail2);
+	LoginUser findByEmail(String username);
+	boolean existsByEmail(String email);
 
 }
