@@ -13,6 +13,23 @@ public class Company {
 	private String companyName;
 	private String companyAddress;
 	private String companyCinNumber;
+	private String companyContactPersonName;
+	private String companyContactPersonEmail;
+	private String companyContactPersonPhone;
+
+	public Company() {
+	}
+
+	public Company(long companyId, String companyName, String companyAddress, String companyCinNumber,
+			String companyContactPersonName, String companyContactPersonEmail, String companyContactPersonPhone) {
+		this.companyId = companyId;
+		this.companyName = companyName;
+		this.companyAddress = companyAddress;
+		this.companyCinNumber = companyCinNumber;
+		this.companyContactPersonName = companyContactPersonName;
+		this.companyContactPersonEmail = companyContactPersonEmail;
+		this.companyContactPersonPhone = companyContactPersonPhone;
+	}
 
 	public long getCompanyId() {
 		return companyId;
@@ -46,19 +63,36 @@ public class Company {
 		this.companyCinNumber = companyCinNumber;
 	}
 
-	public Company(long companyId, String companyName, String companyAddress, String companyCinNumber) {
-		this.companyId = companyId;
-		this.companyName = companyName;
-		this.companyAddress = companyAddress;
-		this.companyCinNumber = companyCinNumber;
+	public String getCompanyContactPersonName() {
+		return companyContactPersonName;
 	}
 
-	public Company() {
+	public void setCompanyContactPersonName(String companyContactPersonName) {
+		this.companyContactPersonName = companyContactPersonName;
 	}
 
+	public String getCompanyContactPersonEmail() {
+		return companyContactPersonEmail;
+	}
+
+	public void setCompanyContactPersonEmail(String companyContactPersonEmail) {
+		this.companyContactPersonEmail = companyContactPersonEmail;
+	}
+
+	public String getCompanyContactPersonPhone() {
+		return companyContactPersonPhone;
+	}
+
+	public void setCompanyContactPersonPhone(String companyContactPersonPhone) {
+		this.companyContactPersonPhone = companyContactPersonPhone;
+	}
+
+	@Override
 	public String toString() {
 		return "Company [companyId=" + companyId + ", companyName=" + companyName + ", companyAddress=" + companyAddress
-				+ ", companyCinNumber=" + companyCinNumber + "]";
+				+ ", companyCinNumber=" + companyCinNumber + ", companyContactPersonName=" + companyContactPersonName
+				+ ", companyContactPersonEmail=" + companyContactPersonEmail + ", companyContactPersonPhone="
+				+ companyContactPersonPhone + "]";
 	}
 
 }
