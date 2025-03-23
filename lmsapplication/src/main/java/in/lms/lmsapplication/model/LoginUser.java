@@ -1,6 +1,12 @@
 package in.lms.lmsapplication.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class LoginUser {
@@ -10,39 +16,29 @@ public class LoginUser {
 	@Column(unique = true, nullable = false)
 	private String email;
 	@Column(unique = true, nullable = false)
-	private String username;
-	@Column(unique = true, nullable = false)
 	private String phoneNumber;
 	@Column(nullable = false)
 	private String fullName;
 	@Column(nullable = false)
 	private String role;
 	@Column(nullable = false)
-	private Long companyId;
-	@Column(nullable = false)
 	private String password;
+	@ManyToOne
+	@JoinColumn(name = "company_id", nullable = false)
+	private Company company;
 
 	public LoginUser() {
 	}
 
-	public LoginUser(Long id, String email, String username, String phoneNumber, String fullName, String role,
-			Long companyId, String password) {
+	public LoginUser(Long id, String email, String phoneNumber, String fullName, String role, String password,
+			Company company) {
 		this.id = id;
 		this.email = email;
-		this.username = username;
 		this.phoneNumber = phoneNumber;
 		this.fullName = fullName;
 		this.role = role;
-		this.companyId = companyId;
 		this.password = password;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
+		this.company = company;
 	}
 
 	public String getPassword() {
@@ -69,14 +65,6 @@ public class LoginUser {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public Long getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
-	}
-
 	public String getFullName() {
 		return fullName;
 	}
@@ -92,4 +80,13 @@ public class LoginUser {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
 }

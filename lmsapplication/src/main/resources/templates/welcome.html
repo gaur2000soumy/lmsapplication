@@ -1,58 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LMS Application - Build Everlasting Relationships</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="/lmsfavicon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LMS Application - Build Everlasting Relationships</title>
+<link rel="stylesheet" href="css/styles.css">
+<link rel="icon" href="/lmsfavicon.png">
 </head>
 <body>
 
-    <header>
-        <div class="logo">
-            <img src="/images/lmslogo.png" alt="LMS Logo">
-        </div>
-    </header>
+	<header>
+		<div class="logo">
+			<img src="/images/lmslogo.png" alt="LMS Logo">
+		</div>
+	</header>
 
-    <section class="main-content">
-        <div class="left-content">
-        <h1>Build Everlasting Customer Relationships</h1>
-        <p>Manage leads, automate tasks, and grow your business with LMS Application.</p>
-            <img src="images/hero-image.jpg" alt="Business Growth">
-        </div>
+	<section class="main-content">
+		<div class="left-content">
+			<h1>Build Everlasting Customer Relationships</h1>
+			<p>Manage leads, automate tasks, and grow your business with LMS
+				Application.</p>
+			<img src="images/hero-image.jpg" alt="Business Growth">
+		</div>
 
-        <div class="right-content">
-            <h2>Get Started for Free</h2>
-            <form action="/signup" method="POST" onsubmit="return validateForm()">
-                <input type="text" name="fullName" placeholder="Full Name" required>
-                <input type="email" name="email" placeholder="Email Address" required>
-                <input type="text" name="phone" placeholder="Phone Number" pattern="^\d{10}$" title="Please enter a 10-digit phone number" required>
-                <input type="number" name="company" placeholder="Company Id" required>
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
-                <button type="submit">Get Started</button>
-                <p style="text-align: center;">Already have an account?  <a href="login">Log in here!</a></p>
-            </form>
-        </div>
-    </section>
+		<div class="right-content">
+			<h2>Get Started for Free</h2>
+			<form action="/signup" method="POST" onsubmit="return validateForm()">
+				<input type="text" name="fullName" placeholder="Full Name" required>
+				<input type="email" name="email" placeholder="Email Address"
+					required> <input type="text" name="phone"
+					placeholder="Phone Number" pattern="^\d{10}$"
+					title="Please enter a 10-digit phone number" required> <input
+					type="number" name="company" placeholder="Company Id" required>
+				<input type="password" name="password" placeholder="Password"
+					required> <input type="password" name="confirmPassword"
+					placeholder="Confirm Password" required> <input
+					type="hidden" name="role" value="USER_ROLE">
 
-    <footer>
-        <p>© 2024 LMS Application. All rights reserved.</p>
-    </footer>
+				<button type="submit">Get Started</button>
+				<p style="text-align: center;">
+					Already have an account? <a href="login">Log in here!</a>
+				</p>
+			</form>
+		</div>
+	</section>
 
-    <script>
-        function validateForm() {
-            var password = document.querySelector('[name="password"]').value;
-            var confirmPassword = document.querySelector('[name="confirmPassword"]').value;
-            if (password !== confirmPassword) {
-                alert("Passwords do not match.");
-                return false;
-            }
-            return true;
-        }
-    </script>
+	<footer>
+		<p>© 2024 LMS Application. All rights reserved.</p>
+	</footer>
+
+	<script>
+		function validateForm() {
+			var password = document.querySelector('[name="password"]').value;
+			var confirmPassword = document
+					.querySelector('[name="confirmPassword"]').value;
+			if (password !== confirmPassword) {
+				alert("Passwords do not match.");
+				return false;
+			}
+			return true;
+		}
+	</script>
 
 </body>
 </html>
