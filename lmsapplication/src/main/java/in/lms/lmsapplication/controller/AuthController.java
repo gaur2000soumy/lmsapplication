@@ -32,7 +32,7 @@ class AuthController {
 
 	@PostMapping("/signup")
 	public String signup(@RequestParam String fullName, @RequestParam String email, @RequestParam String phone,
-			@RequestParam String company, @RequestParam String username, @RequestParam String password,
+			@RequestParam Long company, @RequestParam String username, @RequestParam String password,
 			@RequestParam String confirmPassword) {
 
 		if (!password.equals(confirmPassword)) {
@@ -43,7 +43,7 @@ class AuthController {
 		user.setFullName(fullName);
 		user.setEmail(email);
 		user.setPhoneNumber(phone);
-		user.setCompanyName(company);
+		user.setCompanyId(company);
 		user.setUsername(username);
 		user.setPassword(passwordEncoder.encode(password));
 		user.setRole("USER_ROLE");

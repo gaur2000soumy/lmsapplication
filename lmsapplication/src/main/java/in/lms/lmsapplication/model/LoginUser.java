@@ -18,7 +18,7 @@ public class LoginUser {
 	@Column(nullable = false)
 	private String role;
 	@Column(nullable = false)
-	private String companyName;
+	private Long companyId;
 	@Column(nullable = false)
 	private String password;
 
@@ -26,14 +26,14 @@ public class LoginUser {
 	}
 
 	public LoginUser(Long id, String email, String username, String phoneNumber, String fullName, String role,
-			String companyName, String password) {
+			Long companyId, String password) {
 		this.id = id;
 		this.email = email;
 		this.username = username;
 		this.phoneNumber = phoneNumber;
 		this.fullName = fullName;
 		this.role = role;
-		this.companyName = companyName;
+		this.companyId = companyId;
 		this.password = password;
 	}
 
@@ -69,12 +69,12 @@ public class LoginUser {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getCompanyName() {
-		return companyName;
+	public Long getCompanyId() {
+		return companyId;
 	}
 
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
 
 	public String getFullName() {
