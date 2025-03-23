@@ -3,32 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LMS Application - dashboard</title>
+<title>LMS Application - Dashboard</title>
 <link rel="stylesheet" href="css/styles.css">
+<link rel="icon" href="/lmsfavicon.png">
 </head>
 <body>
-<header>
-    <div class="logo">
-        <img src="/images/lmslogo.png" alt="LMS Logo">
-    </div>
-    <nav class="navbar">
-        <div class="dropdown">
-            <span>Leads ▼</span>
-            <div class="dropdown-content">
-                <a href="#">All Leads</a>
-                <a href="#">My Leads</a>
-                <a href="#">Assigned Leads</a>
-            </div>
-        </div>
-        <a href="#">Companies</a>
-        <a href="#">Admins</a>
-        <a href="#">Users</a>
-        <a href="#">Comments</a>
-        <a href="#">Profile</a>
-        <a href="#">Help</a>
-        <a href="/logout">Logout</a>
-    </nav>
-</header>
+	<header>
+		<div class="logo">
+			<img src="/images/lmslogo.png" alt="LMS Logo">
+		</div>
+		<nav class="navbar">
+			<div class="dropdown">
+				<span>Leads ▼</span>
+				<div class="dropdown-content">
+					<a href="#">All Leads</a> <a href="#">My Leads</a> <a href="#">Assigned
+						Leads</a>
+				</div>
+			</div>
+			<a href="companies.html">Companies</a> <a href="#">Admins</a> <a
+				href="#">Users</a> <a href="#">Comments</a> <a href="#">Profile</a>
+			<a href="#">Help</a> <a href="/logout">Logout</a>
+		</nav>
+	</header>
 	<section class="main-content">
 		<div class="form-container">
 			<h3>Add Lead</h3>
@@ -37,8 +33,15 @@
 		</div>
 		<div class="form-container">
 			<h3>Add Company</h3>
-			<input type="text" placeholder="Company Name">
-			<button>Add</button>
+			<input type="text" id="companyName" placeholder="Company Name">
+			<input type="text" id="companyAddress" placeholder="Company Address">
+			<input type="text" id="companyCinNumber" placeholder="CIN Number">
+			<input type="text" id="companyContactPersonName"
+				placeholder="Contact Full Name"> <input type="tel"
+				id="companyContactPersonPhone" placeholder="Contact Phone Number">
+			<input type="email" id="companyContactPersonEmail"
+				placeholder="Contact Email Address">
+			<button onclick="addCompany()">Add</button>
 		</div>
 		<div class="form-container">
 			<h3>Add Admin</h3>
@@ -54,6 +57,28 @@
 	<footer>
 		<p>© 2024 LMS Application. All rights reserved.</p>
 	</footer>
+	<script>
+function addCompany() {
+	  const company = {
+		        companyId: 0,
+		        companyName: document.getElementById('companyName').value,
+		        companyAddress: document.getElementById('companyAddress').value,
+		        companyCinNumber: document.getElementById('companyCinNumber').value,
+		        companyContactPersonName: document.getElementById('companyContactPersonName').value,
+		        companyContactPersonPhone: document.getElementById('companyContactPersonPhone').value,
+		        companyContactPersonEmail: document.getElementById('companyContactPersonEmail').value
+		    };
+    fetch('/companies', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(company)
+    }).then(response => {
+        if (response.ok) {
+            alert('Company added successfully');
+            location.reload();
+        }
+    });
+}
+</script>
 </body>
 </html>
-

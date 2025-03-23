@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LMS Application - Companies</title>
+<link rel="stylesheet" href="css/styles.css">
+<link rel="icon" href="/lmsfavicon.png">
+</head>
+<body>
+<header>
+    <div class="logo">
+        <img src="/images/lmslogo.png" alt="LMS Logo">
+    </div>
+    <nav class="navbar">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="#">Admins</a>
+        <a href="#">Users</a>
+        <a href="#">Comments</a>
+        <a href="#">Profile</a>
+        <a href="#">Help</a>
+        <a href="/logout">Logout</a>
+    </nav>
+</header>
+<section class="main-content">
+    <h2>Companies</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>CIN Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="companiesTableBody">
+        </tbody>
+    </table>
+</section>
+<footer>
+    <p>© 2024 LMS Application. All rights reserved.</p>
+</footer>
+<script>
+function fetchCompanies() {
+    fetch('/api/companies')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('companiesTableBody');
+            tableBody.innerHTML = '';
+            data.forEach(company => {
+                const row = `<tr>
+                    <td>${company.companyId}</td>
+                    <td>${company.companyName}</td>
+                    <td>${company.companyAddress}</td>
+                    <td>${company.companyCinNumber}</td>
+                    <td>
+                        <button onclick="editCompany(${company.companyId})">Edit</button>
+                        <button onclick="deleteCompany(${company.companyId})">Delete</button>
+                    </td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        });
+}
+function deleteCompany(id) {
+    fetch(`/api/companies/${id}`, { method: 'DELETE' })
+        .then(response => {
+            if (response.ok) {
+                alert('Company deleted successfully');
+                fetchCompanies();
+            }
+        });
+}
+function editCompany(id) {
+    const newName = prompt('Enter new company name:');
+    const newAddress = prompt('Enter new company address:');
+    const newCin = prompt('Enter new CIN number:');
+    if (newName && newAddress && newCin) {
+        fetch(`/api/companies/${id}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                companyName: newName,
+                companyAddress: newAddress,
+                companyCinNumber: newCin
+            })
+        }).then(response => {
+            if (response.ok) {
+                alert('Company updated successfully');
+                fetchCompanies();
+            }
+        });
+    }
+}
+document.addEventListener('DOMContentLoaded', fetchCompanies);
+</script>
+</body>
+</html>
