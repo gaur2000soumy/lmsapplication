@@ -6,6 +6,7 @@
 <title>LMS Application - Dashboard</title>
 <link rel="stylesheet" href="css/styles.css">
 <link rel="icon" href="/lmsfavicon.png">
+<script src="/js/company.js"></script>
 </head>
 <body>
 	<header>
@@ -28,8 +29,13 @@
 	<section class="main-content">
 		<div class="form-container">
 			<h3>Add Lead</h3>
-			<input type="text" placeholder="Lead Name">
-			<button>Add</button>
+			<input type="text" id="fullName" placeholder="Full Name"> <input
+				type="email" id="email" placeholder="Email Address"> <input
+				type="tel" id="phone" placeholder="Phone Number"> <input
+				type="tel" id="altPhone" placeholder="Alternate Phone Number">
+			<input type="text" id="address" placeholder="Address"> <input
+				type="text" id="Description" placeholder="Description">
+			<button>Add Lead</button>
 		</div>
 		<div class="form-container">
 			<h3>Add Company</h3>
@@ -41,7 +47,7 @@
 				id="companyContactPersonPhone" placeholder="Contact Phone Number">
 			<input type="email" id="companyContactPersonEmail"
 				placeholder="Contact Email Address">
-			<button onclick="addCompany()">Add</button>
+			<button onclick="addCompany()">Add Company</button>
 		</div>
 		<div class="form-container">
 			<h3>Add Admin</h3>
@@ -57,28 +63,5 @@
 	<footer>
 		<p>© 2024 LMS Application. All rights reserved.</p>
 	</footer>
-	<script>
-function addCompany() {
-	  const company = {
-		        companyId: 0,
-		        companyName: document.getElementById('companyName').value,
-		        companyAddress: document.getElementById('companyAddress').value,
-		        companyCinNumber: document.getElementById('companyCinNumber').value,
-		        companyContactPersonName: document.getElementById('companyContactPersonName').value,
-		        companyContactPersonPhone: document.getElementById('companyContactPersonPhone').value,
-		        companyContactPersonEmail: document.getElementById('companyContactPersonEmail').value
-		    };
-    fetch('/companies', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(company)
-    }).then(response => {
-        if (response.ok) {
-            alert('Company added successfully');
-            location.reload();
-        }
-    });
-}
-</script>
 </body>
 </html>
