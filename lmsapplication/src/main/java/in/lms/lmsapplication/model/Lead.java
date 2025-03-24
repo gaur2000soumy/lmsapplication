@@ -2,6 +2,7 @@ package in.lms.lmsapplication.model;
 
 import java.util.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,20 +14,24 @@ import jakarta.persistence.TemporalType;
 
 @Entity
 public class Lead {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long leadId;
+    @Column(nullable = false)
     private String fullName;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String phoneNo;
     private String altPhone;
+    @Column(nullable = false)
     private String address;
+    @Column(nullable = false)
     private String status;
     private String note;
 
     @ManyToOne
-    @JoinColumn(name = "owner_user_id", nullable = false)
+    @JoinColumn(name = "owner_id", nullable = false)
     private LoginUser ownerUser;
 
     @ManyToOne

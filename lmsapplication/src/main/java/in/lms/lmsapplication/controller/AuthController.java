@@ -1,11 +1,15 @@
 package in.lms.lmsapplication.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import in.lms.lmsapplication.model.Company;
+import in.lms.lmsapplication.model.LoginUser;
 import in.lms.lmsapplication.service.LoginService;
 
 @Controller
@@ -50,5 +54,19 @@ public class AuthController {
     @GetMapping("/dashboard")
     public String dashboard() {
         return "dashboard";
+    }
+    
+    @GetMapping("/me")
+    public ResponseEntity<LoginUser> getLoggedInUser() {
+        LoginUser user = loginUserService.getLoggedInUser();      
+        LoginUser proxy = new LoginUser();
+        Company proxyCompany = new Company();
+        proxyCompany.setCompanyId(user.getCompany().getCompanyId());
+        proxy.setCompany(proxyCompany);
+        proxy.setId(user.getId());
+        if (user != null) {
+            return ResponseEntity.ok(proxy);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

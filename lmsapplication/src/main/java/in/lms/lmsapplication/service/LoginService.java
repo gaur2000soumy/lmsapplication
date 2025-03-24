@@ -1,5 +1,7 @@
 package in.lms.lmsapplication.service;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 import in.lms.lmsapplication.model.LoginUser;
 import in.lms.lmsapplication.repository.CompanyRepository;
 import in.lms.lmsapplication.repository.UserRepository;
-import jakarta.transaction.Transactional;
 
 @Service
 public class LoginService implements UserDetailsService {
@@ -37,10 +38,9 @@ public class LoginService implements UserDetailsService {
                 .roles(user.getRole())
                 .build();
     }
-  
-    public LoginUser registerUser(String fullName, String email, String phone, String password, String role, Long company) {
 
-    	LoginUser user = new LoginUser();
+    public LoginUser registerUser(String fullName, String email, String phone, String password, String role, Long company) {
+        LoginUser user = new LoginUser();
         user.setFullName(fullName);
         user.setEmail(email);
         user.setPhoneNumber(phone);
@@ -51,5 +51,14 @@ public class LoginService implements UserDetailsService {
         user.setRole(role);
         user.setCompany(companyRepository.findById(company).get());
         return userRepository.save(user);
+    }
+
+    public LoginUser getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            return userRepository.findByEmail(userDetails.getUsername());
+        }
+        return null;
     }
 }
