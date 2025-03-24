@@ -21,12 +21,6 @@ public class AuthController {
     public AuthController(LoginService loginUserService) {
         this.loginUserService = loginUserService;
     }
-
-    @GetMapping("/")
-    public String welcome() {
-        return "welcome";
-    }
-
     @PostMapping("/signup")
     public String signup(@RequestParam String fullName,
                          @RequestParam String email,
@@ -46,16 +40,6 @@ public class AuthController {
         return "redirect:/login";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "dashboard";
-    }
-    
     @GetMapping("/me")
     public ResponseEntity<LoginUser> getLoggedInUser() {
         LoginUser user = loginUserService.getLoggedInUser();      

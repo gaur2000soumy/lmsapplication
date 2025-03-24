@@ -53,8 +53,11 @@ function addCompany() {
 }
 document.addEventListener("DOMContentLoaded", function() {
 	fetchCompanies();
+	fetchAndDisplayCompanies();
 });
-
+document.getElementById("lmsLogo").addEventListener("click", function() {
+	window.location.href = "dashboard";
+});
 function fetchCompanies() {
 	fetch("/companies")
 		.then(response => response.json())
@@ -71,6 +74,14 @@ function fetchCompanies() {
 			});
 		})
 		.catch(error => console.error("Error fetching companies:", error));
+}
+function fetchAndDisplayCompanies() {
+	fetch("/companies")
+		.then(response => response.json())
+		.then(data => {
+			displayCompanies(data);
+		})
+		.catch(error => console.error("Error fetching companies for table:", error));
 }
 
 function addAdmin() {
@@ -225,3 +236,59 @@ async function addLead() {
 		alert("An error occurred while adding the lead.");
 	}
 }
+
+function displayCompanies(companies) {
+	const tableBody = document.getElementById("companyList");
+	tableBody.innerHTML = "";
+
+	companies.forEach(company => {
+		const row = document.createElement("tr");
+
+		row.innerHTML = `
+            <td>${company.companyId}</td>
+            <td>${company.companyName}</td>
+            <td>${company.companyAddress}</td>
+            <td>${company.companyContactPersonName}</td>
+            <td>
+                <button onclick="viewCompany(${company.companyId})">View</button>
+                <button onclick="editCompany(${company.companyId})">Edit</button>
+                <button onclick="deleteCompany(${company.companyId})">Delete</button>
+            </td>
+        `;
+
+		tableBody.appendChild(row);
+	});
+}
+
+async function searchCompanies() {
+	const query = document.getElementById("searchCompany").value.trim();
+	if (!query) {
+		fetchCompanies();
+		return;
+	}
+
+	try {
+		const response = await fetch(`/companies/search?query=${encodeURIComponent(query)}`);
+		const companies = await response.json();
+		displayCompanies(companies);
+	} catch (error) {
+		console.error("Error searching companies:", error);
+	}
+}
+
+async function deleteCompany(id) {
+	if (confirm("Are you sure you want to delete this company?")) {
+		try {
+			const response = await fetch(`/companies/${id}`, { method: "DELETE" });
+			if (response.ok) {
+				alert("Company deleted successfully.");
+				location.reload();
+			} else {
+				alert("Error deleting company.");
+			}
+		} catch (error) {
+			console.error("Error deleting company:", error);
+		}
+	}
+}
+
