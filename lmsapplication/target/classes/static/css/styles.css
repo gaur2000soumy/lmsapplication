@@ -139,38 +139,37 @@ header {
 	width: 25%;
 	min-height: 300px;
 }
-.form-container select, 
-.form-container input {
-    width: calc(100% - 20px);
-    padding: 8px;
-    margin: 5px auto; /* centers the element by using auto for left/right */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    background: white;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    display: block;
-    box-sizing: border-box;
-}
 
+.form-container select, .form-container input {
+	width: calc(100% - 20px);
+	padding: 8px;
+	margin: 5px auto;
+	/* centers the element by using auto for left/right */
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	font-size: 14px;
+	background: white;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	display: block;
+	box-sizing: border-box;
+}
 
 .form-container select {
-    width: 90%;
-    padding: 8px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 14px; /* match input font-size if needed */
+	width: 90%;
+	padding: 8px;
+	margin: 5px 0;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	font-size: 14px; /* match input font-size if needed */
 }
 
-
 .form-container select:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+	border-color: #007bff;
+	outline: none;
+	box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
 }
 
 .form-container input {

@@ -22,7 +22,7 @@
                     <a href="#">Assigned Leads</a>
                 </div>
             </div>
-            <a href="companies.html">Companies</a>
+            <a href="/superadmin-companies">Companies</a>
             <a href="#">Admins</a>
             <a href="#">Users</a>
             <a href="#">Comments</a>
@@ -34,12 +34,12 @@
     <section class="main-content">
         <div class="form-container">
             <h3>Add Lead</h3>
-            <input type="text" id="fullName" placeholder="Full Name">
-            <input type="email" id="email" placeholder="Email Address">
-            <input type="tel" id="phone" placeholder="Phone Number">
-            <input type="tel" id="altPhone" placeholder="Alternate Phone Number">
-            <input type="text" id="address" placeholder="Address">
-            <input type="text" id="description" placeholder="Description">
+            <input type="text" id="leadName" placeholder="Full Name" required>
+            <input type="email" id="leadEmail" placeholder="Email Address" required>
+            <input type="tel" id="leadPhone" placeholder="Phone Number" required>
+            <input type="tel" id="leadAltPhone" placeholder="Alternate Phone Number">
+            <input type="text" id="leadAddress" placeholder="Address" required>
+            <input type="text" id="leadNote" placeholder="Description">
             <button onclick="addLead()">Add Lead</button>
         </div>
 

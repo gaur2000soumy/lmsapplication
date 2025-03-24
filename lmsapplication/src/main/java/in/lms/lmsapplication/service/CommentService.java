@@ -5,20 +5,23 @@ import in.lms.lmsapplication.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
 
-    public Comment saveComment(Comment comment) {
+    public Comment addComment(Comment comment) {
         return commentRepository.save(comment);
     }
 
-	public Comment getById(Long commentId) {
-		return commentRepository.getById(commentId);
-	}
+    public List<Comment> getCommentsByLeadId(Long leadId) {
+        return commentRepository.findByLead_LeadId(leadId);
+    }
 
-    // Additional methods can be added
+    public void deleteComment(Long id) {
+        commentRepository.deleteById(id);
+    }
 }
- 	
