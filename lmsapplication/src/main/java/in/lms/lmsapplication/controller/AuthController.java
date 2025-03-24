@@ -27,16 +27,17 @@ public class AuthController {
     public String signup(@RequestParam String fullName,
                          @RequestParam String email,
                          @RequestParam String phone,
-                         @RequestParam Long company,
+                         @RequestParam Long companyId,
                          @RequestParam String role,
                          @RequestParam String password,
                          @RequestParam String confirmPassword) {
 
+        System.out.println("Details----" + fullName + email + phone+ companyId+ role+ password+ confirmPassword);
         if (!password.equals(confirmPassword)) {
             return "redirect:/signup?error=Passwords do not match";
         }
 
-        loginUserService.registerUser(fullName, email, phone, password, role, company);
+        loginUserService.registerUser(fullName, email, phone, password, role, companyId);
 
         return "redirect:/login";
     }

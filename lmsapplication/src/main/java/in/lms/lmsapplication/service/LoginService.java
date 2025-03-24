@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import in.lms.lmsapplication.model.LoginUser;
 import in.lms.lmsapplication.repository.CompanyRepository;
 import in.lms.lmsapplication.repository.UserRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class LoginService implements UserDetailsService {
@@ -36,9 +37,10 @@ public class LoginService implements UserDetailsService {
                 .roles(user.getRole())
                 .build();
     }
-
+  
     public LoginUser registerUser(String fullName, String email, String phone, String password, String role, Long company) {
-        LoginUser user = new LoginUser();
+
+    	LoginUser user = new LoginUser();
         user.setFullName(fullName);
         user.setEmail(email);
         user.setPhoneNumber(phone);
