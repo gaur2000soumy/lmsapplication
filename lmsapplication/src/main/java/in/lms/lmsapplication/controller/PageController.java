@@ -24,4 +24,8 @@ public class PageController {
     public String company() {
         return "companies";
     }
+    @GetMapping("/profile")
+    public String profile() {
+        return "profile";
+    }
 }
