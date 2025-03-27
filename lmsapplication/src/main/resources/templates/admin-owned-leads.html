@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LMS Application - Dashboard</title>
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/superadmin.css">
+<link rel="icon" href="/lmsfavicon.png">
+<script src="/js/superadmin.js" defer></script>
+</head>
+<body>
+	<header>
+		<div class="logo">
+			<img src="/images/lmslogo.png" alt="LMS Logo" id="lmsLogo">
+		</div>
+		<nav class="navbar">
+			<div class="dropdown">
+				<span>Leads ▼</span>
+				<div class="dropdown-content">
+					<a href="#">All Leads</a> <a href="#">My Leads</a> <a href="#">Assigned
+						Leads</a>
+				</div>
+			</div>
+			<a href="/superadmin-companies">Companies</a> <a href="#">Admins</a>
+			<a href="#">Users</a> <a href="#">Comments</a> <a href="#">Profile</a>
+			<a href="#">Help</a> <a href="/logout">Logout</a>
+		</nav>
+	</header>
+
+	<section class="all-content">
+		<h2>Companies</h2>
+		<div class="search-container">
+			<input type="text" id="searchCompany"
+				placeholder="Search by Name or ID">
+			<button onclick="searchCompanies()">Search</button>
+		</div>
+		<!-- Table container -->
+		<div class="table-container">
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Company Name</th>
+						<th>Address</th>
+						<th>Contact Person</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody id="companyList">
+				</tbody>
+			</table>
+		</div>
+	</section>
+
+	<footer>
+		<p>© 2024 LMS Application. All rights reserved.</p>
+	</footer>
+</body>
+</html>
