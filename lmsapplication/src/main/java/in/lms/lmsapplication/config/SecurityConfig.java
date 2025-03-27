@@ -21,9 +21,26 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/signup", "/css/**", "/images/**").permitAll()
-                        .requestMatchers("/dashboard").hasRole("USER_ROLE")
-                        .requestMatchers("/admin-dashboard").hasRole("ADMIN_ROLE")
-                        .requestMatchers("/superadmin-dashboard").hasRole("SUPERADMIN_ROLE")
+                        .requestMatchers(
+                                "/user-dashboard", "/user-profile", "/user-help", "/user-leads",
+                                "/user-assigned-leads", "/user-comments", "/user-owned-leads",
+                                "/edit-user-lead", "/edit-user-comment", "/view-user-lead", "/view-user-comment"
+                        ).hasRole("USER_ROLE")
+                        .requestMatchers(
+                                "/admin-dashboard", "/admin-profile", "/admin-help", "/admin-leads",
+                                "/admin-owned-leads", "/edit-admin-lead", "/edit-admin-comment",
+                                "/view-admin-lead", "/admin-users", "/view-admin-comment"
+                        ).hasRole("ADMIN_ROLE")
+
+                        // Superadmin Pages (Includes Admin & User Pages)
+                        .requestMatchers(
+                                "/superadmin-dashboard", "/superadmin-profile", "/superadmin-help", "/superadmin-leads",
+                                "/superadmin-owned-leads", "/superadmin-comments", "/superadmin-companies",
+                                "/superadmin-admins", "/superadmin-users", "/superadmin-assigned-leads",
+                                "/edit-superadmin-lead", "/edit-superadmin-comment", "/edit-superadmin-company",
+                                "/view-superadmin-lead", "/view-superadmin-comment", "/view-superadmin-company"
+                        ).hasRole("SUPERADMIN_ROLE")
+
                         .anyRequest().authenticated())
                 .formLogin(login -> login.loginPage("/login").successHandler(successHandler()).permitAll())
                 .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/"));
@@ -54,7 +71,7 @@ public class SecurityConfig {
             } else if ("ADMIN_ROLE".equals(role)) {
                 response.sendRedirect("/admin-dashboard");
             } else {
-                response.sendRedirect("/dashboard");
+                response.sendRedirect("/user-dashboard");
             }
         };
     }
