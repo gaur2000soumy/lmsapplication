@@ -2,6 +2,8 @@ package in.lms.lmsapplication.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,10 +34,12 @@ public class Lead {
 
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
+    @JsonIgnoreProperties({"phoneNumber", "fullName","role", "password"})
     private LoginUser ownerUser;
 
     @ManyToOne
     @JoinColumn(name = "assigned_user_id")
+    @JsonIgnoreProperties({"phoneNumber", "fullName","role", "password"})
     private LoginUser assignedUser;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -46,6 +50,7 @@ public class Lead {
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
+    @JsonIgnoreProperties({"companyAddress", "companyCinNumber","companyContactPersonName", "companyContactPersonEmail","companyContactPersonPhone"})
     private Company company;
 
     public Lead() {}

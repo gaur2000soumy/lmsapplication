@@ -20,27 +20,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/signup", "/css/**", "/images/**").permitAll()
-                        .requestMatchers(
-                                "/user-dashboard", "/user-profile", "/user-help", "/user-leads",
-                                "/user-assigned-leads", "/user-comments", "/user-owned-leads",
-                                "/edit-user-lead", "/edit-user-comment", "/view-user-lead", "/view-user-comment"
-                        ).hasRole("USER_ROLE")
-                        .requestMatchers(
-                                "/admin-dashboard", "/admin-profile", "/admin-help", "/admin-leads",
-                                "/admin-owned-leads", "/edit-admin-lead", "/edit-admin-comment",
-                                "/view-admin-lead", "/admin-users", "/view-admin-comment"
-                        ).hasRole("ADMIN_ROLE")
-
-                        // Superadmin Pages (Includes Admin & User Pages)
-                        .requestMatchers(
-                                "/superadmin-dashboard", "/superadmin-profile", "/superadmin-help", "/superadmin-leads",
-                                "/superadmin-owned-leads", "/superadmin-comments", "/superadmin-companies",
-                                "/superadmin-admins", "/superadmin-users", "/superadmin-assigned-leads",
-                                "/edit-superadmin-lead", "/edit-superadmin-comment", "/edit-superadmin-company",
-                                "/view-superadmin-lead", "/view-superadmin-comment", "/view-superadmin-company"
-                        ).hasRole("SUPERADMIN_ROLE")
-
+                        .requestMatchers("/", "/signup", "/css/**", "/images/**", "/js/**").permitAll()
+                        .requestMatchers("/superadmin-dashboard", "/superadmin-**").hasRole("SUPERADMIN")
+                        .requestMatchers("/admin-dashboard", "/admin-**").hasAnyRole("ADMIN", "SUPERADMIN")
+                        .requestMatchers("/dashboard", "/user-**").hasAnyRole("USER", "ADMIN", "SUPERADMIN")
                         .anyRequest().authenticated())
                 .formLogin(login -> login.loginPage("/login").successHandler(successHandler()).permitAll())
                 .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/"));
@@ -65,10 +48,11 @@ public class SecurityConfig {
     public AuthenticationSuccessHandler successHandler() {
         return (request, response, authentication) -> {
             String role = authentication.getAuthorities().iterator().next().getAuthority();
-
-            if ("SUPERADMIN_ROLE".equals(role)) {
+            request.getSession().setAttribute("role", role);
+            System.out.println("------------------------>>>>>>>>>>>>>"+role);
+            if ("ROLE_SUPERADMIN".equals(role)) {
                 response.sendRedirect("/superadmin-dashboard");
-            } else if ("ADMIN_ROLE".equals(role)) {
+            } else if ("ROLE_ADMIN".equals(role)) {
                 response.sendRedirect("/admin-dashboard");
             } else {
                 response.sendRedirect("/user-dashboard");

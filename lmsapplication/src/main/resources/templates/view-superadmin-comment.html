@@ -1,60 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LMS Application - Dashboard</title>
-<link rel="stylesheet" href="css/styles.css">
-<link rel="stylesheet" href="css/superadmin.css">
-<link rel="icon" href="/lmsfavicon.png">
-<script src="/js/superadmin.js" defer></script>
+    <th:block th:replace="fragments/header :: head"></th:block>
 </head>
 <body>
-	<header>
-		<div class="logo">
-			<img src="/images/lmslogo.png" alt="LMS Logo" id="lmsLogo">
-		</div>
-		<nav class="navbar">
-			<div class="dropdown">
-				<span>Leads ▼</span>
-				<div class="dropdown-content">
-					<a href="#">All Leads</a> <a href="#">My Leads</a> <a href="#">Assigned
-						Leads</a>
-				</div>
-			</div>
-			<a href="/superadmin-companies">Companies</a> <a href="#">Admins</a>
-			<a href="#">Users</a> <a href="#">Comments</a> <a href="#">Profile</a>
-			<a href="#">Help</a> <a href="/logout">Logout</a>
-		</nav>
-	</header>
+    <th:block th:replace="fragments/header :: body"></th:block>
 
-	<section class="all-content">
-		<h2>Companies</h2>
-		<div class="search-container">
-			<input type="text" id="searchCompany"
-				placeholder="Search by Name or ID">
-			<button onclick="searchCompanies()">Search</button>
-		</div>
-		<!-- Table container -->
-		<div class="table-container">
-			<table>
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Company Name</th>
-						<th>Address</th>
-						<th>Contact Person</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody id="companyList">
-				</tbody>
-			</table>
-		</div>
-	</section>
+    <section class="all-content">
+        <h2>Comments</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Comment</th>
+                        <th>Author</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="comment : ${comments}">
+                        <td th:text="${comment.id}"></td>
+                        <td th:text="${comment.text}"></td>
+                        <td th:text="${comment.author}"></td>
+                        <td>
+                            <a th:href="@{/edit-comment/{id}(id=${comment.id})}">Edit</a> |
+                            <a th:href="@{/delete-comment/{id}(id=${comment.id})}" onclick="return confirm('Are you sure?')">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-	<footer>
-		<p>© 2024 LMS Application. All rights reserved.</p>
-	</footer>
+    <th:block th:replace="fragments/footer :: footer"></th:block>
 </body>
 </html>

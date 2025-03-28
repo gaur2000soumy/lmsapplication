@@ -5,6 +5,8 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,6 +32,7 @@ public class LoginUser implements UserDetails{
 	private String password;
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = false)
+    @JsonIgnoreProperties({"companyAddress", "companyCinNumber","companyContactPersonName", "companyContactPersonEmail","companyContactPersonPhone"})
 	private Company company;
 
 	public LoginUser() {

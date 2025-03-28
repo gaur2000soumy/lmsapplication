@@ -1,250 +1,67 @@
-function addCompany() {
-	const companyName = document.getElementById('companyName').value;
-	const companyAddress = document.getElementById('companyAddress').value;
-	const companyCinNumber = document.getElementById('companyCinNumber').value;
-	const companyContactPersonName = document.getElementById('companyContactPersonName').value;
-	const companyContactPersonPhone = document.getElementById('companyContactPersonPhone').value;
-	const companyContactPersonEmail = document.getElementById('companyContactPersonEmail').value;
-
-
-	if (!companyName || !companyAddress || !companyCinNumber || !companyContactPersonName || !companyContactPersonPhone || !companyContactPersonEmail) {
-		alert("All fields are required.");
-		return;
-	}
-
-	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-	if (!emailPattern.test(companyContactPersonEmail)) {
-		alert("Please enter a valid email address.");
-		return;
-	}
-
-	const phonePattern = /^[0-9]{10}$/;
-	if (!phonePattern.test(companyContactPersonPhone)) {
-		alert("Please enter a valid 10-digit phone number.");
-		return;
-	}
-
-	const company = {
-		companyName: companyName,
-		companyAddress: companyAddress,
-		companyCinNumber: companyCinNumber,
-		companyContactPersonName: companyContactPersonName,
-		companyContactPersonPhone: companyContactPersonPhone,
-		companyContactPersonEmail: companyContactPersonEmail
-	};
-
-	fetch('/companies', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(company)
-	})
-		.then(response => {
-			if (response.ok) {
-				alert('Company added successfully');
-				location.reload();
-			} else {
-				alert('Error adding company');
-			}
-		})
-		.catch(error => {
-			alert('Network error or invalid response');
-			console.error(error);
-		});
-}
-document.addEventListener("DOMContentLoaded", function() {
-	fetchCompanies();
-	fetchAndDisplayCompanies();
+document.addEventListener("DOMContentLoaded", () => {
+   initEventListeners();
+    
+    let currentPath = window.location.pathname;
+    if (currentPath.includes("dashboard")) {
+        fetchCompanies(); // Load companies only on the dashboard
+    } else if (currentPath.includes("leads")) {
+        loadLeads(); // Load leads only on the leads page
+    } else if (currentPath.includes("companies")) {
+        fetchAndDisplayCompanies(); // Load companies only on the companies page
+    }
 });
-document.getElementById("lmsLogo").addEventListener("click", function() {
-	window.location.href = "dashboard";
-});
-function fetchCompanies() {
-	fetch("/companies")
-		.then(response => response.json())
-		.then(data => {
-			const adminCompanySelect = document.getElementById("adminCompany");
-			const userCompanySelect = document.getElementById("userCompany");
 
-			data.forEach(company => {
-				let option = document.createElement("option");
-				option.value = company.companyId;
-				option.textContent = company.companyName;
-				adminCompanySelect.appendChild(option.cloneNode(true));
-				userCompanySelect.appendChild(option);
-			});
-		})
-		.catch(error => console.error("Error fetching companies:", error));
-}
-function fetchAndDisplayCompanies() {
-	fetch("/companies")
-		.then(response => response.json())
-		.then(data => {
-			displayCompanies(data);
-		})
-		.catch(error => console.error("Error fetching companies for table:", error));
+function initEventListeners() {
+    document.getElementById("lmsLogo")?.addEventListener("click", () => {
+        window.location.href = "superadmin-dashboard";
+    });
 }
 
-function addAdmin() {
-	submitUser("ADMIN_ROLE");
+async function addCompany() {
+    const fields = ["companyName", "companyAddress", "companyCinNumber", "companyContactPersonName", "companyContactPersonPhone", "companyContactPersonEmail"];
+    const company = getFormData(fields);
+    
+    if (!company) return;
+    if (!validateEmail(company.companyContactPersonEmail) || !validatePhone(company.companyContactPersonPhone)) return;
+    
+    await submitData("/companies", company, "Company added successfully");
 }
 
-function addUser() {
-	submitUser("USER_ROLE");
+async function fetchCompanies() {
+    try {
+        const response = await fetch("/companies");
+        const data = await response.json();
+        populateCompanyDropdowns(data);
+    } catch (error) {
+        console.error("Error fetching companies:", error);
+    }
 }
 
-function submitUser(role) {
-	let fullName = document.getElementById(role === "ADMIN_ROLE" ? "adminFullName" : "userFullName").value;
-	let email = document.getElementById(role === "ADMIN_ROLE" ? "adminEmail" : "userEmail").value;
-	let phone = document.getElementById(role === "ADMIN_ROLE" ? "adminPhone" : "userPhone").value;
-	let companyId = document.getElementById(role === "ADMIN_ROLE" ? "adminCompany" : "userCompany").value; // Get selected companyId
-	let password = document.getElementById(role === "ADMIN_ROLE" ? "adminPassword" : "userPassword").value;
-	let confirmPassword = document.getElementById(role === "ADMIN_ROLE" ? "adminConfirmPassword" : "userConfirmPassword").value;
-	if (!companyId) {
-		alert("Please select a company!");
-		return;
-	}
-	if (!fullName || !email || !phone || !password || !confirmPassword) {
-		alert("All fields are required!");
-		return;
-	}
-	if (password !== confirmPassword) {
-		alert("Passwords do not match!");
-		return;
-	}
-
-	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-	if (!emailPattern.test(email)) {
-		alert("Please enter a valid email address!");
-		return;
-	}
-
-	const phonePattern = /^[0-9]{10}$/;
-	if (!phonePattern.test(phone)) {
-		alert("Please enter a valid 10-digit phone number!");
-		return;
-	}
-
-	console.log("Selected Company ID:", companyId);
-
-	fetch("/signup", {
-		method: "POST",
-		headers: { "Content-Type": "application/x-www-form-urlencoded" },
-		body: new URLSearchParams({
-			fullName,
-			email,
-			phone,
-			companyId,
-			role,
-			password,
-			confirmPassword
-		})
-	})
-		.then(response => {
-			if (response.ok) {
-				alert("User added successfully!");
-			} else {
-				alert("Error adding user!");
-			}
-		})
-		.catch(error => console.error("Error:", error));
+function populateCompanyDropdowns(companies) {
+    const adminCompanySelect = document.getElementById("adminCompany");
+    const userCompanySelect = document.getElementById("userCompany");
+    
+    companies.forEach(company => {
+        const option = new Option(company.companyName, company.companyId);
+        adminCompanySelect?.appendChild(option.cloneNode(true));
+        userCompanySelect?.appendChild(option);
+    });
 }
-async function getLoggedInUser() {
-	try {
-		const response = await fetch('/me', {
-			method: 'GET',
-			headers: { 'Content-Type': 'application/json' }
-		});
 
-		if (!response.ok) {
-			throw new Error("User not authenticated");
-		}
-		const user = await response.json();
-		return {
-			id: user.id,
-			companyId: user.company.companyId
-		};
-	} catch (error) {
-		console.error("Error fetching logged-in user:", error);
-		return null;
-	}
-}
-async function addLead() {
-	const user = await getLoggedInUser();
-	if (!user) {
-		alert("User not authenticated");
-		return;
-	}
-	const requiredFields = ['leadName', 'leadEmail', 'leadPhone', 'leadAddress'];
-	const missingFields = requiredFields.filter(id => !document.getElementById(id)?.value.trim());
-
-	if (missingFields.length > 0) {
-		alert("Full Name, Email, Phone Number, and Address are required.");
-		return;
-	}
-
-	const fullName = document.getElementById('leadName').value.trim();
-	const email = document.getElementById('leadEmail').value.trim();
-	const phoneNo = document.getElementById('leadPhone').value.trim();
-	const address = document.getElementById('leadAddress').value.trim();
-	const altPhone = document.getElementById('leadAltPhone')?.value.trim() || null;
-	const note = document.getElementById('leadNote')?.value.trim() || null;
-	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-	if (!emailPattern.test(email)) {
-		alert("Please enter a valid email address.");
-		return;
-	}
-
-	const phonePattern = /^[0-9]{10}$/;
-	if (!phonePattern.test(phoneNo)) {
-		alert("Please enter a valid 10-digit phone number.");
-		return;
-	}
-
-	if (altPhone && !phonePattern.test(altPhone)) {
-		alert("Alternate phone number must be a valid 10-digit number.");
-		return;
-	}
-
-	const lead = {
-		fullName: fullName,
-		email: email,
-		phoneNo: phoneNo,
-		altPhone: altPhone || null,
-		address: address,
-		status: "New",
-		note: note,
-		ownerUser: { id: user.id },
-		assignedUser: { id: user.id },
-		company: { companyId: user.companyId },
-		creationDate: new Date(),
-		updationDate: new Date()
-	};
-	try {
-		const response = await fetch('/leads', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(lead)
-		});
-		if (response.ok) {
-			alert("Lead added successfully!");
-			location.reload();
-		} else {
-			alert("Failed to add lead. Please try again.");
-		}
-	} catch (error) {
-		console.error("Error adding lead:", error);
-		alert("An error occurred while adding the lead.");
-	}
+async function fetchAndDisplayCompanies() {
+    try {
+        const response = await fetch("/companies");
+        const data = await response.json();
+        displayCompanies(data);
+    } catch (error) {
+        console.error("Error fetching companies for table:", error);
+    }
 }
 
 function displayCompanies(companies) {
-	const tableBody = document.getElementById("companyList");
-	tableBody.innerHTML = "";
-
-	companies.forEach(company => {
-		const row = document.createElement("tr");
-
-		row.innerHTML = `
+    const tableBody = document.getElementById("companyList");
+    tableBody.innerHTML = companies.map(company => `
+        <tr>
             <td>${company.companyId}</td>
             <td>${company.companyName}</td>
             <td>${company.companyAddress}</td>
@@ -254,41 +71,130 @@ function displayCompanies(companies) {
                 <button onclick="editCompany(${company.companyId})">Edit</button>
                 <button onclick="deleteCompany(${company.companyId})">Delete</button>
             </td>
-        `;
-
-		tableBody.appendChild(row);
-	});
-}
-
-async function searchCompanies() {
-	const query = document.getElementById("searchCompany").value.trim();
-	if (!query) {
-		fetchCompanies();
-		return;
-	}
-
-	try {
-		const response = await fetch(`/companies/search?query=${encodeURIComponent(query)}`);
-		const companies = await response.json();
-		displayCompanies(companies);
-	} catch (error) {
-		console.error("Error searching companies:", error);
-	}
+        </tr>
+    `).join('');
 }
 
 async function deleteCompany(id) {
-	if (confirm("Are you sure you want to delete this company?")) {
-		try {
-			const response = await fetch(`/companies/${id}`, { method: "DELETE" });
-			if (response.ok) {
-				alert("Company deleted successfully.");
-				location.reload();
-			} else {
-				alert("Error deleting company.");
-			}
-		} catch (error) {
-			console.error("Error deleting company:", error);
-		}
-	}
+    if (confirm("Are you sure you want to delete this company?")) {
+        await fetch(`/companies/${id}`, { method: "DELETE" });
+        alert("Company deleted successfully.");
+        fetchAndDisplayCompanies();
+    }
 }
 
+async function addUser(role) {
+    const fields = role === "ADMIN_ROLE" ? ["adminFullName", "adminEmail", "adminPhone", "adminCompany", "adminPassword", "adminConfirmPassword"] :
+                                           ["userFullName", "userEmail", "userPhone", "userCompany", "userPassword", "userConfirmPassword"];
+    const user = getFormData(fields);
+    if (!user) return;
+    if (!validateEmail(user.email) || !validatePhone(user.phone) || user.password !== user.confirmPassword) return alert("Passwords do not match");
+    
+    user.role = role;
+    await submitData("/signup", user, "User added successfully!");
+}
+
+async function getLoggedInUser() {
+    try {
+        const response = await fetch("/me");
+        if (!response.ok) throw new Error("User not authenticated");
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching logged-in user:", error);
+        return null;
+    }
+}
+
+async function addLead() {
+    const user = await getLoggedInUser();
+    if (!user) return alert("User not authenticated");
+    
+    const fields = ["leadName", "leadEmail", "leadPhone", "leadAddress"];
+    const lead = getFormData(fields);
+    if (!lead) return;
+    if (!validateEmail(lead.leadEmail) || !validatePhone(lead.leadPhone)) return;
+    
+    lead.status = "New";
+    lead.ownerUser = { id: user.id };
+    lead.assignedUser = { id: user.id };
+    lead.company = { companyId: user.company.companyId };
+    lead.creationDate = new Date();
+    lead.updationDate = new Date();
+    
+    await submitData("/leads", lead, "Lead added successfully!");
+}
+
+async function loadLeads() {
+    try {
+        const response = await fetch("/leads");
+        const data = await response.json();
+        displayLeads(data);
+    } catch (error) {
+        console.error("Error loading leads:", error);
+    }
+}
+
+function displayLeads(leads) {
+    document.getElementById("leadList").innerHTML = leads.map(lead => `
+        <tr>
+            <td>${lead.id}</td>
+            <td>${lead.fullName}</td>
+            <td>${lead.email}</td>
+            <td>${lead.phone}</td>
+            <td>${lead.company.name}</td>
+            <td>
+                <a href="/view-superadmin-lead/${lead.id}">View</a> |
+                <a href="/edit-superadmin-lead/${lead.id}">Edit</a> |
+                <a href="#" data-id="${lead.id}" onclick="deleteLead(this)">Delete</a>
+            </td>
+        </tr>
+    `).join('');
+}
+
+async function deleteLead(element) {
+    const leadId = element.dataset.id;
+    if (confirm("Are you sure you want to delete this lead?")) {
+        await fetch(`/leads/${leadId}`, { method: "DELETE" });
+        alert("Lead deleted successfully");
+        loadLeads();
+    }
+}
+
+function getFormData(fields) {
+    const data = {};
+    for (let field of fields) {
+        const value = document.getElementById(field)?.value.trim();
+        if (!value) {
+            alert("All fields are required");
+            return null;
+        }
+        data[field] = value;
+    }
+    return data;
+}
+
+function validateEmail(email) {
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) || (alert("Invalid email"), false);
+}
+
+function validatePhone(phone) {
+    return /^[0-9]{10}$/.test(phone) || (alert("Invalid phone number"), false);
+}
+
+async function submitData(url, data, successMessage) {
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+        if (response.ok) {
+            alert(successMessage);
+            location.reload();
+        } else {
+            alert("Operation failed");
+        }
+    } catch (error) {
+        console.error("Error submitting data:", error);
+    }
+}

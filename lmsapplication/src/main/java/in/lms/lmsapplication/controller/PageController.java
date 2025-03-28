@@ -35,12 +35,12 @@ public class PageController {
         return "superadmin-companies";
     }
     
-    @GetMapping("/view-superadmin-company")
+    @GetMapping("/superadmin-company-view")
     public String viewSuperadminCompany() {
     	return "view-superadmin-company";
     }
 
-    @GetMapping("/edit-superadmin-company")
+    @GetMapping("/superadmin-company-edit")
     public String editSuperadminCompany() {
         return "edit-superadmin-company";
     }
@@ -109,31 +109,31 @@ public class PageController {
         return "user-owned-leads";
     }
     
-    @GetMapping("/view-superadmin-lead")
+    @GetMapping("/superadmin-lead-view")
     public String viewSuperadminLead() {
     	return "view-superadmin-lead";
     }
     
-    @GetMapping("/view-admin-lead")
+    @GetMapping("/admin-lead-view")
     public String viewAdminLead() {
         return "view-admin-lead";
     }
-    @GetMapping("/view-user-lead")
+    @GetMapping("/user-lead-view")
     public String viewUserLead() {
     	return "view-user-lead";
     }
     
-    @GetMapping("/edit-superadmin-lead")
+    @GetMapping("/superadmin-lead-edit")
     public String editSuperadminLead() {
         return "edit-superadmin-lead";
     }
     
-    @GetMapping("/edit-admin-lead")
+    @GetMapping("/admin-lead-edit")
     public String editAdminLead() {
         return "edit-admin-lead";
     }
     
-    @GetMapping("/edit-user-lead")
+    @GetMapping("/user-lead-edit")
     public String editUserLead() {
         return "edit-user-lead";
     }
@@ -153,21 +153,20 @@ public class PageController {
     	return "user-comments";
     }
     
-    @GetMapping("/edit-superadmin-comment")
+    @GetMapping("/superadmin-comment-edit")
     public String editSuperadminComment() {
     	return "edit-superadmin-comment";
     }
     
-    @GetMapping("/edit-admin-comment")
+    @GetMapping("/admin-comment-edit")
     public String editAdminComment() {
     	return "edit-admin-comment";
     }
     
-    @GetMapping("/edit-user-comment")
+    @GetMapping("/user-comment-edit")
     public String editUserComment() {
     	return "edit-user-comment";
     }
-    
 
     @GetMapping("/superadmin-help")
     public String superadminHelp() {
@@ -184,17 +183,17 @@ public class PageController {
         return "user-help";
     }
 
-    @GetMapping("/view-superadmin-comment")
+    @GetMapping("/superadmin-comment-view")
     public String viewSuperadminComment() {
         return "view-superadmin-comment";
     }
     
-    @GetMapping("/view-admin-comment")
+    @GetMapping("/admin-comment-view")
     public String viewAdminComment() {
     	return "view-admin-comment";
     }
 
-    @GetMapping("/view-user-comment")
+    @GetMapping("/user-comment-view")
     public String viewUserComment() {
         return "view-user-comment";
     }

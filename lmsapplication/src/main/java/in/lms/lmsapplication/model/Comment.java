@@ -2,6 +2,8 @@ package in.lms.lmsapplication.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,10 +22,12 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "lead_id", nullable = false)
+    @JsonIgnoreProperties({"fullName", "email","phone", "altPhone","address","status","updationDate","creationDate","company","assignedUser","ownerUser","note"})
     private Lead lead;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"phoneNumber", "fullName","role", "password"})
     private LoginUser user;
 
     private String description;
