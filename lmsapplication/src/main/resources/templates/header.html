@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">LMS Application</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="icon" href="/lmsfavicon.png">
+    <script th:if="${session.role == 'ROLE_SUPERADMIN'}" th:src="@{/js/superadmin.js}" defer></script>
+    <script th:if="${session.role == 'ROLE_ADMIN'}" th:src="@{/js/admin.js}" defer></script>
+    <script th:if="${session.role == 'ROLE_USER'}" th:src="@{/js/user.js}" defer></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img id="lmsLogo" th:src="@{/images/lmslogo.png}" alt="LMS Logo">
+        </div>
+        <nav class="navbar">
+            <!-- Leads Menu -->
+            <div class="dropdown">
+                <span>Leads ▼</span>
+                <div class="dropdown-content">
+                    <a th:if="${session.role == 'ROLE_SUPERADMIN'}" th:href="@{/superadmin-leads}">All Leads</a>
+                    <a th:if="${session.role == 'ROLE_ADMIN'}" th:href="@{/admin-leads}">All Leads</a>
+                    <a th:if="${session.role == 'ROLE_USER'}" th:href="@{/user-leads}">All Leads</a>
+
+                    <a th:if="${session.role == 'ROLE_SUPERADMIN'}" th:href="@{/superadmin-owned-leads}">My Leads</a>
+                    <a th:if="${session.role == 'ROLE_ADMIN'}" th:href="@{/admin-owned-leads}">My Leads</a>
+                    <a th:if="${session.role == 'ROLE_USER'}" th:href="@{/user-owned-leads}">My Leads</a>
+
+                    <a th:if="${session.role == 'ROLE_SUPERADMIN'}" th:href="@{/superadmin-assigned-leads}">Assigned Leads</a>
+                    <a th:if="${session.role == 'ROLE_ADMIN'}" th:href="@{/admin-assigned-leads}">Assigned Leads</a>
+                    <a th:if="${session.role == 'ROLE_USER'}" th:href="@{/user-assigned-leads}">Assigned Leads</a>
+                </div>
+            </div>
+            <a th:if="${session.role == 'ROLE_SUPERADMIN'}" th:href="@{/superadmin-companies}">Companies</a>
+            
+			<a th:if="${session.role == 'ROLE_SUPERADMIN'}" th:href="@{/superadmin-admins}">Admins</a>
+            
+            <a th:if="${session.role == 'ROLE_SUPERADMIN'}" th:href="@{/superadmin-users}">Users</a>
+            <a th:if="${session.role == 'ROLE_ADMIN'}" th:href="@{/admin-users}">Users</a>
+
+            <!-- Comments Button -->
+            <a th:if="${session.role == 'ROLE_SUPERADMIN'}" th:href="@{/superadmin-comments}">Comments</a>
+            <a th:if="${session.role == 'ROLE_ADMIN'}" th:href="@{/admin-comments}">Comments</a>
+            <a th:if="${session.role == 'ROLE_USER'}" th:href="@{/user-comments}">Comments</a>
+
+            <!-- Profile Button -->
+            <a th:if="${session.role == 'ROLE_SUPERADMIN'}" th:href="@{/superadmin-profile}">Profile</a>
+            <a th:if="${session.role == 'ROLE_ADMIN'}" th:href="@{/admin-profile}">Profile</a>
+            <a th:if="${session.role == 'ROLE_USER'}" th:href="@{/user-profile}">Profile</a>
+
+            <!-- Help Button -->
+            <a th:if="${session.role == 'ROLE_SUPERADMIN'}" th:href="@{/superadmin-help}">Help</a>
+            <a th:if="${session.role == 'ROLE_ADMIN'}" th:href="@{/admin-help}">Help</a>
+            <a th:if="${session.role == 'ROLE_USER'}" th:href="@{/user-help}">Help</a>
+
+            <!-- Logout -->
+            <a th:href="@{/logout}">Logout</a>
+        </nav>
+    </header>
+</body>
+</html>
