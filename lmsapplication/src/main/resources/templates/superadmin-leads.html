@@ -11,13 +11,11 @@
     <section class="all-content">
         <h2>All Leads</h2>
 
-        <!-- Search Bar -->
         <div class="search-container">
             <input type="text" id="searchLead" placeholder="Search by Name, Email, or Phone">
             <button onclick="searchLeads()">Search</button>
         </div>
 
-        <!-- Leads Table -->
         <div class="table-container">
             <table>
                 <thead>
@@ -31,24 +29,11 @@
                     </tr>
                 </thead>
                 <tbody id="leadList">
-                    <tr th:each="lead : ${leads}">
-                        <td th:text="${lead.leadId}"></td>
-                        <td th:text="${lead.fullName}"></td>
-                        <td th:text="${lead.email}"></td>
-                        <td th:text="${lead.phoneNo}"></td>
-                        <td th:text="${lead.company.companyName}"></td>
-                        <td>
-                            <a th:href="@{/superadmin-view-lead/{id}(id=${lead.id})}">View</a> |
-                            <a th:href="@{/edit-superadmin-lead/{id}(id=${lead.id})}">Edit</a> |
-                            <a th:href="@{/delete-superadmin-lead/{id}(id=${lead.id})}" onclick="return confirm('Are you sure?')">Delete</a>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>
     </section>
 
-    <!-- Include Common Footer -->
     <div th:replace="~{footer :: body}"></div>
 
 </body>

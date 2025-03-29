@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.lms.lmsapplication.model.Company;
 import in.lms.lmsapplication.model.Lead;
 import in.lms.lmsapplication.service.LeadService;
 
@@ -42,6 +44,11 @@ public class LeadController {
         return lead.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/search")
+    public List<Lead> searchLeads(@RequestParam String query) {
+        return leadService.searchLeads(query);
+    }
+    
     @PutMapping("/{id}")
     public ResponseEntity<Lead> updateLead(@PathVariable Long id, @RequestBody Lead lead) {
         try {

@@ -41,71 +41,35 @@ function populateCompanyDropdowns(companies) {
 		adminCompanySelect?.appendChild(option.cloneNode(true));
 		userCompanySelect?.appendChild(option);
 	});
-	async function addLead() {
-		const user = await getLoggedInUser();
-		if (!user) return alert("User not authenticated");
+}
+async function addLead() {
+	const user = await getLoggedInUser();
+	if (!user) return alert("User not authenticated");
 
-		const fields = ["leadName", "leadEmail", "leadPhone", "leadAddress"];
-		const lead = getFormData(fields);
-		if (!lead) return;
-		if (!validateEmail(lead.leadEmail) || !validatePhone(lead.leadPhone)) return;
+	const fields = ["leadName", "leadEmail", "leadPhone", "leadAddress"];
+	const lead = getFormData(fields);
+	if (!lead) return;
+	if (!validateEmail(lead.leadEmail) || !validatePhone(lead.leadPhone)) return;
 
-		lead.status = "New";
-		lead.ownerUser = { id: user.id };
-		lead.assignedUser = { id: user.id };
-		lead.company = { companyId: user.company.companyId };
-		lead.creationDate = new Date();
-		lead.updationDate = new Date();
+	lead.status = "New";
+	lead.ownerUser = { id: user.id };
+	lead.assignedUser = { id: user.id };
+	lead.company = { companyId: user.company.companyId };
+	lead.creationDate = new Date();
+	lead.updationDate = new Date();
 
-		await submitData("/leads", lead, "Lead added successfully!");
-	}
+	await submitData("/leads", lead, "Lead added successfully!");
+}
 
-	async function loadLeads() {
-		try {
-			const response = await fetch("/leads");
-			const data = await response.json();
-			displayLeads(data);
-		} catch (error) {
-			console.error("Error loading leads:", error);
-		}
-	}
 
-	function displayLeads(leads) {
-		document.getElementById("leadList").innerHTML = leads.map(lead => `
-        <tr>
-            <td>${lead.id}</td>
-            <td>${lead.fullName}</td>
-            <td>${lead.email}</td>
-            <td>${lead.phone}</td>
-            <td>${lead.company.name}</td>
-            <td>
-                <a href="/view-superadmin-lead/${lead.id}">View</a> |
-                <a href="/edit-superadmin-lead/${lead.id}">Edit</a> |
-                <a href="#" data-id="${lead.id}" onclick="deleteLead(this)">Delete</a>
-            </td>
-        </tr>
-    `).join('');
-	}
+async function addCompany() {
+	const fields = ["companyName", "companyAddress", "companyCinNumber", "companyContactPersonName", "companyContactPersonPhone", "companyContactPersonEmail"];
+	const company = getFormData(fields);
 
-	async function deleteLead(element) {
-		const leadId = element.dataset.id;
-		if (confirm("Are you sure you want to delete this lead?")) {
-			await fetch(`/leads/${leadId}`, { method: "DELETE" });
-			alert("Lead deleted successfully");
-			loadLeads();
-		}
-	}
+	if (!company) return;
+	if (!validateEmail(company.companyContactPersonEmail) || !validatePhone(company.companyContactPersonPhone)) return;
 
-	async function addCompany() {
-		const fields = ["companyName", "companyAddress", "companyCinNumber", "companyContactPersonName", "companyContactPersonPhone", "companyContactPersonEmail"];
-		const company = getFormData(fields);
-
-		if (!company) return;
-		if (!validateEmail(company.companyContactPersonEmail) || !validatePhone(company.companyContactPersonPhone)) return;
-
-		await submitData("/companies", company, "Company added successfully");
-	}
-
+	await submitData("/companies", company, "Company added successfully");
 }
 function addAdmin() {
 	return addUser("ADMIN");
@@ -174,6 +138,62 @@ async function submitData(url, data, successMessage) {
 	}
 }
 /*-------------------- All Leads --------------------*/
+
+async function searchLeads() {
+    const searchQuery = document.getElementById('searchLead').value.trim();
+    if (!searchQuery) {
+		loadLeads();
+        return;
+    }
+    try {
+        const response = await fetch(`/leads/search?query=${searchQuery}`);
+        if (!response.ok) {
+            alert("Error fetching search results.");
+            return;
+        }
+        const leads = await response.json();
+        displayLeads(leads);
+    } catch (error) {
+        console.error('Error searching Leads:', error);
+    }
+}
+
+async function loadLeads() {
+	try {
+		const response = await fetch("/leads");
+		const data = await response.json();
+		displayLeads(data);
+	} catch (error) {
+		console.error("Error loading leads:", error);
+	}
+}
+
+function displayLeads(leads) {
+	document.getElementById("leadList").innerHTML = leads.map(lead => `
+        <tr>
+            <td>${lead.leadId}</td>
+            <td>${lead.fullName}</td>
+            <td>${lead.email}</td>
+            <td>${lead.phoneNo}</td>
+            <td>${lead.company.companyName}</td>
+            <td>
+                <a href="/view-superadmin-lead/${lead.leadId}">View</a> |
+                <a href="/edit-superadmin-lead/${lead.leadId}">Edit</a> |
+                <a href="#" data-id="${lead.leadId}" onclick="deleteLead(this)">Delete</a>
+            </td>
+        </tr>
+    `).join('');
+}
+
+async function deleteLead(leadId) {
+	if (confirm("Are you sure you want to delete this lead?")) {
+		await fetch(`/leads/${leadId}`, { method: "DELETE" });
+		alert("Lead deleted successfully");
+		loadLeads();
+	}
+}
+
+
 /*------------------- Owned Leads -------------------*/
 /*------------------ Assigned Leads -----------------*/
 /*-------------------- View Lead --------------------*/
@@ -255,6 +275,24 @@ function deleteAdmin(id) {
 /*------------------- View Comment ------------------*/
 /*------------------- All Companies -----------------*/
 
+async function searchCompanies() {
+    const searchQuery = document.getElementById('searchCompany').value.trim();
+    if (!searchQuery) {
+		fetchAndDisplayCompanies();
+        return;
+    }
+    try {
+        const response = await fetch(`/companies/search?query=${searchQuery}`);
+        if (!response.ok) {
+            alert("Error fetching search results.");
+            return;
+        }
+        const companies = await response.json();
+        displayCompanies(companies);
+    } catch (error) {
+        console.error('Error searching companies:', error);
+    }
+}
 
 async function fetchAndDisplayCompanies() {
 	try {
