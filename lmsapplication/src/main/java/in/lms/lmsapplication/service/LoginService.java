@@ -1,5 +1,8 @@
 package in.lms.lmsapplication.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -60,5 +63,32 @@ public class LoginService implements UserDetailsService {
             return userRepository.findByEmail(userDetails.getUsername());
         }
         return null;
+    }
+    
+    public List<LoginUser> getAdmins() {
+        return userRepository.findByRole("ADMIN");
+    }
+    
+    public boolean deleteAdmin(Long id) {
+        if (userRepository.existsById(id)) {
+        	userRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateAdmin(Long id, LoginUser updatedAdmin) {
+        Optional<LoginUser> existingAdmin = userRepository.findById(id);
+        if (existingAdmin.isPresent()) {
+            LoginUser admin = existingAdmin.get();
+            admin.setFullName(updatedAdmin.getFullName());
+            admin.setEmail(updatedAdmin.getEmail());
+            admin.setPhoneNumber(updatedAdmin.getPhoneNumber());
+            admin.setPassword(updatedAdmin.getPassword());  // Ensure proper password handling
+            admin.setRole(updatedAdmin.getRole());
+            userRepository.save(admin);
+            return true;
+        }
+        return false;
     }
 }
