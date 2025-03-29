@@ -30,6 +30,12 @@ public class Comment {
     @JsonIgnoreProperties({"phoneNumber", "fullName","role", "password"})
     private LoginUser user;
 
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
+    @JsonIgnoreProperties({"companyAddress", "companyCinNumber","companyContactPersonName", "companyContactPersonEmail","companyContactPersonPhone"})
+    private Company company;
+    
+    
     private String description;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -40,9 +46,10 @@ public class Comment {
 
     public Comment() {}
 
-    public Comment(Lead lead, LoginUser user, String description) {
+    public Comment(Lead lead, LoginUser user, String description, Company company) {
         this.lead = lead;
         this.user = user;
+        this.company = company;
         this.description = description;
         this.creationDate = new Date();
         this.updationDate = new Date();
@@ -66,4 +73,8 @@ public class Comment {
 
     public Date getUpdationDate() { return updationDate; }
     public void setUpdationDate(Date updationDate) { this.updationDate = updationDate; }
+    
+    public Company getCompany() { return company; }
+    public void setCompany(Company company) { this.company = company; }
+
 }
