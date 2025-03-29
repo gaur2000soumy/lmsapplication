@@ -135,7 +135,6 @@ async function getLoggedInUser() {
 	}
 }
 
-
 function getFormData(fields) {
 	const data = {};
 	for (let field of fields) {
@@ -198,7 +197,7 @@ function loadAdmins() {
                     <td>${admin.id}</td>
                     <td>${admin.fullName}</td>
                     <td>${admin.email}</td>
-                    <td>${admin.role}</td>
+                    <td>${admin.phoneNumber}</td>
                     <td>
                         <button onclick="editAdmin(${admin.id})">Edit</button>
                         <button onclick="deleteAdmin(${admin.id})">Delete</button>

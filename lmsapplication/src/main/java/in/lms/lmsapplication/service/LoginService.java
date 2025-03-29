@@ -2,6 +2,7 @@ package in.lms.lmsapplication.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import in.lms.lmsapplication.dto.UserDTO;
 import in.lms.lmsapplication.model.LoginUser;
 import in.lms.lmsapplication.repository.CompanyRepository;
 import in.lms.lmsapplication.repository.UserRepository;
@@ -65,8 +67,11 @@ public class LoginService implements UserDetailsService {
         return null;
     }
     
-    public List<LoginUser> getAdmins() {
-        return userRepository.findByRole("ADMIN");
+    public List<UserDTO> getAdmins() {
+    	List<LoginUser> admins = userRepository.findByRole("ADMIN");
+    	List<UserDTO> adminDTOs = admins.stream()
+    	        .map(UserDTO::new).collect(Collectors.toList());
+        return adminDTOs;
     }
     
     public boolean deleteAdmin(Long id) {

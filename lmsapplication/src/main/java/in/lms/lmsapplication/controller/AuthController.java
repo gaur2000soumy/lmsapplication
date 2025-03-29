@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.lms.lmsapplication.dto.UserDTO;
 import in.lms.lmsapplication.model.Company;
 import in.lms.lmsapplication.model.LoginUser;
 import in.lms.lmsapplication.service.LoginService;
@@ -68,8 +69,8 @@ public class AuthController {
 	}
 
 	@GetMapping("/admins")
-	public ResponseEntity<List<LoginUser>> getAdmins() {
-		List<LoginUser> admins = loginUserService.getAdmins();
+	public ResponseEntity<List<UserDTO>> getAdmins() {
+		List<UserDTO> admins = loginUserService.getAdmins();
 		return ResponseEntity.ok(admins);
 	}
 
@@ -88,7 +89,6 @@ public class AuthController {
 		}
 	}
 
-	// Endpoint to edit an admin's details
 	@PutMapping("/admins/{id}")
 	public ResponseEntity<String> editAdmin(@PathVariable Long id, @RequestBody LoginUser updatedAdmin) {
 		try {
