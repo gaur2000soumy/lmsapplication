@@ -1,5 +1,7 @@
 package in.lms.lmsapplication.dto;
 
+import in.lms.lmsapplication.model.Company;
+
 public class CompanyDTO {
 	
 	private long companyId;
@@ -7,6 +9,10 @@ public class CompanyDTO {
 	
 	public CompanyDTO() {
 		
+	}
+	public CompanyDTO(Company company) {
+		this.companyId = company.getCompanyId();
+		this.companyName = company.getCompanyName();
 	}
 	public CompanyDTO(long companyId, String companyName) {
 		this.companyId = companyId;

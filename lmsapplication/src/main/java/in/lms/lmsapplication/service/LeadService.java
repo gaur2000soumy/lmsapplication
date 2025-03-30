@@ -1,5 +1,6 @@
 package in.lms.lmsapplication.service;
 
+import in.lms.lmsapplication.model.Company;
 import in.lms.lmsapplication.model.Lead;
 import in.lms.lmsapplication.repository.LeadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,14 @@ public class LeadService {
 
     public void deleteLead(Long id) {
         leadRepository.deleteById(id);
+    }
+    
+    public List<Lead> searchLeads(String query) {
+		try {
+			Long id = Long.parseLong(query);
+			return leadRepository.findByFullNameContainingIgnoreCaseOrLeadId(query, id);
+		} catch (NumberFormatException e) {
+			return leadRepository.findByFullNameContainingIgnoreCaseOrLeadId(query, null);
+		}
     }
 }
