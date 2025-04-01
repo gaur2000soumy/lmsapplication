@@ -15,7 +15,7 @@ public class UserDTO {
 	public UserDTO(LoginUser user) {
 		this.id = user.getId();
 		this.fullName = user.getFullName();
-		this.phoneNumber = user.getPassword();
+		this.phoneNumber = user.getPhoneNumber();
 		this.email = user.getEmail();
 	}
 	public UserDTO(long id, String fullName, String phoneNumber, String email) {

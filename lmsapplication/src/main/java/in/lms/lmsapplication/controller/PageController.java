@@ -128,8 +128,9 @@ public class PageController {
     	return "view-user-lead";
     }
     
-    @GetMapping("/superadmin-lead-edit")
-    public String editSuperadminLead() {
+    @GetMapping("/edit-superadmin-lead/{leadId}")
+    public String editSuperadminLead(@PathVariable("leadId") Long leadId, Model model) {
+    	model.addAttribute("leadId", leadId);
         return "edit-superadmin-lead";
     }
     
