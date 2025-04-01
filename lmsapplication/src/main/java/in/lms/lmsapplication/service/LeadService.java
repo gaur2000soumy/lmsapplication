@@ -1,13 +1,13 @@
 package in.lms.lmsapplication.service;
 
-import in.lms.lmsapplication.model.Company;
-import in.lms.lmsapplication.model.Lead;
-import in.lms.lmsapplication.repository.LeadRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import in.lms.lmsapplication.model.Lead;
+import in.lms.lmsapplication.repository.LeadRepository;
 
 @Service
 public class LeadService {

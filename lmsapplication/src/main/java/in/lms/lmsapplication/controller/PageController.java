@@ -1,7 +1,11 @@
 package in.lms.lmsapplication.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import in.lms.lmsapplication.model.Lead;
 
 @Controller
 public class PageController {
@@ -109,9 +113,10 @@ public class PageController {
         return "user-owned-leads";
     }
     
-    @GetMapping("/superadmin-lead-view")
-    public String viewSuperadminLead() {
-    	return "view-superadmin-lead";
+    @GetMapping("/view-superadmin-lead/{leadId}")
+    public String viewSuperadminLead(@PathVariable("leadId") Long leadId, Model model) {
+        model.addAttribute("leadId", leadId);
+        return "view-superadmin-lead";  // This is the name of your Thymeleaf view
     }
     
     @GetMapping("/admin-lead-view")

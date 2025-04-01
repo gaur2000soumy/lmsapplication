@@ -43,7 +43,8 @@ public class LeadController {
         Optional<Lead> lead = leadService.getLeadById(id);
         return lead.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
+    
+  
     @GetMapping("/search")
     public List<Lead> searchLeads(@RequestParam String query) {
         return leadService.searchLeads(query);
