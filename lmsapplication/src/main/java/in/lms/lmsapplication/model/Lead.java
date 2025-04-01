@@ -109,4 +109,14 @@ public class Lead {
 
     public Company getCompany() { return company; }
     public void setCompany(Company company) { this.company = company; }
+
+	@Override
+	public String toString() {
+		return "Lead [leadId=" + leadId + ", fullName=" + fullName + ", email=" + email + ", phoneNo=" + phoneNo
+				+ ", altPhone=" + altPhone + ", address=" + address + ", status=" + status + ", note=" + note
+				+ ", ownerUser=" + ownerUser + ", assignedUser=" + assignedUser + ", creationDate=" + creationDate
+				+ ", updationDate=" + updationDate + ", company=" + company + "]";
+	}
+    
+    
 }

@@ -1,47 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="fragments/header :: head"></th:block>
+    <th:block th:replace="header :: head"></th:block>
 </head>
 <body>
-    <th:block th:replace="fragments/header :: body"></th:block>
+    <th:block th:replace="header :: body"></th:block>
 
-    <section class="all-content">
-        <h2>Leads</h2>
-        <div class="search-container">
-            <input type="text" id="searchLead" placeholder="Search by Name or Email">
-            <button onclick="searchLeads()">Search</button>
-        </div>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="lead : ${leads}">
-                        <td th:text="${lead.id}"></td>
-                        <td th:text="${lead.fullName}"></td>
-                        <td th:text="${lead.email}"></td>
-                        <td th:text="${lead.phone}"></td>
-                        <td th:text="${lead.address}"></td>
-                        <td>
-                            <a th:href="@{/edit-lead/{id}(id=${lead.id})}">Edit</a> |
-                            <a th:href="@{/delete-lead/{id}(id=${lead.id})}" onclick="return confirm('Are you sure?')">Delete</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
 
-    <th:block th:replace="fragments/footer :: footer"></th:block>
+    <th:block th:replace="footer :: body"></th:block>
 </body>
 </html>

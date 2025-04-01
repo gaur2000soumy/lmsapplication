@@ -46,18 +46,18 @@ async function addLead() {
 	const user = await getLoggedInUser();
 	if (!user) return alert("User not authenticated");
 
-	const fields = ["leadName", "leadEmail", "leadPhone", "leadAddress"];
+	const fields = ["fullName", "email", "phoneNo", "address"];
 	const lead = getFormData(fields);
 	if (!lead) return;
-	if (!validateEmail(lead.leadEmail) || !validatePhone(lead.leadPhone)) return;
-
+	if (!validateEmail(lead.email) || !validatePhone(lead.phoneNo)) return;
+	
 	lead.status = "New";
 	lead.ownerUser = { id: user.id };
 	lead.assignedUser = { id: user.id };
 	lead.company = { companyId: user.company.companyId };
 	lead.creationDate = new Date();
 	lead.updationDate = new Date();
-
+	console.log(JSON.stringify(lead))
 	await submitData("/leads", lead, "Lead added successfully!");
 }
 
