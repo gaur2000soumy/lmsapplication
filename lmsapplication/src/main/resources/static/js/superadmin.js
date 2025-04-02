@@ -201,6 +201,70 @@ async function deleteLead(leadId) {
 /*-------------------- View Lead --------------------*/
 /*-------------------- Edit Lead --------------------*/
 /*-------------------- All Users --------------------*/
+
+function loadUsers() {
+    fetch('/users')
+        .then(response => response.json())
+        .then(data => {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = ''; // Clear any existing content
+
+            data.forEach(user => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.fullName}</td>
+                    <td>${user.email}</td>
+                    <td>${user.phoneNumber}</td>
+                    <td>
+                        <button onclick="editUser(${user.id})">Edit</button>
+                        <button onclick="deleteUser(${user.id})">Delete</button>
+                    </td>
+                `;
+
+                userList.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error loading users:', error));
+}
+
+function searchUsers() {
+    const searchQuery = document.getElementById('searchUser').value.toLowerCase();
+    const rows = document.querySelectorAll('#userList tr');
+
+    rows.forEach(row => {
+        const userId = row.cells[0].textContent.toLowerCase();
+        const userName = row.cells[1].textContent.toLowerCase();
+
+        if (userId.includes(searchQuery) || userName.includes(searchQuery)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+function editUser(id) {
+    window.location.href = `/edit-superadmin-user/${id}`; // Redirect to edit page with user ID
+}
+
+function deleteUser(id) {
+    if (confirm('Are you sure you want to delete this user?')) {
+        fetch(`/users/${id}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('User deleted successfully');
+                    loadUsers(); // Reload the users list after deletion
+                } else {
+                    alert('Failed to delete user');
+                }
+            })
+            .catch(error => console.error('Error deleting user:', error));
+    }
+}
 /*-------------------- View User --------------------*/
 /*-------------------- Edit User --------------------*/
 /*-------------------- All Admins -------------------*/
@@ -268,69 +332,7 @@ function deleteAdmin(id) {
 			.catch(error => console.error('Error deleting admin:', error));
 	}
 	}
-function loadUsers() {
-    fetch('/users')
-        .then(response => response.json())
-        .then(data => {
-            const userList = document.getElementById('userList');
-            userList.innerHTML = ''; // Clear any existing content
 
-            data.forEach(user => {
-                const row = document.createElement('tr');
-
-                row.innerHTML = `
-                    <td>${user.id}</td>
-                    <td>${user.fullName}</td>
-                    <td>${user.email}</td>
-                    <td>${user.phoneNumber}</td>
-                    <td>
-                        <button onclick="editUser(${user.id})">Edit</button>
-                        <button onclick="deleteUser(${user.id})">Delete</button>
-                    </td>
-                `;
-
-                userList.appendChild(row);
-            });
-        })
-        .catch(error => console.error('Error loading users:', error));
-}
-
-function searchUsers() {
-    const searchQuery = document.getElementById('searchUser').value.toLowerCase();
-    const rows = document.querySelectorAll('#userList tr');
-
-    rows.forEach(row => {
-        const userId = row.cells[0].textContent.toLowerCase();
-        const userName = row.cells[1].textContent.toLowerCase();
-
-        if (userId.includes(searchQuery) || userName.includes(searchQuery)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
-}
-
-function editUser(id) {
-    window.location.href = `/edit-superadmin-user/${id}`; // Redirect to edit page with user ID
-}
-
-function deleteUser(id) {
-    if (confirm('Are you sure you want to delete this user?')) {
-        fetch(`/users/${id}`, {
-            method: 'DELETE',
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert('User deleted successfully');
-                    loadUsers(); // Reload the users list after deletion
-                } else {
-                    alert('Failed to delete user');
-                }
-            })
-            .catch(error => console.error('Error deleting user:', error));
-    }
-}
 
 /*-------------------- View Admin -------------------*/
 /*-------------------- Edit Admin -------------------*/

@@ -77,7 +77,6 @@ public class AuthController {
 	@GetMapping("/users")
 	public ResponseEntity<List<UserDTO>> getUsers() {
 		List<UserDTO> admins = loginUserService.getUsers();
-		System.out.println("DDDDAAAATTTTAAAA--------------------------------------<>><<> "+ admins.toString());
 		return ResponseEntity.ok(admins);
 	}
 
