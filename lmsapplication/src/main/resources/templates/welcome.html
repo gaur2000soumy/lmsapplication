@@ -6,6 +6,7 @@
 <title>LMS Application - Build Everlasting Relationships</title>
 <link rel="stylesheet" href="css/styles.css">
 <link rel="icon" href="/lmsfavicon.png">
+<script src="/js/superadmin.js" defer></script>
 </head>
 <body>
 
@@ -25,17 +26,16 @@
 
 		<div class="right-content">
 			<h2>Get Started for Free</h2>
-			<form action="/signup" method="POST" onsubmit="return validateForm()">
-				<input type="text" name="fullName" placeholder="Full Name" required>
-				<input type="email" name="email" placeholder="Email Address"
-					required> <input type="text" name="phone"
+			<form onsubmit="createUser()">
+				<input type="text" id="userFullName" placeholder="Full Name" required>
+				<input type="email" id="userEmail" placeholder="Email Address"
+					required> <input type="text" id="userPhone"
 					placeholder="Phone Number" pattern="^\d{10}$"
 					title="Please enter a 10-digit phone number" required> <input
-					type="number" name="companyId" placeholder="Company Id" required>
-				<input type="password" name="password" placeholder="Password"
-					required> <input type="password" name="confirmPassword"
-					placeholder="Confirm Password" required> <input
-					type="hidden" name="role" value="USER_ROLE">
+					type="number" id="userCompany" placeholder="Company Id" required>
+				<input type="password" id="userPassword" placeholder="Password"
+					required> <input type="password" id="userConfirmPassword"
+					placeholder="Confirm Password" required> 
 
 				<button type="submit">Get Started</button>
 				<p style="text-align: center;">

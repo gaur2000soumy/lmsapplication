@@ -105,6 +105,7 @@ function getFormData(fields) {
 	const data = {};
 	for (let field of fields) {
 		const value = document.getElementById(field)?.value.trim();
+		console.log(value);
 		if (!value) {
 			alert("All fields are required");
 			return null;
