@@ -1,44 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LMS Application - Dashboard</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="/lmsfavicon.png">
-    <script src="/js/superadmin.js" defer></script>
+    <title>Super-Admin Profile</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/me")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("name").textContent = data.fullName || "N/A";
+                    document.getElementById("role").textContent = data.role;
+                    document.getElementById("email").textContent = data.email;
+                    document.getElementById("phone").textContent = data.phoneNumber || "N/A";
+                })
+                .catch(error => console.error("Error fetching user details:", error));
+        });
+    </script>
+    <div th:replace="~{header :: head}"></div>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="/images/lmslogo.png" alt="LMS Logo">
+    <div th:replace="~{header :: body}"></div>
+    <div class="container">
+        <header>
+            <h1>Profile</h1>
+        </header>
+        <div class="profile">
+            <img src="/images/fav-icon-img.jpeg" alt="profile-picture" class="profile-pic">
+            <h2 class="name" id="name">John Doe</h2>
+            <p class="contact-info" id="role">Super-Admin</p>
+            <h3>Contact Information</h3>
+            <p>Email: <a href="#" id="email">johndoe@gmail.com</a></p>
+            <p>Phone: <span id="phone">(91) 2456-434</span></p>
         </div>
-        <nav class="navbar">
-            <div class="dropdown">
-                <span>Leads ▼</span>
-                <div class="dropdown-content">
-                    <a href="#">All Leads</a>
-                    <a href="#">My Leads</a>
-                    <a href="#">Assigned Leads</a>
-                </div>
-            </div>
-            <a href="/superadmin-companies">Companies</a>
-            <a href="#">Admins</a>
-            <a href="#">Users</a>
-            <a href="#">Comments</a>
-            <a href="/profile">Profile</a>
-            <a href="#">Help</a>
-            <a href="/logout">Logout</a>
-        </nav>
-    </header>
-  <section>
-  
-  <h1>Hello, this is my profile</h1>
-  
-  
-  </section>
-    <footer>
-        <p>© 2024 LMS Application. All rights reserved.</p>
-    </footer>
+    </div>
+    <div th:replace="~{footer :: body}"></div>
 </body>
 </html>

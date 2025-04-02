@@ -57,10 +57,14 @@ public class AuthController {
 
 		LoginUser proxy = new LoginUser();
 		Company proxyCompany = new Company();
+		proxyCompany.setCompanyName(user.getCompany().getCompanyName());               
 		proxyCompany.setCompanyId(user.getCompany().getCompanyId());
 		proxy.setCompany(proxyCompany);
 		proxy.setId(user.getId());
-
+		proxy.setPhoneNumber(user.getPhoneNumber());
+		proxy.setEmail(user.getEmail());
+		proxy.setRole(user.getRole());
+		proxy.setFullName(user.getFullName());
 		if (Objects.nonNull(user)) {
 			return ResponseEntity.ok(proxy);
 		}
