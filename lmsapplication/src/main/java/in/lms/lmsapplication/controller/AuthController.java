@@ -73,6 +73,13 @@ public class AuthController {
 		List<UserDTO> admins = loginUserService.getAdmins();
 		return ResponseEntity.ok(admins);
 	}
+	
+	@GetMapping("/users")
+	public ResponseEntity<List<UserDTO>> getUsers() {
+		List<UserDTO> admins = loginUserService.getUsers();
+		System.out.println("DDDDAAAATTTTAAAA--------------------------------------<>><<> "+ admins.toString());
+		return ResponseEntity.ok(admins);
+	}
 
 	@DeleteMapping("/admins/{id}")
 	public ResponseEntity<String> deleteAdmin(@PathVariable Long id) {

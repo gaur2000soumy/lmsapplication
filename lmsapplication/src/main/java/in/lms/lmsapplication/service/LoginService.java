@@ -96,4 +96,11 @@ public class LoginService implements UserDetailsService {
         }
         return false;
     }
+
+	public List<UserDTO> getUsers() {
+		List<LoginUser> users = userRepository.findByRole("USER");
+    	List<UserDTO> userDTOs = users.stream()
+    	        .map(UserDTO::new).collect(Collectors.toList());
+        return userDTOs;
+	}
 }

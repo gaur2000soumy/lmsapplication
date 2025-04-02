@@ -5,8 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import in.lms.lmsapplication.model.Lead;
-
 @Controller
 public class PageController {
 
@@ -66,6 +64,10 @@ public class PageController {
     @GetMapping("/superadmin-admins")
     public String superadminAdmins() {
     	return "superadmin-admins";
+    }
+    @GetMapping("/superadmin-users")
+    public String superadminUsers() {
+    	return "superadmin-users";
     }
     
     @GetMapping("/superadmin-leads")
