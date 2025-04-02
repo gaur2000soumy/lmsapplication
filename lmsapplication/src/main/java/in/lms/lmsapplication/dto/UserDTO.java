@@ -52,6 +52,11 @@ public class UserDTO {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+
+	public String toString() {
+		return "UserDTO [id=" + id + ", fullName=" + fullName + ", phoneNumber=" + phoneNumber + ", email=" + email
+				+ "]";
+	}
 	
 	
 }
