@@ -54,7 +54,7 @@ public class AuthController {
 	@GetMapping("/me")
 	public ResponseEntity<LoginUser> getLoggedInUser() {
 		LoginUser user = loginUserService.getLoggedInUser();
-
+		
 		LoginUser proxy = new LoginUser();
 		Company proxyCompany = new Company();
 		proxyCompany.setCompanyName(user.getCompany().getCompanyName());               
@@ -65,10 +65,11 @@ public class AuthController {
 		proxy.setEmail(user.getEmail());
 		proxy.setRole(user.getRole());
 		proxy.setFullName(user.getFullName());
+		
 		if (Objects.nonNull(user)) {
 			return ResponseEntity.ok(proxy);
 		}
-
+		
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
