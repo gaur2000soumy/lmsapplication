@@ -14,6 +14,30 @@ document.addEventListener("DOMContentLoaded", () => {
 		loadAdmins();
 	} else if (currentPath.includes("users")) {
 		loadUsers();
+	} else if (currentPath.includes("profile")) {
+		fetch("/me")
+			.then(response => response.json())
+			.then(data => {
+				document.getElementById("name").textContent = data.fullName;
+				document.getElementById("role").textContent = data.role;
+				document.getElementById("email").textContent = data.email;
+				document.getElementById("phone").textContent = data.phoneNumber;
+			})
+			.catch(error => console.error("Error fetching user details:", error));
+	}
+	if (currentPath.includes("users")) {
+		document.getElementById("searchUser").addEventListener("keyup", function(event) {
+			if (event.key === "Enter") {
+				searchUsers();
+			}
+		});
+	}
+	if (currentPath.includes("leads")) {
+		document.getElementById("searchLead").addEventListener("keyup", function(event) {
+			if (event.key === "Enter") {
+				searchLeads();
+			}
+		});
 	}
 });
 
@@ -52,7 +76,7 @@ async function addLead() {
 	const lead = getFormData(fields);
 	if (!lead) return;
 	if (!validateEmail(lead.email) || !validatePhone(lead.phoneNo)) return;
-	
+
 	lead.status = "New";
 	lead.ownerUser = { id: user.id };
 	lead.assignedUser = { id: user.id };
@@ -141,23 +165,35 @@ async function submitData(url, data, successMessage) {
 }
 /*-------------------- All Leads --------------------*/
 
+
 async function searchLeads() {
-    const searchQuery = document.getElementById('searchLead').value.trim();
-    if (!searchQuery) {
-		loadLeads();
-        return;
-    }
-    try {
-        const response = await fetch(`/leads/search?query=${searchQuery}`);
-        if (!response.ok) {
-            alert("Error fetching search results.");
-            return;
-        }
-        const leads = await response.json();
-        displayLeads(leads);
-    } catch (error) {
-        console.error('Error searching Leads:', error);
-    }
+	const searchQuery = document.getElementById('searchLead').value.trim().toLowerCase();
+	const rows = document.querySelectorAll("#leadList tr");
+	let resultCount = 0;
+	const resultMessage = document.getElementById("searchResultMessage");
+
+	rows.forEach(row => {
+		const leadId = row.cells[0].textContent.toLowerCase();
+		const leadName = row.cells[1].textContent.toLowerCase();
+		const leadEmail = row.cells[2].textContent.toLowerCase();
+		const leadPhone = row.cells[3].textContent.toLowerCase().replace(/-/g, '');
+		const leadStatus = row.cells[5].textContent.toLowerCase();
+
+		if (leadId.includes(searchQuery) || leadName.includes(searchQuery) || leadPhone.includes(searchQuery) || leadEmail.includes(searchQuery) || leadStatus.includes(searchQuery)) {
+			row.style.display = "";
+			resultCount++;
+		} else {
+			row.style.display = "none";
+		}
+	});
+
+	if (searchQuery.trim() === "") {
+		resultMessage.style.display = "none"; // Hide message if input is empty
+	} else {
+		resultMessage.style.display = "block"; // Show message only when searching
+		resultMessage.textContent = resultCount > 0 ? `${resultCount} result(s) found` : "No results found";
+		resultMessage.style.color = resultCount > 0 ? "green" : "red";
+	}
 }
 
 async function loadLeads() {
@@ -169,7 +205,6 @@ async function loadLeads() {
 		console.error("Error loading leads:", error);
 	}
 }
-
 function displayLeads(leads) {
 	document.getElementById("leadList").innerHTML = leads.map(lead => `
         <tr>
@@ -178,23 +213,44 @@ function displayLeads(leads) {
             <td>${lead.email}</td>
             <td>${lead.phoneNo}</td>
             <td>${lead.company.companyName}</td>
+			<td>${lead.status}</td>
             <td>
-                <a href="/view-superadmin-lead/${lead.leadId}">View</a> |
-                <a href="/edit-superadmin-lead/${lead.leadId}">Edit</a> |
-                <a href="/add-superadmin-comment/${lead.leadId}">Add Comment</a> |
-                <a href="#" data-id="${lead.leadId}" onclick="deleteLead(this)">Delete</a>
+                <button onclick="viewLead(${lead.leadId})">View</button>
+                <button onclick="editLead(${lead.leadId})">Edit</button>
+                <button onclick="deleteLead(${lead.leadId})">Delete</button>
+                <button onclick="addComment(${lead.leadId})">Add Comment</button>
             </td>
         </tr>
     `).join('');
 }
 
-async function deleteLead(leadId) {
+function viewLead(id) {
+	window.location.href = `/view-superadmin-lead/${id}`;
+}
+
+function editLead(id) {
+	window.location.href = `/edit-superadmin-lead/${id}`;
+}
+
+function addComment(id) {
+	window.location.href = `/add-superadmin-comment/${id}`;
+}
+
+function deleteLead(id) {
 	if (confirm("Are you sure you want to delete this lead?")) {
-		await fetch(`/leads/${leadId}`, { method: "DELETE" });
-		alert("Lead deleted successfully");
-		loadLeads();
+		fetch(`/leads/${id}`, { method: "DELETE" })
+			.then(response => {
+				if (response.ok) {
+					alert("Lead deleted successfully");
+					loadLeads();
+				} else {
+					alert("Error deleting lead");
+				}
+			})
+			.catch(error => console.error("Error:", error));
 	}
 }
+
 
 
 /*------------------- Owned Leads -------------------*/
@@ -204,16 +260,16 @@ async function deleteLead(leadId) {
 /*-------------------- All Users --------------------*/
 
 function loadUsers() {
-    fetch('/users')
-        .then(response => response.json())
-        .then(data => {
-            const userList = document.getElementById('userList');
-            userList.innerHTML = ''; // Clear any existing content
+	fetch('/users')
+		.then(response => response.json())
+		.then(data => {
+			const userList = document.getElementById('userList');
+			userList.innerHTML = ''; // Clear any existing content
 
-            data.forEach(user => {
-                const row = document.createElement('tr');
+			data.forEach(user => {
+				const row = document.createElement('tr');
 
-                row.innerHTML = `
+				row.innerHTML = `
                     <td>${user.id}</td>
                     <td>${user.fullName}</td>
                     <td>${user.email}</td>
@@ -224,47 +280,61 @@ function loadUsers() {
                     </td>
                 `;
 
-                userList.appendChild(row);
-            });
-        })
-        .catch(error => console.error('Error loading users:', error));
+				userList.appendChild(row);
+			});
+		})
+		.catch(error => console.error('Error loading users:', error));
 }
 
+
 function searchUsers() {
-    const searchQuery = document.getElementById('searchUser').value.toLowerCase();
-    const rows = document.querySelectorAll('#userList tr');
+	const searchQuery = document.getElementById("searchUser").value.trim().toLowerCase();
+	const rows = document.querySelectorAll("#userList tr");
+	let resultCount = 0;
+	const resultMessage = document.getElementById("searchResultMessage");
 
-    rows.forEach(row => {
-        const userId = row.cells[0].textContent.toLowerCase();
-        const userName = row.cells[1].textContent.toLowerCase();
+	rows.forEach(row => {
+		const userId = row.cells[0].textContent.toLowerCase();
+		const userName = row.cells[1].textContent.toLowerCase();
+		const userEmail = row.cells[2].textContent.toLowerCase();
+		const userPhone = row.cells[3].textContent.toLowerCase().replace(/-/g, '');
 
-        if (userId.includes(searchQuery) || userName.includes(searchQuery)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
+		if (userId.includes(searchQuery) || userName.includes(searchQuery) || userPhone.includes(searchQuery) || userEmail.includes(searchQuery)) {
+			row.style.display = "";
+			resultCount++;
+		} else {
+			row.style.display = "none";
+		}
+	});
+
+	if (searchQuery.trim() === "") {
+		resultMessage.style.display = "none"; // Hide message if input is empty
+	} else {
+		resultMessage.style.display = "block"; // Show message only when searching
+		resultMessage.textContent = resultCount > 0 ? `${resultCount} result(s) found` : "No results found";
+		resultMessage.style.color = resultCount > 0 ? "green" : "red";
+	}
 }
 
 function editUser(id) {
-    window.location.href = `/edit-superadmin-user/${id}`; // Redirect to edit page with user ID
+	window.location.href = `/edit-superadmin-user/${id}`; // Redirect to edit page with user ID
 }
 
 function deleteUser(id) {
-    if (confirm('Are you sure you want to delete this user?')) {
-        fetch(`/users/${id}`, {
-            method: 'DELETE',
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert('User deleted successfully');
-                    loadUsers(); // Reload the users list after deletion
-                } else {
-                    alert('Failed to delete user');
-                }
-            })
-            .catch(error => console.error('Error deleting user:', error));
-    }
+	if (confirm('Are you sure you want to delete this user?')) {
+		fetch(`/users/${id}`, {
+			method: 'DELETE',
+		})
+			.then(response => {
+				if (response.ok) {
+					alert('User deleted successfully');
+					loadUsers(); // Reload the users list after deletion
+				} else {
+					alert('Failed to delete user');
+				}
+			})
+			.catch(error => console.error('Error deleting user:', error));
+	}
 }
 /*-------------------- View User --------------------*/
 /*-------------------- Edit User --------------------*/
@@ -332,7 +402,7 @@ function deleteAdmin(id) {
 			})
 			.catch(error => console.error('Error deleting admin:', error));
 	}
-	}
+}
 
 
 /*-------------------- View Admin -------------------*/
@@ -343,22 +413,22 @@ function deleteAdmin(id) {
 /*------------------- All Companies -----------------*/
 
 async function searchCompanies() {
-    const searchQuery = document.getElementById('searchCompany').value.trim();
-    if (!searchQuery) {
+	const searchQuery = document.getElementById('searchCompany').value.trim();
+	if (!searchQuery) {
 		fetchAndDisplayCompanies();
-        return;
-    }
-    try {
-        const response = await fetch(`/companies/search?query=${searchQuery}`);
-        if (!response.ok) {
-            alert("Error fetching search results.");
-            return;
-        }
-        const companies = await response.json();
-        displayCompanies(companies);
-    } catch (error) {
-        console.error('Error searching companies:', error);
-    }
+		return;
+	}
+	try {
+		const response = await fetch(`/companies/search?query=${searchQuery}`);
+		if (!response.ok) {
+			alert("Error fetching search results.");
+			return;
+		}
+		const companies = await response.json();
+		displayCompanies(companies);
+	} catch (error) {
+		console.error('Error searching companies:', error);
+	}
 }
 
 async function fetchAndDisplayCompanies() {

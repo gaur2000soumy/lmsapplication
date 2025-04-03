@@ -1,35 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="header :: head"></th:block>
+<th:block th:replace="header :: head"></th:block>
 </head>
 <body>
-    <th:block th:replace="header :: body"></th:block>
-
-<section class="lead-details">
-        <h2>Lead Details</h2>
-        <table>
-            <tr><th>ID:</th><td th:text="${lead.leadId}"></td></tr>
-            <tr><th>Full Name:</th><td th:text="${lead.fullName}"></td></tr>
-            <tr><th>Email:</th><td th:text="${lead.email}"></td></tr>
-            <tr><th>Phone:</th><td th:text="${lead.phoneNo}"></td></tr>
-            <tr><th>Alt Phone:</th><td th:text="${lead.altPhone}"></td></tr>
-            <tr><th>Address:</th><td th:text="${lead.address}"></td></tr>
-            <tr><th>Status:</th><td th:text="${lead.status}"></td></tr>
-            <tr><th>Note:</th><td th:text="${lead.note}"></td></tr>
-            <tr><th>Owner User:</th><td th:text="${lead.ownerUser != null ? lead.ownerUser.fullName : 'Not Available'}"></td></tr>
-			<tr><th>Assigned User:</th><td th:text="${lead.assignedUser != null ? lead.assignedUser.fullName : 'Not Assigned'}"></td></tr>
-            <tr><th>Company:</th><td th:text="${lead.company.companyName}"></td></tr>
-            <tr><th>Creation Date:</th><td th:text="${lead.creationDate}"></td></tr>
-            <tr><th>Updation Date:</th><td th:text="${lead.updationDate}"></td></tr>
-        </table>
-        <div class="actions">
-            <a th:href="@{/edit-superadmin-lead/{id}(id=${lead.leadId})}">Edit</a> |
-            <a th:href="@{/add-superadmin-comment/{id}(id=${lead.leadId})}">Add Comment</a> |
-            <a href="#" th:attr="data-id=${lead.leadId}" onclick="deleteLead(this)">Delete</a>
-        </div>
-    </section>
-
-    <th:block th:replace="footer :: body"></th:block>
+	<th:block th:replace="header :: body"></th:block>
+	<section class="all-content">
+	<h1>This page is under development</h1>
+	
+	</section>
+	<th:block th:replace="footer :: body"></th:block>
 </body>
 </html>
