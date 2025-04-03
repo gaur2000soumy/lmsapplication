@@ -70,6 +70,10 @@ public class PageController {
     	return "superadmin-users";
     }
     
+    @GetMapping("/admin-users")
+    public String adminUsers() {
+    	return "admin-users";
+    }
     @GetMapping("/superadmin-leads")
     public String superadminLeads() {
     	return "superadmin-leads";
