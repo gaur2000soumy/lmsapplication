@@ -1,6 +1,5 @@
 package in.lms.lmsapplication.repository;
 
-import in.lms.lmsapplication.model.Company;
 import in.lms.lmsapplication.model.Lead;
 
 import java.util.List;
