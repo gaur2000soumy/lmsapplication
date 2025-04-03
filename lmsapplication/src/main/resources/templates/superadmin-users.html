@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Users</title>
     <th:block th:replace="~{header :: head}"></th:block>
@@ -10,13 +10,11 @@
     <section class="all-content">
         <h2>Users</h2>
         
-        <!-- Search bar to search users by Name or ID -->
         <div class="search-container">
-            <input type="text" id="searchUser" placeholder="Search by Name or ID">
-            <button onclick="searchUsers()">Search</button>
+            <input type="text" id="searchUser" placeholder="Search by ID, Name, Phone or Email">
+            <p style="display: none;" id="searchResultMessage"></p>
         </div>
         
-        <!-- Table container for displaying the list of users -->
         <div class="table-container">
             <table>
                 <thead>

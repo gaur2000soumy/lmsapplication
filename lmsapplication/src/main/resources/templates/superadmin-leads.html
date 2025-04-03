@@ -12,8 +12,8 @@
         <h2>All Leads</h2>
 
         <div class="search-container">
-            <input type="text" id="searchLead" placeholder="Search by Name, Email, or Phone">
-            <button onclick="searchLeads()">Search</button>
+            <input type="text" id="searchLead" placeholder="Search by ID, Name, Phone, Email or Status">
+            <p style="display: none;" id="searchResultMessage"></p>
         </div>
 
         <div class="table-container">
@@ -25,6 +25,7 @@
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Company</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

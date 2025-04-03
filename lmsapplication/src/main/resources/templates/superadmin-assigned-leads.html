@@ -10,30 +10,29 @@
 	<section class="all-content">
 		<h2>Assigned Leads</h2>
 		<div class="search-container">
-			<input type="text" id="searchCompany"
+			<input type="text" id="searchAssignedLeads"
 				placeholder="Search by Name or ID">
-			<button onclick="searchCompanies()">Search</button>
+			<button onclick="searchAssignedLeads()">Search</button>
 		</div>
-		<!-- Table container -->
-		<div class="table-container">
-			<table>
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Company Name</th>
-						<th>Address</th>
-						<th>Contact Person</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody id="companyList">
+		
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Company</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+				<tbody id="assignedCompanyList">
 				</tbody>
 			</table>
 		</div>
 	</section>
+    <div th:replace="~{footer :: body}"></div>
 
-	<footer>
-		<p>© 2024 LMS Application. All rights reserved.</p>
-	</footer>
 </body>
 </html>
