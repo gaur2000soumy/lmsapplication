@@ -181,6 +181,7 @@ function displayLeads(leads) {
             <td>
                 <a href="/view-superadmin-lead/${lead.leadId}">View</a> |
                 <a href="/edit-superadmin-lead/${lead.leadId}">Edit</a> |
+                <a href="/add-superadmin-comment/${lead.leadId}">Add Comment</a> |
                 <a href="#" data-id="${lead.leadId}" onclick="deleteLead(this)">Delete</a>
             </td>
         </tr>
