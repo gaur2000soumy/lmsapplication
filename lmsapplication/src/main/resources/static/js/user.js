@@ -1,63 +1,4 @@
-function addCompany() {
-	const companyName = document.getElementById('companyName').value;
-	const companyAddress = document.getElementById('companyAddress').value;
-	const companyCinNumber = document.getElementById('companyCinNumber').value;
-	const companyContactPersonName = document.getElementById('companyContactPersonName').value;
-	const companyContactPersonPhone = document.getElementById('companyContactPersonPhone').value;
-	const companyContactPersonEmail = document.getElementById('companyContactPersonEmail').value;
 
-
-	if (!companyName || !companyAddress || !companyCinNumber || !companyContactPersonName || !companyContactPersonPhone || !companyContactPersonEmail) {
-		alert("All fields are required.");
-		return;
-	}
-
-	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-	if (!emailPattern.test(companyContactPersonEmail)) {
-		alert("Please enter a valid email address.");
-		return;
-	}
-
-	const phonePattern = /^[0-9]{10}$/;
-	if (!phonePattern.test(companyContactPersonPhone)) {
-		alert("Please enter a valid 10-digit phone number.");
-		return;
-	}
-
-	const company = {
-		companyName: companyName,
-		companyAddress: companyAddress,
-		companyCinNumber: companyCinNumber,
-		companyContactPersonName: companyContactPersonName,
-		companyContactPersonPhone: companyContactPersonPhone,
-		companyContactPersonEmail: companyContactPersonEmail
-	};
-
-	fetch('/companies', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(company)
-	})
-		.then(response => {
-			if (response.ok) {
-				alert('Company added successfully');
-				location.reload();
-			} else {
-				alert('Error adding company');
-			}
-		})
-		.catch(error => {
-			alert('Network error or invalid response');
-			console.error(error);
-		});
-}
-document.addEventListener("DOMContentLoaded", function() {
-	fetchCompanies();
-	fetchAndDisplayCompanies();
-});
-document.getElementById("lmsLogo").addEventListener("click", function() {
-	window.location.href = "dashboard";
-});
 function fetchCompanies() {
 	fetch("/companies")
 		.then(response => response.json())
@@ -84,13 +25,6 @@ function fetchAndDisplayCompanies() {
 		.catch(error => console.error("Error fetching companies for table:", error));
 }
 
-function addAdmin() {
-	submitUser("ADMIN_ROLE");
-}
-
-function addUser() {
-	submitUser("USER_ROLE");
-}
 
 function submitUser(role) {
 	let fullName = document.getElementById(role === "ADMIN_ROLE" ? "adminFullName" : "userFullName").value;
@@ -237,58 +171,7 @@ async function addLead() {
 	}
 }
 
-function displayCompanies(companies) {
-	const tableBody = document.getElementById("companyList");
-	tableBody.innerHTML = "";
 
-	companies.forEach(company => {
-		const row = document.createElement("tr");
 
-		row.innerHTML = `
-            <td>${company.companyId}</td>
-            <td>${company.companyName}</td>
-            <td>${company.companyAddress}</td>
-            <td>${company.companyContactPersonName}</td>
-            <td>
-                <button onclick="viewCompany(${company.companyId})">View</button>
-                <button onclick="editCompany(${company.companyId})">Edit</button>
-                <button onclick="deleteCompany(${company.companyId})">Delete</button>
-            </td>
-        `;
 
-		tableBody.appendChild(row);
-	});
-}
-
-async function searchCompanies() {
-	const query = document.getElementById("searchCompany").value.trim();
-	if (!query) {
-		fetchCompanies();
-		return;
-	}
-
-	try {
-		const response = await fetch(`/companies/search?query=${encodeURIComponent(query)}`);
-		const companies = await response.json();
-		displayCompanies(companies);
-	} catch (error) {
-		console.error("Error searching companies:", error);
-	}
-}
-
-async function deleteCompany(id) {
-	if (confirm("Are you sure you want to delete this company?")) {
-		try {
-			const response = await fetch(`/companies/${id}`, { method: "DELETE" });
-			if (response.ok) {
-				alert("Company deleted successfully.");
-				location.reload();
-			} else {
-				alert("Error deleting company.");
-			}
-		} catch (error) {
-			console.error("Error deleting company:", error);
-		}
-	}
-}
 

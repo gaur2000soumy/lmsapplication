@@ -1,87 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LMS Application - Dashboard</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="/lmsfavicon.png">
-    <script src="/js/superadmin.js" defer></script>
+<title>Dashboard</title>
+<th:block th:replace="~{header :: head}"></th:block>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="/images/lmslogo.png" alt="LMS Logo">
-        </div>
-        <nav class="navbar">
-            <div class="dropdown">
-                <span>Leads ▼</span>
-                <div class="dropdown-content">
-                    <a href="#">All Leads</a>
-                    <a href="#">My Leads</a>
-                    <a href="#">Assigned Leads</a>
-                </div>
-            </div>
-            <a href="/superadmin-companies">Companies</a>
-            <a href="#">Admins</a>
-            <a href="#">Users</a>
-            <a href="#">Comments</a>
-            <a href="/profile">Profile</a>
-            <a href="#">Help</a>
-            <a href="/logout">Logout</a>
-        </nav>
-    </header>
-    <section class="main-content">
-        <div class="form-container">
-            <h3>Add Lead</h3>
-            <input type="text" id="leadName" placeholder="Full Name" required>
-            <input type="email" id="leadEmail" placeholder="Email Address" required>
-            <input type="tel" id="leadPhone" placeholder="Phone Number" required>
-            <input type="tel" id="leadAltPhone" placeholder="Alternate Phone Number">
-            <input type="text" id="leadAddress" placeholder="Address" required>
-            <input type="text" id="leadNote" placeholder="Description">
-            <button onclick="addLead()">Add Lead</button>
-        </div>
+	<div th:replace="~{header :: body}"></div>
+	<section class="main-content">
+		<div class="form-container">
+			<h3>Add Lead</h3>
+			<input type="text" id="fullName" placeholder="Full Name" required>
+			<input type="email" id="email" placeholder="Email Address"
+				required> <input type="tel" id="phoneNo"
+				placeholder="Phone Number" required> <input type="tel"
+				id="altPhone" placeholder="Alternate Phone Number"> <input
+				type="text" id="address" placeholder="Address" required>
+			<input type="text" id="note" placeholder="Description">
+			<button onclick="addLead()">Add Lead</button>
+		</div>
 
-        <div class="form-container">
-            <h3>Add Company</h3>
-            <input type="text" id="companyName" placeholder="Company Name">
-            <input type="text" id="companyAddress" placeholder="Company Address">
-            <input type="text" id="companyCinNumber" placeholder="CIN Number">
-            <input type="text" id="companyContactPersonName" placeholder="Contact Full Name">
-            <input type="tel" id="companyContactPersonPhone" placeholder="Contact Phone Number">
-            <input type="email" id="companyContactPersonEmail" placeholder="Contact Email Address">
-            <button onclick="addCompany()">Add Company</button>
-        </div>
-
-        <div class="form-container">
-            <h3>Add Admin</h3>
-            <input type="text" id="adminFullName" placeholder="Full Name" required>
-            <input type="email" id="adminEmail" placeholder="Email Address" required>
-            <input type="tel" id="adminPhone" placeholder="Phone Number" pattern="^\d{10}$" title="Please enter a 10-digit phone number" required>
-            <select id="adminCompany" required>
-                <option value="" disabled selected>Select Company</option>
-            </select>
-            <input type="password" id="adminPassword" placeholder="Password" required>
-            <input type="password" id="adminConfirmPassword" placeholder="Confirm Password" required>
-            <button onclick="addAdmin()">Add Admin</button>
-        </div>
-
-        <div class="form-container">
-            <h3>Add User</h3>
-            <input type="text" id="userFullName" placeholder="Full Name" required>
-            <input type="email" id="userEmail" placeholder="Email Address" required>
-            <input type="tel" id="userPhone" placeholder="Phone Number" pattern="^\d{10}$" title="Please enter a 10-digit phone number" required>
-            <select id="userCompany" required>
-                <option value="" disabled selected>Select Company</option>
-            </select>
-            <input type="password" id="userPassword" placeholder="Password" required>
-            <input type="password" id="userConfirmPassword" placeholder="Confirm Password" required>
-            <button onclick="addUser()">Add User</button>
-        </div>
-    </section>
-    <footer>
-        <p>© 2024 LMS Application. All rights reserved.</p>
-    </footer>
+	</section>
+	<div th:replace="~{footer :: body}"></div>
 </body>
 </html>
