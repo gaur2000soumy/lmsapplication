@@ -357,4 +357,15 @@ header{
 	footer {
 		padding: 8px;
 	}
+	.form-container h3 {
+    text-align: center;
+    margin-bottom: 15px;
+	}
+
+	.form-container label {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 8px;
+	}
 }
