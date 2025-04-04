@@ -1,14 +1,41 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+<title>View Comment</title>
 <th:block th:replace="header :: head"></th:block>
 </head>
 <body>
-	<th:block th:replace="header :: body"></th:block>
+	<div th:replace="~{header :: body}"></div>
+
 	<section class="all-content">
-	<h1>This page is under development</h1>
-	
+		<h2>Lead Details</h2>
+
+		<div id="leadDetails" class="card"></div>
+		<br>
+		<button id="editLeadBtn">Edit Lead</button>
+		<button id="deleteLeadBtn">Delete Lead</button>
+		<button id="addCommentBtn">Add Comment</button>
+		<h3>Comments</h3>
+		<!-- Table container -->
+		<div class="table-container">
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Posted By</th>
+						<th>Lead ID</th>
+						<th>Status</th>
+						<th>Creation Date</th>
+						<th>Description</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody id="leadCommentList">
+				</tbody>
+			</table>
+		</div>
 	</section>
-	<th:block th:replace="footer :: body"></th:block>
+
+	<div th:replace="~{footer :: body}"></div>
 </body>
 </html>

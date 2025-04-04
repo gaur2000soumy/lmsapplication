@@ -1,6 +1,7 @@
 package in.lms.lmsapplication.controller;
 
 import in.lms.lmsapplication.model.Comment;
+import in.lms.lmsapplication.model.Company;
 import in.lms.lmsapplication.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,11 @@ public class CommentController {
     @PostMapping
     public Comment createComment(@RequestBody Comment comment) {
         return commentService.addComment(comment);
+    }
+    
+    @GetMapping
+    public List<Comment> getAllComments() {
+        return commentService.getAllComments();
     }
 
     @GetMapping("/lead/{leadId}")

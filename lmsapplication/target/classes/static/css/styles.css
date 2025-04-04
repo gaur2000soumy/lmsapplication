@@ -16,6 +16,15 @@ header {
 	height: 20px;
 }
 
+.card {
+	border: 2px solid #ccc;
+	padding: 1rem;
+	border-radius: 8px;
+	background-color: #f9f9f9;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+}
+
 .logo img {
 	width: 100px;
 	display: flex;
