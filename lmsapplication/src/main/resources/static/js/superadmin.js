@@ -39,6 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		});
 	}
+	if (currentPath.includes("companies")) {
+		document.getElementById("searchCompany").addEventListener("keyup", function(event) {
+			if (event.key === "Enter") {
+				searchCompany();
+			}
+		});
+	}
 });
 
 function initEventListeners() {
@@ -412,22 +419,32 @@ function deleteAdmin(id) {
 /*------------------- View Comment ------------------*/
 /*------------------- All Companies -----------------*/
 
-async function searchCompanies() {
-	const searchQuery = document.getElementById('searchCompany').value.trim();
-	if (!searchQuery) {
-		fetchAndDisplayCompanies();
-		return;
-	}
-	try {
-		const response = await fetch(`/companies/search?query=${searchQuery}`);
-		if (!response.ok) {
-			alert("Error fetching search results.");
-			return;
+async function searchCompany() {
+	const searchQuery = document.getElementById('searchCompany').value.trim().toLowerCase();
+	const rows = document.querySelectorAll("#companyList tr");
+	let resultCount = 0;
+	const resultMessage = document.getElementById("searchResultMessage");
+
+	rows.forEach(row => {
+		const companyId = row.cells[0].textContent.toLowerCase();
+		const companyName = row.cells[1].textContent.toLowerCase();
+		const companyEmail = row.cells[2].textContent.toLowerCase();
+		const companyPhone = row.cells[3].textContent.toLowerCase().replace(/-/g, '');
+
+		if (companyId.includes(searchQuery) || companyName.includes(searchQuery) || companyPhone.includes(searchQuery)) {
+			row.style.display = "";
+			resultCount++;
+		} else {
+			row.style.display = "none";
 		}
-		const companies = await response.json();
-		displayCompanies(companies);
-	} catch (error) {
-		console.error('Error searching companies:', error);
+	});
+
+	if (searchQuery.trim() === "") {
+		resultMessage.style.display = "none"; // Hide message if input is empty
+	} else {
+		resultMessage.style.display = "block"; // Show message only when searching
+		resultMessage.textContent = resultCount > 0 ? `${resultCount} result(s) found` : "No results found";
+		resultMessage.style.color = resultCount > 0 ? "green" : "red";
 	}
 }
 
@@ -447,6 +464,8 @@ function displayCompanies(companies) {
         <tr>
             <td>${company.companyId}</td>
             <td>${company.companyName}</td>
+			<td>${company.companyContactPersonEmail}</td>
+			<td>${company.companyContactPersonPhone}</td>
             <td>${company.companyAddress}</td>
             <td>${company.companyContactPersonName}</td>
             <td>
