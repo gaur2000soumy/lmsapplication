@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		loadAdmins();
 	} else if (currentPath.includes("users")) {
 		loadUsers();
+	} else if (currentPath.includes("comments")) {
+		loadComments();
+	} else if (currentPath.includes("view-superadmin-lead")) {
+		const leadId = currentPath.split("/").pop();
+		loadLeadDetails(leadId);
 	} else if (currentPath.includes("profile")) {
 		fetch("/me")
 			.then(response => response.json())
@@ -43,6 +48,13 @@ document.addEventListener("DOMContentLoaded", () => {
 		document.getElementById("searchCompany").addEventListener("keyup", function(event) {
 			if (event.key === "Enter") {
 				searchCompany();
+			}
+		});
+	}
+	if (currentPath.includes("comments")) {
+		document.getElementById("searchComments").addEventListener("keyup", function(event) {
+			if (event.key === "Enter") {
+				searchComments();
 			}
 		});
 	}
@@ -257,6 +269,71 @@ function deleteLead(id) {
 			.catch(error => console.error("Error:", error));
 	}
 }
+async function loadLeadDetails(leadId) {
+	try {
+		const leadRes = await fetch(`/leads/${leadId}`);
+		const lead = await leadRes.json();
+		displayLead(lead);
+
+		const commentRes = await fetch(`/comments/lead/${leadId}`);
+		const comments = await commentRes.json();
+		displayComments(comments);
+
+		document.getElementById("editLeadBtn").onclick = () =>
+			window.location.href = `/edit-superadmin-lead/${leadId}`;
+
+		document.getElementById("deleteLeadBtn").onclick = async () => {
+			if (confirm("Are you sure?")) {
+				await fetch(`/leads/${leadId}`, { method: "DELETE" });
+				alert("Lead deleted.");
+				window.location.href = "/superadmin-leads";
+			}
+		};
+
+		document.getElementById("addCommentBtn").onclick = () =>
+			window.location.href = `/add-superadmin-comment/${leadId}`;
+	} catch (e) {
+		console.error("Error loading lead or comments", e);
+	}
+}
+
+function displayLead(lead) {
+	const div = document.getElementById("leadDetails");
+	if (!div) return;
+	div.innerHTML = `
+		<p><strong>ID:</strong> ${lead.leadId}</p>
+		<p><strong>Name:</strong> ${lead.fullName}</p>
+		<p><strong>Email:</strong> ${lead.email}</p>
+		<p><strong>Phone:</strong> ${lead.phoneNo}</p>
+		<p><strong>Status:</strong> ${lead.status}</p>
+		<p><strong>Company:</strong> ${lead.company.companyName}</p>
+		<p><strong>Created By:</strong> ${lead.ownerUser.email}</p>
+		<p><strong>Assigned To:</strong> ${lead.assignedUser.email}</p>
+	`;
+}
+
+
+function displayComments(comments) {
+	const list = document.getElementById("leadCommentList");
+	if (!list) return;
+
+	comments.forEach(comment => {
+		const row = document.createElement('tr');
+
+		row.innerHTML = `
+					<td>${comment.commentId}</td>
+					<td style="text-align: left;">${comment.user.email}</td>
+					<td>${comment.lead.leadId}</td>
+					<td>${comment.status}</td>
+					<td>${comment.creationDate}</td>
+					<td>${comment.description}</td>
+					<td>
+						<button onclick="editComment(${comment.commentId})">Edit</button>
+						<button onclick="deleteComment(${comment.commentId})">Delete</button>
+					</td>`;
+		list.appendChild(row);
+	});
+}
 
 
 
@@ -415,6 +492,95 @@ function deleteAdmin(id) {
 /*-------------------- View Admin -------------------*/
 /*-------------------- Edit Admin -------------------*/
 /*------------------- All Comments ------------------*/
+
+
+function loadComments() {
+	fetch('/comments')
+		.then(response => response.json())
+		.then(data => {
+			const userList = document.getElementById('commentList');
+			userList.innerHTML = ''; // Clear any existing content
+
+			data.forEach(comment => {
+				const row = document.createElement('tr');
+				const formattedDate = new Date(comment.creationDate).toLocaleString('en-GB', {
+					day: '2-digit',
+					month: 'short',
+					year: 'numeric',
+					hour: '2-digit',
+					minute: '2-digit',
+					hour12: true
+				});
+				row.innerHTML = `
+                    <td>${comment.commentId}</td>
+                    <td style="text-align: left;">${comment.user.email}</td>
+                    <td>${comment.lead.leadId}</td>
+                    <td>${comment.status}</td>
+                    <td>${formattedDate}</td>
+                    <td>${comment.description}</td>
+                    <td>
+                        <button onclick="editComment(${comment.commentId})">Edit</button>
+                        <button onclick="deleteComment(${comment.commentId})">Delete</button>
+                    </td>
+                `;
+
+				commentList.appendChild(row);
+			});
+		})
+		.catch(error => console.error('Error loading comments:', error));
+}
+
+
+function searchComments() {
+	const searchQuery = document.getElementById("searchComments").value.trim().toLowerCase();
+	const rows = document.querySelectorAll("#commentList tr");
+	let resultCount = 0;
+	const resultMessage = document.getElementById("searchResultMessage");
+
+	rows.forEach(row => {
+		const commentId = row.cells[0].textContent.toLowerCase();
+		const userName = row.cells[1].textContent.toLowerCase();
+		const leadId = row.cells[2].textContent.toLowerCase();
+		const status = row.cells[3].textContent.toLowerCase();
+
+		if (commentId.includes(searchQuery) || userName.includes(searchQuery) || leadId.includes(searchQuery) || status.includes(searchQuery)) {
+			row.style.display = "";
+			resultCount++;
+		} else {
+			row.style.display = "none";
+		}
+	});
+
+	if (searchQuery.trim() === "") {
+		resultMessage.style.display = "none"; // Hide message if input is empty
+	} else {
+		resultMessage.style.display = "block"; // Show message only when searching
+		resultMessage.textContent = resultCount > 0 ? `${resultCount} result(s) found` : "No results found";
+		resultMessage.style.color = resultCount > 0 ? "green" : "red";
+	}
+}
+
+function editComment(id) {
+	window.location.href = `/edit-superadmin-comment/${id}`; // Redirect to edit page with user ID
+}
+
+function deleteComment(id) {
+	if (confirm('Are you sure you want to delete this Comment?')) {
+		fetch(`/comments/${id}`, {
+			method: 'DELETE',
+		})
+			.then(response => {
+				if (response.ok) {
+					alert('Comment deleted successfully');
+					loadComments(); // Reload the users list after deletion
+				} else {
+					alert('Failed to delete Comment');
+				}
+			})
+			.catch(error => console.error('Error deleting user:', error));
+	}
+}
+
 /*------------------- Edit Comment ------------------*/
 /*------------------- View Comment ------------------*/
 /*------------------- All Companies -----------------*/
