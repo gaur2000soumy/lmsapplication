@@ -153,6 +153,11 @@ public class PageController {
     public String superadminComments() {
     	return "superadmin-comments";
     }
+
+    @GetMapping("/superadmin-own-comments")
+    public String superadminOwnComments() {
+    	return "superadmin-own-comments";
+    }
     
     @GetMapping("/admin-comments")
     public String adminComments() {
