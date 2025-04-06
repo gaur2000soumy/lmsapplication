@@ -1,7 +1,6 @@
 package in.lms.lmsapplication.controller;
 
 import in.lms.lmsapplication.model.Comment;
-import in.lms.lmsapplication.model.Company;
 import in.lms.lmsapplication.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

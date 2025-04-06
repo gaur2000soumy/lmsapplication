@@ -1,14 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Help</title>
 <th:block th:replace="~{header :: head}"></th:block>
 </head>
 <body>
 	<div th:replace="~{header :: body}"></div>
-	<section class="main-content">
-		
+	<section class="main-content all-content">
+			
+		<div id="pending" class="form-container request-list active">
+			<h3>Pending Requests</h3>
+			<div class="table-container">
+				<table>
+					<thead>
+						<tr>
+							<th>Full Name</th>
+							<th>Subject</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="help : ${pendingRequests}">
+							<td th:text="${help.fullName}"></td>
+							<td th:text="${help.subject}"></td>
+							<td>Pending</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+			
+		<div id="completed" class="form-container request-list">
+			<h3>Completed Requests</h3>
+			<div class="table-container">
+				<table>
+					<thead>
+						<tr>
+							<th>Full Name</th>
+							<th>Subject</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="help : ${completedRequests}">
+							<td th:text="${help.fullName}"></td>
+							<td th:text="${help.subject}"></td>
+							<td>Completed</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</section>
+	
 	<div th:replace="~{footer :: body}"></div>
 </body>
 </html>
