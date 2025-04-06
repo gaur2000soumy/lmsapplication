@@ -338,6 +338,34 @@ function displayComments(comments) {
 
 
 /*------------------- Owned Leads -------------------*/
+
+async function loadOwnLeads() {
+	try {
+		const response = await fetch("/own-leads");
+		const data = await response.json();
+		displayLeads(data);
+	} catch (error) {
+		console.error("Error loading leads:", error);
+	}
+}
+function displayLeads(leads) {
+	document.getElementById("leadList").innerHTML = leads.map(lead => `
+        <tr>
+            <td>${lead.leadId}</td>
+            <td>${lead.fullName}</td>
+            <td>${lead.email}</td>
+            <td>${lead.phoneNo}</td>
+            <td>${lead.company.companyName}</td>
+			<td>${lead.status}</td>
+            <td>
+                <button onclick="viewLead(${lead.leadId})">View</button>
+                <button onclick="editLead(${lead.leadId})">Edit</button>
+                <button onclick="deleteLead(${lead.leadId})">Delete</button>
+                <button onclick="addComment(${lead.leadId})">Add Comment</button>
+            </td>
+        </tr>
+    `).join('');
+}
 /*------------------ Assigned Leads -----------------*/
 /*-------------------- View Lead --------------------*/
 /*-------------------- Edit Lead --------------------*/
@@ -663,6 +691,36 @@ async function deleteCompany(id) {
 
 /*------------------------ Help ---------------------*/
 
+function showRequests(type) {
+	const tabs = document.querySelectorAll('.tabs button');
+	const lists = document.querySelectorAll('.request-list');
+
+	tabs.forEach(tab => tab.classList.remove('active'));
+	lists.forEach(list => list.classList.remove('active'));
+
+	document.querySelector('.tabs button[onclick="showRequests(\'' + type + '\')"]').classList.add('active');
+	document.getElementById(type).classList.add('active');
+}
+
+function addHelpRequest() {
+	const fullName = document.getElementById('fullName').value;
+	const email = document.getElementById('email').value;
+	const phoneNo = document.getElementById('phoneNo').value;
+	const subject = document.getElementById('subject').value;
+	const note = document.getElementById('note').value;
+
+	if (!fullName || !email || !phoneNo || !subject || !note) {
+		alert("Please fill in all fields.");
+		return;
+	}
+
+	alert("Help request created successfully!");
+	document.getElementById('fullName').value = '';
+	document.getElementById('email').value = '';
+	document.getElementById('phoneNo').value = '';
+	document.getElementById('subject').value = '';
+	document.getElementById('note').value = '';
+}
 
 
 

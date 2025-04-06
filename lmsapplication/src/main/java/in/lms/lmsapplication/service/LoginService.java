@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import in.lms.lmsapplication.dto.UserDTO;
+
 import in.lms.lmsapplication.model.LoginUser;
 import in.lms.lmsapplication.repository.CompanyRepository;
 import in.lms.lmsapplication.repository.UserRepository;
@@ -103,4 +104,8 @@ public class LoginService implements UserDetailsService {
     	        .map(UserDTO::new).collect(Collectors.toList());
         return userDTOs;
 	}
+
+    public Optional<LoginUser> findById(Long id) {
+        return userRepository.findById(id);
+    }
 }
