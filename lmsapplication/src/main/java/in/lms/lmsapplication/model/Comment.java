@@ -37,6 +37,8 @@ public class Comment {
     
     
     private String description;
+    
+    private String status;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
@@ -46,11 +48,12 @@ public class Comment {
 
     public Comment() {}
 
-    public Comment(Lead lead, LoginUser user, String description, Company company) {
+    public Comment(Lead lead, LoginUser user, String description, String status, Company company) {
         this.lead = lead;
         this.user = user;
         this.company = company;
         this.description = description;
+        this.setStatus(status);
         this.creationDate = new Date();
         this.updationDate = new Date();
     }
@@ -76,5 +79,13 @@ public class Comment {
     
     public Company getCompany() { return company; }
     public void setCompany(Company company) { this.company = company; }
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 }
