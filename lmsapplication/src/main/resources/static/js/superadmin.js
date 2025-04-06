@@ -689,7 +689,7 @@ async function deleteCompany(id) {
 
 
 
-/*------------------------ Help- All components ---------------------*/
+/*------------------------ Help ---------------------*/
 
 function showRequests(type) {
 	const tabs = document.querySelectorAll('.tabs button');
@@ -721,7 +721,6 @@ function addHelpRequest() {
 	document.getElementById('subject').value = '';
 	document.getElementById('note').value = '';
 }
-/*---------------------- Add Help --------------------*/
 
 
 
