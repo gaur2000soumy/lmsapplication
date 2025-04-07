@@ -84,7 +84,16 @@ public class AuthController {
 		List<UserDTO> admins = loginUserService.getUsers();
 		return ResponseEntity.ok(admins);
 	}
-
+	@GetMapping("/users/{id}")
+	public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+		LoginUser user = loginUserService.getUserById(id);
+		if (Objects.nonNull(user)) {
+			UserDTO userDTO = new UserDTO(user);
+			return ResponseEntity.ok(userDTO);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 	@DeleteMapping("/admins/{id}")
 	public ResponseEntity<String> deleteAdmin(@PathVariable Long id) {
 		try {

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>View User</title>
+<th:block th:replace="header :: head"></th:block>
+</head>
+<body>
+	<div th:replace="~{header :: body}"></div>
+
+	<section class="all-content">
+		<h2>User Details</h2>
+
+		<div id="userDetails" class="card"></div>
+		<br>
+		<button id="editUserBtn">Edit User</button>
+		<button id="deleteUserBtn">Delete User</button>
+		<h3>Comments</h3>
+		<!-- Table container -->
+		<div class="table-container">
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Posted By</th>
+						<th>Lead ID</th>
+						<th>Status</th>
+						<th>Creation Date</th>
+						<th>Description</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody id="userCommentList">
+				</tbody>
+			</table>
+		</div>
+	</section>
+
+	<div th:replace="~{footer :: body}"></div>
+</body>
+</html>

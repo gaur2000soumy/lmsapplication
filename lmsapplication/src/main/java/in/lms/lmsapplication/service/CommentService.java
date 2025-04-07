@@ -21,6 +21,9 @@ public class CommentService {
         return commentRepository.findByLead_LeadId(leadId);
     }
 
+    public List<Comment> getCommentsByUserId(Long userId) {
+        return commentRepository.findByUserId(userId);
+    }
     public void deleteComment(Long id) {
         commentRepository.deleteById(id);
     }

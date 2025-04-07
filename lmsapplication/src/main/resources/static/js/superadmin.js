@@ -19,6 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	} else if (currentPath.includes("view-superadmin-lead")) {
 		const leadId = currentPath.split("/").pop();
 		loadLeadDetails(leadId);
+	} else if (currentPath.includes("view-superadmin-user")) {
+		const userId = currentPath.split("/").pop();
+		loadUserDetails(userId);
 	} else if (currentPath.includes("profile")) {
 		fetch("/me")
 			.then(response => response.json())
@@ -387,6 +390,7 @@ function loadUsers() {
                     <td>${user.email}</td>
                     <td>${user.phoneNumber}</td>
                     <td>
+						<button onclick="viewUser(${user.id})">View</button>
                         <button onclick="editUser(${user.id})">Edit</button>
                         <button onclick="deleteUser(${user.id})">Delete</button>
                     </td>
@@ -397,8 +401,64 @@ function loadUsers() {
 		})
 		.catch(error => console.error('Error loading users:', error));
 }
+async function loadUserDetails(userId) {
+	try {
+		const userRes = await fetch(`/users/${userId}`);
+		const user = await userRes.json();
+		displayUser(user);
 
+		const commentRes = await fetch(`/comments/${userId}`);
+		const comments = await commentRes.json();
+		displayUserComments(comments);
 
+		document.getElementById("editUserBtn").onclick = () =>
+			window.location.href = `/edit-superadmin-user/${userId}`;
+
+		document.getElementById("deleteUserBtn").onclick = async () => {
+			if (confirm("Are you sure?")) {
+				await fetch(`/admins/${userId}`, { method: "DELETE" });
+				alert("User deleted.");
+				window.location.href = "/superadmin-users";
+			}
+		};
+
+	} catch (e) {
+		console.error("Error loading User or comments", e);
+	}
+}
+
+function displayUser(user) {
+	const div = document.getElementById("userDetails");
+	if (!div) return;
+	div.innerHTML = `
+		<p><strong>Name:</strong> ${user.fullName}</p>
+		<p><strong>Email:</strong> ${user.email}</p>
+		<p><strong>Phone:</strong> ${user.phoneNumber}</p>
+		<p><strong>Company:</strong> ${user.companyName}</p>
+	`;
+}
+
+function displayUserComments(comments) {
+	const list = document.getElementById("leadCommentList");
+	if (!list) return;
+
+	comments.forEach(comment => {
+		const row = document.createElement('tr');
+
+		row.innerHTML = `
+					<td>${comment.commentId}</td>
+					<td style="text-align: left;">${comment.user.email}</td>
+					<td>${comment.lead.leadId}</td>
+					<td>${comment.status}</td>
+					<td>${comment.creationDate}</td>
+					<td>${comment.description}</td>
+					<td>
+						<button onclick="editComment(${comment.commentId})">Edit</button>
+						<button onclick="deleteComment(${comment.commentId})">Delete</button>
+					</td>`;
+		list.appendChild(row);
+	});
+}
 function searchUsers() {
 	const searchQuery = document.getElementById("searchUser").value.trim().toLowerCase();
 	const rows = document.querySelectorAll("#userList tr");
@@ -427,7 +487,9 @@ function searchUsers() {
 		resultMessage.style.color = resultCount > 0 ? "green" : "red";
 	}
 }
-
+function viewUser(userId) {
+	window.location.href = `/view-superadmin-user/${userId}`;
+}
 function editUser(id) {
 	window.location.href = `/edit-superadmin-user/${id}`; // Redirect to edit page with user ID
 }
