@@ -8,6 +8,9 @@ public class UserDTO {
 	private String fullName;
 	private String phoneNumber;
 	private String email;
+	private long companyId;
+	private String companyName;
+	private String role;
 	
 	public UserDTO() {
 		
@@ -17,8 +20,14 @@ public class UserDTO {
 		this.fullName = user.getFullName();
 		this.phoneNumber = user.getPhoneNumber();
 		this.email = user.getEmail();
+		this.companyId = user.getCompany().getCompanyId();
+		this.companyName = user.getCompany().getCompanyName();
+		this.role = user.getRole();
 	}
-	public UserDTO(long id, String fullName, String phoneNumber, String email) {
+	public UserDTO(long id, String fullName, String phoneNumber, String email, long companyId, String companyName, String role) {
+		this.companyId = companyId;
+		this.companyName = companyName;
+		this.role = role;
 		this.id = id;
 		this.fullName = fullName;
 		this.phoneNumber = phoneNumber;
@@ -55,8 +64,25 @@ public class UserDTO {
 
 	public String toString() {
 		return "UserDTO [id=" + id + ", fullName=" + fullName + ", phoneNumber=" + phoneNumber + ", email=" + email
-				+ "]";
+				+ ", companyId =" + companyId + ", companyName=" + companyName + ", role=" + role + "]";
 	}
 	
-	
+	public long getCompanyId() {
+		return companyId;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}		
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 }

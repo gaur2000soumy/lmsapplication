@@ -75,6 +75,9 @@ public class LoginService implements UserDetailsService {
         return adminDTOs;
     }
     
+    public LoginUser getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
     public boolean deleteAdmin(Long id) {
         if (userRepository.existsById(id)) {
         	userRepository.deleteById(id);

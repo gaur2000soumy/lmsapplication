@@ -30,6 +30,11 @@ public class CommentController {
         return commentService.getCommentsByLeadId(leadId);
     }
 
+    @GetMapping("/{id}")
+    public List<Comment> getCommentsByUserId(@PathVariable Long id) {
+        return commentService.getCommentsByUserId(id);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         commentService.deleteComment(id);
