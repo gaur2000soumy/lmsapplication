@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	let currentPath = window.location.pathname;
 	if (currentPath.includes("dashboard")) {
 		fetchCompanies(); // Load companies only on the dashboard
-	} else if (currentPath.includes("leads")) {
+	} else if (currentPath.includes("superadmin-leads")) {
 		loadLeads(); // Load leads only on the leads page
 	} else if (currentPath.includes("companies")) {
 		fetchAndDisplayCompanies(); // Load companies only on the companies page
@@ -16,7 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		loadUsers();
 	} else if (currentPath.includes("comments")) {
 		loadComments();
-	} else if (currentPath.includes("view-superadmin-lead")) {
+	} 
+	else if (currentPath.includes("superadmin-asssigned-leads")) {
+		loadAssignedLeads();
+	}else if (currentPath.includes("view-superadmin-lead")) {
 		const leadId = currentPath.split("/").pop();
 		loadLeadDetails(leadId);
 	} else if (currentPath.includes("view-superadmin-user")) {
@@ -40,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		});
 	}
-	if (currentPath.includes("leads")) {
+	if (currentPath.includes("superadmin-leads")) {
 		document.getElementById("searchLead").addEventListener("keyup", function(event) {
 			if (event.key === "Enter") {
 				searchLeads();
@@ -344,7 +347,7 @@ function displayComments(comments) {
 
 async function loadOwnLeads() {
 	try {
-		const response = await fetch("/own-leads");
+		const response = await fetch("/leads/own-leads");
 		const data = await response.json();
 		displayLeads(data);
 	} catch (error) {
@@ -370,6 +373,35 @@ function displayLeads(leads) {
     `).join('');
 }
 /*------------------ Assigned Leads -----------------*/
+async function loadAssignedLeads() {
+	try {
+		const user = await getLoggedInUser();
+
+		const response = await fetch(`/leads/assigned/${user.id}`);
+		const data = await response.json();
+		displayAssignedLeads(data);
+	} catch (error) {
+		console.error("Error loading leads:", error);
+	}
+}
+function displayAssignedLeads(leads) {
+	document.getElementById("assignedLeadList").innerHTML = leads.map(lead => `
+        <tr>
+            <td>${lead.leadId}</td>
+            <td>${lead.fullName}</td>
+            <td>${lead.email}</td>
+            <td>${lead.phoneNo}</td>
+            <td>${lead.company.companyName}</td>
+			<td>${lead.status}</td>
+            <td>
+                <button onclick="viewLead(${lead.leadId})">View</button>
+                <button onclick="editLead(${lead.leadId})">Edit</button>
+                <button onclick="deleteLead(${lead.leadId})">Delete</button>
+                <button onclick="addComment(${lead.leadId})">Add Comment</button>
+            </td>
+        </tr>
+    `).join('');
+}
 /*-------------------- View Lead --------------------*/
 /*-------------------- Edit Lead --------------------*/
 /*-------------------- All Users --------------------*/

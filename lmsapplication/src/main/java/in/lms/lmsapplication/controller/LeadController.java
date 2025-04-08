@@ -43,6 +43,14 @@ public class LeadController {
         return lead.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
     
+    @GetMapping("/assigned/{assignedId}")
+    public ResponseEntity<List<Lead>> getLeadsByAssignedId(@PathVariable Long assignedId) {
+        List<Lead> leads = leadService.getLeadsByAssignedId(assignedId);
+        if (leads.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(leads);
+    }
   
     @GetMapping("/search")
     public List<Lead> searchLeads(@RequestParam String query) {
