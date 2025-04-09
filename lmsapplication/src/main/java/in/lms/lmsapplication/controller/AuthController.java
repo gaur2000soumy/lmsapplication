@@ -123,5 +123,21 @@ public class AuthController {
 					.body("Error updating admin: " + e.getMessage());
 		}
 	}
+
+	@PutMapping("/users/{userId}")
+	public ResponseEntity<String> editUser(@PathVariable Long userId, @RequestBody LoginUser updatedUser) {
+		System.out.println("-----------------------------------Updating user with ID:" + userId);
+		try {
+			boolean updated = loginUserService.updateUser(userId, updatedUser);
+			if (updated) {
+				return ResponseEntity.ok("User updated successfully");
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error updating user: " + e.getMessage());
+		}
+	}
 	
 }

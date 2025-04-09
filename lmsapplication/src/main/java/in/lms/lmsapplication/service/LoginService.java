@@ -26,7 +26,8 @@ public class LoginService implements UserDetailsService {
     private final CompanyRepository companyRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public LoginService(UserRepository userRepository, PasswordEncoder passwordEncoder, CompanyRepository companyRepository) {
+    public LoginService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+            CompanyRepository companyRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.companyRepository = companyRepository;
@@ -45,14 +46,15 @@ public class LoginService implements UserDetailsService {
                 .build();
     }
 
-    public LoginUser registerUser(String fullName, String email, String phone, String password, String role, Long company) {
+    public LoginUser registerUser(String fullName, String email, String phone, String password, String role,
+            Long company) {
         LoginUser user = new LoginUser();
         user.setFullName(fullName);
         user.setEmail(email);
         user.setPhoneNumber(phone);
         user.setPassword(passwordEncoder.encode(password));
-        if(null==role) {
-        	role="USER_ROLE";
+        if (null == role) {
+            role = "USER_ROLE";
         }
         user.setRole(role);
         user.setCompany(companyRepository.findById(company).get());
@@ -67,20 +69,21 @@ public class LoginService implements UserDetailsService {
         }
         return null;
     }
-    
+
     public List<UserDTO> getAdmins() {
-    	List<LoginUser> admins = userRepository.findByRole("ADMIN");
-    	List<UserDTO> adminDTOs = admins.stream()
-    	        .map(UserDTO::new).collect(Collectors.toList());
+        List<LoginUser> admins = userRepository.findByRole("ADMIN");
+        List<UserDTO> adminDTOs = admins.stream()
+                .map(UserDTO::new).collect(Collectors.toList());
         return adminDTOs;
     }
-    
+
     public LoginUser getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
+
     public boolean deleteAdmin(Long id) {
         if (userRepository.existsById(id)) {
-        	userRepository.deleteById(id);
+            userRepository.deleteById(id);
             return true;
         }
         return false;
@@ -93,7 +96,7 @@ public class LoginService implements UserDetailsService {
             admin.setFullName(updatedAdmin.getFullName());
             admin.setEmail(updatedAdmin.getEmail());
             admin.setPhoneNumber(updatedAdmin.getPhoneNumber());
-            admin.setPassword(updatedAdmin.getPassword());  // Ensure proper password handling
+            admin.setPassword(updatedAdmin.getPassword()); // Ensure proper password handling
             admin.setRole(updatedAdmin.getRole());
             userRepository.save(admin);
             return true;
@@ -101,12 +104,23 @@ public class LoginService implements UserDetailsService {
         return false;
     }
 
-	public List<UserDTO> getUsers() {
-		List<LoginUser> users = userRepository.findByRole("USER");
-    	List<UserDTO> userDTOs = users.stream()
-    	        .map(UserDTO::new).collect(Collectors.toList());
+    public boolean updateUser(Long id, LoginUser updatedUser) {
+        Optional<LoginUser> existingUser = userRepository.findById(id);
+        if (existingUser.isPresent()) {
+            LoginUser user = existingUser.get();
+            user.setFullName(updatedUser.getFullName());
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    public List<UserDTO> getUsers() {
+        List<LoginUser> users = userRepository.findByRole("USER");
+        List<UserDTO> userDTOs = users.stream()
+                .map(UserDTO::new).collect(Collectors.toList());
         return userDTOs;
-	}
+    }
 
     public Optional<LoginUser> findById(Long id) {
         return userRepository.findById(id);

@@ -128,6 +128,10 @@ public class PageController {
         model.addAttribute("userId", userId);
         return "view-superadmin-user";  // This is the name of your Thymeleaf view
     }
+    @GetMapping("/edit-superadmin-user/{userId}")
+    public String editSuperadminUser(@PathVariable("userId") Long userId) {
+        return "edit-superadmin-user";  // This is the name of your Thymeleaf view
+    }
 
     @GetMapping("/admin-lead-view")
     public String viewAdminLead() {
