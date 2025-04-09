@@ -522,8 +522,31 @@ function searchUsers() {
 function viewUser(userId) {
 	window.location.href = `/view-superadmin-user/${userId}`;
 }
-function editUser(id) {
-	window.location.href = `/edit-superadmin-user/${id}`; // Redirect to edit page with user ID
+function editUser(userId) {
+	window.location.href = `/edit-superadmin-user/${userId}`; // Redirect to edit page with user ID
+}
+function handleUserEditSubmit() {
+    document.getElementById("editUserForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const updatedUser = {
+            fullName: document.getElementById("fullName").value,        
+        };
+		console.log(JSON.stringify('----------------------------------------------'+updatedUser))
+        const response = await fetch(`/users/${updatedUser.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedUser)
+        });
+
+        if (response.ok) {
+            alert("User updated successfully!");
+            window.location.href = "/superadmin-users";
+        } else {
+            alert("Failed to update user.");
+        }
+    });
 }
 
 function deleteUser(id) {

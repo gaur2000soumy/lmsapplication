@@ -115,4 +115,12 @@ public class LoginUser implements UserDetails{
 		return email;
 	}
 
+	@Override
+	public String toString() {
+		return "LoginUser [id=" + id + ", email=" + email + ", phoneNumber=" + phoneNumber + ", fullName=" + fullName
+				+ ", role=" + role + ", password=" + password + ", company=" + company + "]";
+	}
+
+	
+
 }
