@@ -48,9 +48,9 @@ public class LeadController {
         return leadService.getAllMyLeads(id);
     }
 
-    @GetMapping("/assigned/{assignedId}")
-    public ResponseEntity<List<Lead>> getLeadsByAssignedId(@PathVariable Long assignedId) {
-        List<Lead> leads = leadService.getLeadsByAssignedId(assignedId);
+    @GetMapping("/assigned/{userId}")
+    public ResponseEntity<List<Lead>> getLeadsByAssignedId(@PathVariable("userId") Long id) {
+        List<Lead> leads = leadService.getLeadsByAssignedId(id);
         if (leads.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

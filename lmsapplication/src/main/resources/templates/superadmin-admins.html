@@ -1,39 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>Admins</title>
     <th:block th:replace="~{header :: head}"></th:block>
     <!-- Add additional CSS files if necessary -->
-</head>
-<body>
+  </head>
+  <body>
     <div th:replace="~{header :: body}"></div>
-    
+
     <section class="all-content">
-        <h2>Admins</h2>
-        
-        <!-- Search bar to search admins by Name or ID -->
-        <div class="search-container">
-            <input type="text" id="searchAdmin" placeholder="Search by Name or ID">
-            <button onclick="searchAdmins()">Search</button>
-        </div>
-        
-        <!-- Table container for displaying the list of admins -->
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Admin Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="adminList">
-                </tbody>
-            </table>
-        </div>
+      <h2>Admins</h2>
+
+      <!-- Search bar to search admins by Name or ID -->
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchAdmin"
+          placeholder="Search by Name or ID"
+        />
+        <button onclick="searchAdmins()">Search</button>
+      </div>
+
+      <!-- Table container for displaying the list of admins -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Admin Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminList"></tbody>
+        </table>
+      </div>
     </section>
-        <div th:replace="~{footer :: body}"></div>
-</body>
+    <div th:replace="~{footer :: body}"></div>
+  </body>
 </html>

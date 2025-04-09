@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title>User Profile</title>
-<div th:replace="~{header :: head}"></div>
-</head>
-<body>
-	<div th:replace="~{header :: body}"></div>
-	<div class="container">
-		<header>
-			<h1>Profile</h1>
-		</header>
-		<div class="profile">
-			<img src="/images/fav-icon-img.jpeg" alt="profile-picture"
-				class="profile-pic">
-			<h2 class="name" id="name">John Doe</h2>
-			<h3>Contact Information</h3>
-			<p>
-				Email: <a href="#" id="email">johndoe@gmail.com</a>
-			</p>
-			<p>
-				Phone: <span id="phone">(91) 2456-535</span>
-			</p>
-		</div>
-	</div>
-	<div th:replace="~{footer :: body}"></div>
-</body>
+  <head>
+    <title>User Profile</title>
+    <div th:replace="~{header :: head}"></div>
+  </head>
+  <body>
+    <div th:replace="~{header :: body}"></div>
+    <div class="container">
+      <header>
+        <h1>Profile</h1>
+      </header>
+      <div class="profile">
+        <img
+          src="/images/fav-icon-img.jpeg"
+          alt="profile-picture"
+          class="profile-pic"
+        />
+        <h2 class="name" id="name">John Doe</h2>
+        <h3>Contact Information</h3>
+        <p>Email: <a href="#" id="email">johndoe@gmail.com</a></p>
+        <p>Phone: <span id="phone">(91) 2456-535</span></p>
+      </div>
+    </div>
+    <div th:replace="~{footer :: body}"></div>
+  </body>
 </html>

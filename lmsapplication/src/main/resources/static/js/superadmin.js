@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadUsers();
   } else if (currentPath.includes("comments")) {
     loadComments();
-  } else if (currentPath.includes("superadmin-asssigned-leads")) {
+  } else if (currentPath.includes("superadmin-assigned-leads")) {
     loadAssignedLeads();
   } else if (currentPath.includes("view-superadmin-lead")) {
     const leadId = currentPath.split("/").pop();
@@ -121,7 +121,6 @@ async function addLead() {
   lead.company = { companyId: user.company.companyId };
   lead.creationDate = new Date();
   lead.updationDate = new Date();
-  console.log(JSON.stringify(lead));
   await submitData("/leads", lead, "Lead added successfully!");
 }
 
@@ -440,8 +439,8 @@ function displayMyLeads(leads) {
 async function loadAssignedLeads() {
   try {
     const user = await getLoggedInUser();
-
-    const response = await fetch(`/leads/assigned/${user.id}`);
+    const userId = user.id;
+    const response = await fetch(`/leads/assigned/${userId}`);
     const data = await response.json();
     displayAssignedLeads(data);
   } catch (error) {

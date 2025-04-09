@@ -15,5 +15,5 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
 	List<Lead> findAllLeadsByOwnerUserId(Long id);
 
 	// find all assigned leads by assigned userId -> # superadmin/admin or user
-	List<Lead> findByAssignedUserId(Long assignedUserId);
+	List<Lead> findByAssignedUserId(Long id);
 }
