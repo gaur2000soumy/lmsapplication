@@ -154,7 +154,8 @@ header {
 
 .form-container label {
 	display: block;
-	text-align: center;
+	text-align: left;
+	margin-left: 15px;
 	font-weight: bold;
 	margin-top: 8px;
 }

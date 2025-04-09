@@ -25,6 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	} else if (currentPath.includes("view-superadmin-user")) {
 		const userId = currentPath.split("/").pop();
 		loadUserDetails(userId);
+	} else if (currentPath.includes("edit-superadmin-user")) {
+		const userId = currentPath.split("/").pop();
+		loadEditUserForm();
+		handleUserEditFormSubmit();
 	} else if (currentPath.includes("profile")) {
 		fetch("/me")
 			.then(response => response.json())
@@ -525,19 +529,36 @@ function viewUser(userId) {
 function editUser(userId) {
 	window.location.href = `/edit-superadmin-user/${userId}`; // Redirect to edit page with user ID
 }
-function handleUserEditSubmit() {
-    document.getElementById("editUserForm").addEventListener("submit", async function (e) {
+async function loadEditUserForm() {
+    const userId = window.location.pathname.split("/").pop();
+    try {
+        const response = await fetch(`/users/${userId}`);
+        const user = await response.json();
+
+        document.getElementById("userId").value = user.id;
+        document.getElementById("fullName").value = user.fullName;
+        document.getElementById("email").value = user.email;
+        document.getElementById("phoneNumber").value = user.phoneNumber;
+        document.getElementById("role").value = user.role;
+    } catch (error) {
+        console.error("Failed to load user data:", error);
+        alert("Failed to load user details.");
+    }
+}
+
+function handleUserEditFormSubmit() {
+    const form = document.getElementById("editUserForm");
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
         e.preventDefault();
-        const updatedUser = {
-            fullName: document.getElementById("fullName").value,        
-        };
-		console.log(JSON.stringify('----------------------------------------------'+updatedUser))
-        const response = await fetch(`/users/${updatedUser.id}`, {
+        const userId = document.getElementById("userId").value;
+        const fullName = document.getElementById("fullName").value;
+
+        const response = await fetch(`/users/${userId}`, {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(updatedUser)
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ fullName })
         });
 
         if (response.ok) {
