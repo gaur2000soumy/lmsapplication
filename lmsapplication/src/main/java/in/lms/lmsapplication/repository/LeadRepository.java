@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LeadRepository extends JpaRepository<Lead, Long> {
 	List<Lead> findByFullNameContainingIgnoreCaseOrLeadId(String name, Long id);
-
+	 List<Lead> findByAssignedUserId(Long assignedUserId);
 }
 
