@@ -30,7 +30,7 @@ public class Help {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnoreProperties({"password", "role", "phoneNumber"})
+    @JsonIgnoreProperties({ "password", "role", "phoneNumber" })
     private LoginUser user;
 
     public Help() {
@@ -40,31 +40,66 @@ public class Help {
 
     // Getters & Setters
 
-    public Long getHelpId() { return helpId; }
-    public void setHelpId(Long helpId) { this.helpId = helpId; }
+    public Long getHelpId() {
+        return helpId;
+    }
 
-    public String getSubject() { return subject; }
-    public void setSubject(String subject) { this.subject = subject; }
+    public void setHelpId(Long helpId) {
+        this.helpId = helpId;
+    }
 
-    public String getMessage() { return message; }
-    public void setMessage(String message) { this.message = message; }
+    public String getSubject() {
+        return subject;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
-    public Date getCreationDate() { return creationDate; }
-    public void setCreationDate(Date creationDate) { this.creationDate = creationDate; }
+    public String getMessage() {
+        return message;
+    }
 
-    public Date getResponseDate() { return responseDate; }
-    public void setResponseDate(Date responseDate) { this.responseDate = responseDate; }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-    public LoginUser getUser() { return user; }
-    public void setUser(LoginUser user) { this.user = user; }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getResponseDate() {
+        return responseDate;
+    }
+
+    public void setResponseDate(Date responseDate) {
+        this.responseDate = responseDate;
+    }
+
+    public LoginUser getUser() {
+        return user;
+    }
+
+    public void setUser(LoginUser user) {
+        this.user = user;
+    }
 
     @Override
     public String toString() {
         return "Help [helpId=" + helpId + ", subject=" + subject + ", message=" + message +
                 ", status=" + status + ", creationDate=" + creationDate +
-               ", responseDate=" + responseDate + ", user=" + user + "]";
+                ", responseDate=" + responseDate + ", user=" + user + "]";
     }
 }

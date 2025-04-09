@@ -28,7 +28,7 @@ public class LeadController {
 
     @PostMapping
     public ResponseEntity<Lead> createLead(@RequestBody Lead lead) {
-    	Lead savedLead = leadService.addLead(lead);
+        Lead savedLead = leadService.addLead(lead);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedLead);
     }
 
@@ -42,7 +42,12 @@ public class LeadController {
         Optional<Lead> lead = leadService.getLeadById(id);
         return lead.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-    
+
+    @GetMapping("/own-leads/{userId}")
+    public List<Lead> getAllMyLeads(@PathVariable("userId") Long id) {
+        return leadService.getAllMyLeads(id);
+    }
+
     @GetMapping("/assigned/{assignedId}")
     public ResponseEntity<List<Lead>> getLeadsByAssignedId(@PathVariable Long assignedId) {
         List<Lead> leads = leadService.getLeadsByAssignedId(assignedId);
@@ -51,12 +56,12 @@ public class LeadController {
         }
         return ResponseEntity.ok(leads);
     }
-  
+
     @GetMapping("/search")
     public List<Lead> searchLeads(@RequestParam String query) {
         return leadService.searchLeads(query);
     }
-    
+
     @PutMapping("/{id}")
     public ResponseEntity<Lead> updateLead(@PathVariable Long id, @RequestBody Lead lead) {
         try {

@@ -1,281 +1,285 @@
 body {
-	font-family: Arial, sans-serif;
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
-	overflow-x: hidden;
-	width: 100%;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 header {
-	padding: 20px;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	height: 20px;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 20px;
 }
 
 .card {
-	border: 2px solid #ccc;
-	padding: 1rem;
-	border-radius: 8px;
-	background-color: #f9f9f9;
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+  border: 2px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .logo img {
-	width: 100px;
-	display: flex;
-	justify-content: flex-start;
-	margin-left: 20px;
-	object-fit: contain;
+  width: 100px;
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 20px;
+  object-fit: contain;
 }
 
 .logo div {
-	height: 50px;
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	overflow: hidden;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
 }
 
 .logo h1 {
-	font-size: 35px;
-	margin-left: 20px;
+  font-size: 35px;
+  margin-left: 20px;
 }
 
 .navbar {
-	padding: 15px;
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	gap: 8px;
-	flex-wrap: wrap;
+  padding: 15px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.navbar a, .dropdown span {
-	color: #333;
-	text-decoration: none;
-	padding: 8px 10px;
-	font-size: 14px;
+.navbar a,
+.dropdown span {
+  color: #333;
+  text-decoration: none;
+  padding: 8px 10px;
+  font-size: 14px;
 }
 
 .navbar a:last-child {
-	margin-right: 20px; /* 10px gap from the right for Logout button */
+  margin-right: 20px; /* 10px gap from the right for Logout button */
 }
 
 .dropdown {
-	position: relative;
-	display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .dropdown-content {
-	display: none;
-	position: absolute;
-	background: white;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	min-width: 150px;
-	z-index: 100;
+  display: none;
+  position: absolute;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  z-index: 100;
 }
 
 .dropdown:hover .dropdown-content {
-	display: block;
+  display: block;
 }
 
 .dropdown-content a {
-	color: black;
-	padding: 10px;
-	display: block;
-	text-decoration: none;
+  color: black;
+  padding: 10px;
+  display: block;
+  text-decoration: none;
 }
 
 .main-content {
-	background: #DEEBFF;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 50px;
-	flex: 1;
-	padding: 20px;
+  background: #deebff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  flex: 1;
+  padding: 20px;
 }
 
 .left-content {
-	flex: 1;
-	max-width: 600px;
-	text-align: left;
-	padding: 20px;
+  flex: 1;
+  max-width: 600px;
+  text-align: left;
+  padding: 20px;
 }
 
 .left-content h1 {
-	font-size: 2em;
-	margin-bottom: 10px;
+  font-size: 2em;
+  margin-bottom: 10px;
 }
 
 .left-content p {
-	font-size: 1em;
-	line-height: 1.5;
+  font-size: 1em;
+  line-height: 1.5;
 }
 
 .left-content img {
-	margin-top: 10px;
-	width: 100%;
-	border-radius: 5px;
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 5px;
 }
 
 .right-content {
-	background: #fff;
-	padding: 20px 50px 20px 20px;
-	border-radius: 5px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	width: 350px;
-	text-align: left;
+  background: #fff;
+  padding: 20px 50px 20px 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  text-align: left;
 }
 
 .right-content h2 {
-	text-align: center;
+  text-align: center;
 }
 
 .form-container {
-	background: white;
-	padding: 20px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	border-radius: 5px;
-	text-align: center;
-	width: 25%;
-	min-height: 300px;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  text-align: center;
+  width: 25%;
+  min-height: 300px;
 }
 
 .form-container h3 {
-	text-align: center;
-	margin-bottom: 15px;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 .form-container label {
-	display: block;
-	text-align: left;
-	margin-left: 15px;
-	font-weight: bold;
-	margin-top: 8px;
+  display: block;
+  text-align: left;
+  margin-left: 15px;
+  font-weight: bold;
+  margin-top: 8px;
 }
 
-.form-container select, .form-container input {
-	width: calc(100% - 20px);
-	padding: 8px;
-	margin: 5px auto;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	box-sizing: border-box;
+.form-container select,
+.form-container input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  margin: 5px auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .form-container select {
-	width: 90%;
+  width: 90%;
 }
 
 .form-container select:focus {
-	border-color: #007bff;
-	outline: none;
-	box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
 }
 
 .form-container input {
-	width: 90%;
-	padding: 8px;
-	margin: 5px 0;
-	border: 1px solid #ccc;
-	border-radius: 4px;
+  width: 90%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .form-container button {
-	width: 95%;
-	padding: 10px;
-	background: #007bff;
-	color: white;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	margin-top: 10px;
+  width: 95%;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
 .form-container button:hover {
-	background: #0056b3;
+  background: #0056b3;
 }
 
-form input, form button {
-	width: 100%;
-	padding: 10px;
-	margin-top: 10px;
-	box-sizing: border-box;
+form input,
+form button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
 }
 
 form button {
-	background: #0073e6;
-	color: #fff;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	font-size: 16px;
+  background: #0073e6;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 form button:hover {
-	background: #005bb5;
+  background: #005bb5;
 }
 
 footer {
-	background: #333;
-	color: #fff;
-	padding: 10px;
-	width: 100%;
-	text-align: center;
+  background: #333;
+  color: #fff;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
 }
 
 .all-content {
-	padding: 50px;
-	border-radius: 5px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	flex: 1;
+  padding: 50px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  flex: 1;
 }
 
 .search-container {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	width: 100%;
-	margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .search-container input[type="text"] {
-	width: 100%;
-	padding: 10px;
-	font-size: 16px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
 .table-container {
-	width: 100%;
-	overflow-x: auto;
-	margin-top: 10px;
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 10px;
 }
 
 .table-container table {
-	width: 100%;
-	border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.table-container th, .table-container td {
-	padding: 10px;
-	border: 1px solid #ddd;
-	text-align: center;
+.table-container th,
+.table-container td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
 }
 
 .table-container th {
-	background-color: #007bff;
-	color: white;
+  background-color: #007bff;
+  color: white;
 }
 
 .profile {
-	text-align: center;
+  text-align: center;
 }

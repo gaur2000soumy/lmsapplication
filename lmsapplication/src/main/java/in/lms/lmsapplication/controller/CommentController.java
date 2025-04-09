@@ -19,7 +19,7 @@ public class CommentController {
     public Comment createComment(@RequestBody Comment comment) {
         return commentService.addComment(comment);
     }
-    
+
     @GetMapping
     public List<Comment> getAllComments() {
         return commentService.getAllComments();

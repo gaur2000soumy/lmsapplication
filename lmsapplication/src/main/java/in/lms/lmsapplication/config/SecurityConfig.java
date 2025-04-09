@@ -49,7 +49,7 @@ public class SecurityConfig {
         return (request, response, authentication) -> {
             String role = authentication.getAuthorities().iterator().next().getAuthority();
             request.getSession().setAttribute("role", role);
-            System.out.println("------------------------>>>>>>>>>>>>>"+role);
+            System.out.println("------------------------>>>>>>>>>>>>>" + role);
             if ("ROLE_SUPERADMIN".equals(role)) {
                 response.sendRedirect("/superadmin-dashboard");
             } else if ("ROLE_ADMIN".equals(role)) {

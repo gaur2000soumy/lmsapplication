@@ -1,37 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<th:block th:replace="~{header :: head}"></th:block>
-<title>My Leads</title>
-</head>
-<body>
-<th:block th:replace="~{header :: body}"></th:block>
+  <head>
+    <th:block th:replace="~{header :: head}"></th:block>
+    <title>My Leads</title>
+  </head>
+  <body>
+    <th:block th:replace="~{header :: body}"></th:block>
 
-	<section class="all-content">
-		<h2>My Leads</h2>
-		<div class="search-container">
-			<input type="text" id="searchCompany"
-				placeholder="Search by Name or ID">
-			<button onclick="searchCompanies()">Search</button>
-		</div>
-		<!-- Table container -->
-		<div class="table-container">
-			<table>
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Lead Name</th>
-						<th>Comment</th>
-						<th>Contact Person</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody id="companyList">
-				</tbody>
-			</table>
-		</div>
-	</section>
+    <section class="all-content">
+      <h2>My Leads</h2>
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchCompany"
+          placeholder="Search by Name or ID"
+        />
+        <button onclick="searchCompanies()">Search</button>
+      </div>
+      <!-- Table container -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Lead Name</th>
+              <th>Comment</th>
+              <th>Contact Person</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="companyList"></tbody>
+        </table>
+      </div>
+    </section>
 
-	<th:block th:replace="~{footer :: body}"></th:block>
-</body>
+    <th:block th:replace="~{footer :: body}"></th:block>
+  </body>
 </html>

@@ -34,11 +34,11 @@ public class AuthController {
 	public ResponseEntity<String> signup(@RequestBody Map<String, Object> signupRequest) {
 
 		String fullName = (String) signupRequest.get("userFullName");
-	    String email = (String) signupRequest.get("userEmail");
-	    String phone = (String) signupRequest.get("userPhone");
-	    Long companyId = Long.valueOf(String.valueOf(signupRequest.get("userCompany"))); // Ensure Long
-	    String role = (String) signupRequest.get("role");
-	    String password = (String) signupRequest.get("userPassword");
+		String email = (String) signupRequest.get("userEmail");
+		String phone = (String) signupRequest.get("userPhone");
+		Long companyId = Long.valueOf(String.valueOf(signupRequest.get("userCompany"))); // Ensure Long
+		String role = (String) signupRequest.get("role");
+		String password = (String) signupRequest.get("userPassword");
 
 		try {
 			// Register the user
@@ -54,10 +54,10 @@ public class AuthController {
 	@GetMapping("/me")
 	public ResponseEntity<LoginUser> getLoggedInUser() {
 		LoginUser user = loginUserService.getLoggedInUser();
-		
+
 		LoginUser proxy = new LoginUser();
 		Company proxyCompany = new Company();
-		proxyCompany.setCompanyName(user.getCompany().getCompanyName());               
+		proxyCompany.setCompanyName(user.getCompany().getCompanyName());
 		proxyCompany.setCompanyId(user.getCompany().getCompanyId());
 		proxy.setCompany(proxyCompany);
 		proxy.setId(user.getId());
@@ -65,11 +65,10 @@ public class AuthController {
 		proxy.setEmail(user.getEmail());
 		proxy.setRole(user.getRole());
 		proxy.setFullName(user.getFullName());
-		
+
 		if (Objects.nonNull(user)) {
 			return ResponseEntity.ok(proxy);
 		}
-		
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
@@ -78,12 +77,13 @@ public class AuthController {
 		List<UserDTO> admins = loginUserService.getAdmins();
 		return ResponseEntity.ok(admins);
 	}
-	
+
 	@GetMapping("/users")
 	public ResponseEntity<List<UserDTO>> getUsers() {
 		List<UserDTO> admins = loginUserService.getUsers();
 		return ResponseEntity.ok(admins);
 	}
+
 	@GetMapping("/users/{id}")
 	public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
 		LoginUser user = loginUserService.getUserById(id);
@@ -94,6 +94,7 @@ public class AuthController {
 			return ResponseEntity.notFound().build();
 		}
 	}
+
 	@DeleteMapping("/admins/{id}")
 	public ResponseEntity<String> deleteAdmin(@PathVariable Long id) {
 		try {
@@ -139,5 +140,4 @@ public class AuthController {
 					.body("Error updating user: " + e.getMessage());
 		}
 	}
-	
 }
