@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((response) => response.json())
       .then((data) => {
         document.getElementById("name").textContent = data.fullName;
-        document.getElementById("role").textContent = data.role;
         document.getElementById("email").textContent = data.email;
         document.getElementById("phone").textContent = data.phoneNumber;
       })

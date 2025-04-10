@@ -283,3 +283,10 @@ footer {
 .profile {
   text-align: center;
 }
+
+.profile-pic {
+  width: 300px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 50%;
+}
