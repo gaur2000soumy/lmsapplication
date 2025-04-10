@@ -16,8 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
     loadAdmins();
   } else if (currentPath.includes("users")) {
     loadUsers();
-  } else if (currentPath.includes("comments")) {
+  } else if (currentPath.includes("superadmin-comments")) {
     loadComments();
+  } else if (currentPath.includes("superadmin-own-comments")) {
+    loadOwnComments();
   } else if (currentPath.includes("superadmin-assigned-leads")) {
     loadAssignedLeads();
   } else if (currentPath.includes("view-superadmin-lead")) {
@@ -68,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
   }
-  if (currentPath.includes("comments")) {
+  if (currentPath.includes("superadmin-comments")) {
     document
       .getElementById("searchComments")
       .addEventListener("keyup", function (event) {
@@ -829,6 +831,47 @@ function deleteComment(id) {
   }
 }
 
+/*------------------- Own Comments ------------------*/
+
+async function loadOwnComments() {
+  const user = await getLoggedInUser();
+  const userId = user.id;
+  fetch(`/comments/superadmin-own-comments/${userId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const userList = document.getElementById("myCommentList");
+      userList.innerHTML = ""; // Clear any existing content
+
+      data.forEach((comment) => {
+        const row = document.createElement("tr");
+        const formattedDate = new Date(comment.creationDate).toLocaleString(
+          "en-GB",
+          {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }
+        );
+        row.innerHTML = `
+                    <td>${comment.commentId}</td>
+                    <td style="text-align: left;">${comment.user.email}</td>
+                    <td>${comment.lead.leadId}</td>
+                    <td>${comment.status}</td>
+                    <td>${formattedDate}</td>
+                    <td>${comment.description}</td>
+                    <td>
+                        <button onclick="editComment(${comment.commentId})">Edit</button>
+                        <button onclick="deleteComment(${comment.commentId})">Delete</button>
+                    </td>
+                `;
+        myCommentList.appendChild(row);
+      });
+    })
+    .catch((error) => console.error("Error loading comments:", error));
+}
 /*------------------- Edit Comment ------------------*/
 /*------------------- View Comment ------------------*/
 /*------------------- All Companies -----------------*/

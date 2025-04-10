@@ -35,6 +35,11 @@ public class CommentController {
         return commentService.getCommentsByUserId(id);
     }
 
+    @GetMapping("superadmin-own-comments/{userId}")
+    public List<Comment> getCommentsById(@PathVariable("userId") Long id) {
+        return commentService.getCommentsByUserId(id);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         commentService.deleteComment(id);
