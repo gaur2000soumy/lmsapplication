@@ -9,31 +9,32 @@
 
     <section class="all-content">
       <h2>My Leads</h2>
-      <div class="search-container">
+      <!-- <div class="search-container">
         <input
           type="text"
           id="searchCompany"
           placeholder="Search by Name or ID"
         />
         <button onclick="searchCompanies()">Search</button>
-      </div>
+      </div> -->
       <!-- Table container -->
       <div class="table-container">
         <table>
           <thead>
             <tr>
               <th>ID</th>
-              <th>Lead Name</th>
-              <th>Comment</th>
-              <th>Contact Person</th>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Company</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="companyList"></tbody>
+          <tbody id="myLeadsList"></tbody>
         </table>
       </div>
     </section>
-
     <th:block th:replace="~{footer :: body}"></th:block>
   </body>
 </html>

@@ -4,8 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initEventListeners();
 
   let currentPath = window.location.pathname;
-  if (currentPath.includes("leads")) {
-    loadLeads(); // Load leads only on the leads page
+  if (currentPath.includes("admin-leads")) {
+    loadLeads();
+  } else if (currentPath.includes("admin-owned-leads")) {
+    loadOwnLeads();
   } else if (currentPath.includes("users")) {
     loadUsers();
   }
@@ -145,7 +147,7 @@ async function loadLeads() {
 }
 
 function displayLeads(leads) {
-  document.getElementById("leadList").innerHTML = leads
+  document.getElementById("leadsList").innerHTML = leads
     .map(
       (lead) => `
         <tr>
@@ -154,6 +156,7 @@ function displayLeads(leads) {
             <td>${lead.email}</td>
             <td>${lead.phoneNo}</td>
             <td>${lead.company.companyName}</td>
+            <td>${lead.status}</td>
             <td>
                 <a href="/view-superadmin-lead/${lead.leadId}">View</a> |
                 <a href="/edit-superadmin-lead/${lead.leadId}">Edit</a> |
@@ -174,6 +177,40 @@ async function deleteLead(leadId) {
 }
 
 /*------------------- Owned Leads -------------------*/
+async function loadOwnLeads() {
+  try {
+    const user = await getLoggedInUser();
+    const userId = user.id;
+    const response = await fetch(`/leads/own-leads/${userId}`);
+    const data = await response.json();
+    displayMyLeads(data);
+  } catch (error) {
+    console.error("Error loading leads:", error);
+  }
+}
+
+function displayMyLeads(leads) {
+  document.getElementById("myLeadsList").innerHTML = leads
+    .map(
+      (lead) => `
+        <tr>
+            <td>${lead.leadId}</td>
+            <td>${lead.fullName}</td>
+            <td>${lead.email}</td>
+            <td>${lead.phoneNo}</td>
+            <td>${lead.company.companyName}</td>
+            <td>${lead.status}</td>
+            <td>
+                <a href="/view-superadmin-lead/${lead.leadId}">View</a> |
+                <a href="/edit-superadmin-lead/${lead.leadId}">Edit</a> |
+                <a href="#" data-id="${lead.leadId}" onclick="deleteLead(this)">Delete</a>
+            </td>
+        </tr>
+    `
+    )
+    .join("");
+}
+
 /*------------------ Assigned Leads -----------------*/
 /*-------------------- View Lead --------------------*/
 /*-------------------- Edit Lead --------------------*/
