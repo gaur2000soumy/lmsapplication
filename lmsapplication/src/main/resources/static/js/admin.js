@@ -34,7 +34,6 @@ async function addLead() {
   lead.company = { companyId: user.company.companyId };
   lead.creationDate = new Date();
   lead.updationDate = new Date();
-  console.log(JSON.stringify(lead));
   await submitData("/leads", lead, "Lead added successfully!");
 }
 function createUser() {

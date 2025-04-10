@@ -73,7 +73,6 @@ public class Lead {
         this.updationDate = new Date();
     }
 
-    // Getters and Setters
     public Long getLeadId() {
         return leadId;
     }

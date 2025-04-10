@@ -38,8 +38,6 @@ public class Help {
         this.status = "Pending";
     }
 
-    // Getters & Setters
-
     public Long getHelpId() {
         return helpId;
     }

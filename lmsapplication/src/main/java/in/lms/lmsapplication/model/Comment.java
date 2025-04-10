@@ -60,7 +60,6 @@ public class Comment {
         this.updationDate = new Date();
     }
 
-    // Getters and Setters
     public Long getCommentId() {
         return commentId;
     }

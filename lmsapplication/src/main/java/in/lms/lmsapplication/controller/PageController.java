@@ -125,18 +125,18 @@ public class PageController {
 
     @GetMapping("/view-superadmin-lead/{leadId}")
     public String viewSuperadminLead(@PathVariable("leadId") Long leadId) {
-        return "view-superadmin-lead"; // This is the name of your Thymeleaf view
+        return "view-superadmin-lead";
     }
 
     @GetMapping("/view-superadmin-user/{userId}")
     public String viewSuperadminUser(@PathVariable("userId") Long userId, Model model) {
         model.addAttribute("userId", userId);
-        return "view-superadmin-user"; // This is the name of your Thymeleaf view
+        return "view-superadmin-user";
     }
 
     @GetMapping("/edit-superadmin-user/{userId}")
     public String editSuperadminUser(@PathVariable("userId") Long userId) {
-        return "edit-superadmin-user"; // This is the name of your Thymeleaf view
+        return "edit-superadmin-user";
     }
 
     @GetMapping("/admin-lead-view")

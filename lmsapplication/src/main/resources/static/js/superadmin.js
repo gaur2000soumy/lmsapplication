@@ -5,13 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentPath = window.location.pathname;
   if (currentPath.includes("dashboard")) {
-    fetchCompanies(); // Load companies only on the dashboard
+    fetchCompanies();
   } else if (currentPath.includes("superadmin-leads")) {
-    loadLeads(); // Load leads only on the leads page
+    loadLeads();
   } else if (currentPath.includes("superadmin-owned-leads")) {
-    loadOwnLeads(); // Load leads only on the leads page
+    loadOwnLeads();
   } else if (currentPath.includes("companies")) {
-    fetchAndDisplayCompanies(); // Load companies only on the companies page
+    fetchAndDisplayCompanies();
   } else if (currentPath.includes("admins")) {
     loadAdmins();
   } else if (currentPath.includes("users")) {
