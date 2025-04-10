@@ -11,7 +11,7 @@ import in.lms.lmsapplication.repository.LeadRepository;
 
 @Service
 public class LeadService {
-    
+
     @Autowired
     private LeadRepository leadRepository;
 
@@ -43,13 +43,21 @@ public class LeadService {
     public void deleteLead(Long id) {
         leadRepository.deleteById(id);
     }
-    
+
     public List<Lead> searchLeads(String query) {
-		try {
-			Long id = Long.parseLong(query);
-			return leadRepository.findByFullNameContainingIgnoreCaseOrLeadId(query, id);
-		} catch (NumberFormatException e) {
-			return leadRepository.findByFullNameContainingIgnoreCaseOrLeadId(query, null);
-		}
+        try {
+            Long id = Long.parseLong(query);
+            return leadRepository.findByFullNameContainingIgnoreCaseOrLeadId(query, id);
+        } catch (NumberFormatException e) {
+            return leadRepository.findByFullNameContainingIgnoreCaseOrLeadId(query, null);
+        }
+    }
+
+    public List<Lead> getAllMyLeads(Long id) {
+        return leadRepository.findAllLeadsByOwnerUserId(id);
+    }
+
+    public List<Lead> getLeadsByAssignedId(Long id) {
+        return leadRepository.findByAssignedUserId(id);
     }
 }

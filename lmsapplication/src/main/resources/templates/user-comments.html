@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title>LMS Application - Dashboard</title>
-<th:block th:replace="~{header :: head}"></th:block>
-</head>
-<body>
-	<div th:replace="~{header :: body}"></div>
-	<section class="all-content">
-		<h2>Companies</h2>
-		<div class="search-container">
-			<input type="text" id="searchCompany"
-				placeholder="Search by Name or ID">
-			<button onclick="searchCompanies()">Search</button>
-		</div>
-		<!-- Table container -->
-		<div class="table-container">
-			<table>
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Company Name</th>
-						<th>Address</th>
-						<th>Contact Person</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody id="companyList">
-				</tbody>
-			</table>
-		</div>
-	</section>
-	<div th:replace="~{footer :: body}"></div>
-</body>
+  <head>
+    <title>LMS Application - Dashboard</title>
+    <th:block th:replace="~{header :: head}"></th:block>
+  </head>
+  <body>
+    <div th:replace="~{header :: body}"></div>
+    <section class="all-content">
+      <h2>Companies</h2>
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchCompany"
+          placeholder="Search by Name or ID"
+        />
+        <button onclick="searchCompanies()">Search</button>
+      </div>
+      <!-- Table container -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Company Name</th>
+              <th>Address</th>
+              <th>Contact Person</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="companyList"></tbody>
+        </table>
+      </div>
+    </section>
+    <div th:replace="~{footer :: body}"></div>
+  </body>
 </html>

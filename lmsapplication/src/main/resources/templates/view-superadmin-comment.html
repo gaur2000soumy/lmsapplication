@@ -1,38 +1,42 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <th:block th:replace="fragments/header :: head"></th:block>
-</head>
-<body>
+  </head>
+  <body>
     <th:block th:replace="fragments/header :: body"></th:block>
 
     <section class="all-content">
-        <h2>Comments</h2>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Comment</th>
-                        <th>Author</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="comment : ${comments}">
-                        <td th:text="${comment.id}"></td>
-                        <td th:text="${comment.text}"></td>
-                        <td th:text="${comment.author}"></td>
-                        <td>
-                            <a th:href="@{/edit-comment/{id}(id=${comment.id})}">Edit</a> |
-                            <a th:href="@{/delete-comment/{id}(id=${comment.id})}" onclick="return confirm('Are you sure?')">Delete</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+      <h2>Comments</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Comment</th>
+              <th>Author</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="comment : ${comments}">
+              <td th:text="${comment.id}"></td>
+              <td th:text="${comment.text}"></td>
+              <td th:text="${comment.author}"></td>
+              <td>
+                <a th:href="@{/edit-comment/{id}(id=${comment.id})}">Edit</a> |
+                <a
+                  th:href="@{/delete-comment/{id}(id=${comment.id})}"
+                  onclick="return confirm('Are you sure?')"
+                  >Delete</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <th:block th:replace="fragments/footer :: footer"></th:block>
-</body>
+  </body>
 </html>

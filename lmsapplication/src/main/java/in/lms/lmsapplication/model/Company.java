@@ -94,5 +94,4 @@ public class Company {
 				+ ", companyContactPersonEmail=" + companyContactPersonEmail + ", companyContactPersonPhone="
 				+ companyContactPersonPhone + "]";
 	}
-
 }

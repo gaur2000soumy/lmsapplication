@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<th:block th:replace="~{header :: head}"></th:block>
-<title>My Comments</title>
-</head>
-<body>
-	<th:block th:replace="~{header :: body}"></th:block>
-	<section class="all-content">
-		<h2>My Comments</h2>
-		<div class="search-container">
-			<input type="text" id="searchMyComments"
-				placeholder="Search by ID, Username, Lead ID or Status">
-			<p style="display: none;" id="searchResultMessage"></p>
-		</div>
-		<!-- Table container -->
-		<div class="table-container">
-			<table>
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Posted By</th>
-						<th>Lead ID</th>
-						<th>Status</th>
-						<th>Creation Date</th>
-						<th>Description</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody id="myCommentList">
-				</tbody>
-			</table>
-		</div>
-	</section>
+  <head>
+    <th:block th:replace="~{header :: head}"></th:block>
+    <title>My Comments</title>
+  </head>
+  <body>
+    <th:block th:replace="~{header :: body}"></th:block>
+    <section class="all-content">
+      <h2>My Comments</h2>
+      <!-- <div class="search-container">
+        <input
+          type="text"
+          id="searchMyComments"
+          placeholder="Search by ID, Username, Lead ID or Status"
+        />
+        <p style="display: none" id="searchResultMessage"></p>
+      </div> -->
+      <!-- Table container -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Posted By</th>
+              <th>Lead ID</th>
+              <th>Status</th>
+              <th>Creation Date</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="myCommentList"></tbody>
+        </table>
+      </div>
+    </section>
 
-	<th:block th:replace="~{footer :: body}"></th:block>
-</body>
+    <th:block th:replace="~{footer :: body}"></th:block>
+  </body>
 </html>
