@@ -22,22 +22,23 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "lead_id", nullable = false)
-    @JsonIgnoreProperties({"fullName", "email","phone", "altPhone","address","status","updationDate","creationDate","company","assignedUser","ownerUser","note"})
+    @JsonIgnoreProperties({ "fullName", "email", "phone", "altPhone", "address", "status", "updationDate",
+            "creationDate", "company", "assignedUser", "ownerUser", "note" })
     private Lead lead;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnoreProperties({"phoneNumber", "fullName","role", "password"})
+    @JsonIgnoreProperties({ "phoneNumber", "fullName", "role", "password" })
     private LoginUser user;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
-    @JsonIgnoreProperties({"companyAddress", "companyCinNumber","companyContactPersonName", "companyContactPersonEmail","companyContactPersonPhone"})
+    @JsonIgnoreProperties({ "companyAddress", "companyCinNumber", "companyContactPersonName",
+            "companyContactPersonEmail", "companyContactPersonPhone" })
     private Company company;
-    
-    
+
     private String description;
-    
+
     private String status;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -46,7 +47,8 @@ public class Comment {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updationDate;
 
-    public Comment() {}
+    public Comment() {
+    }
 
     public Comment(Lead lead, LoginUser user, String description, String status, Company company) {
         this.lead = lead;
@@ -58,34 +60,67 @@ public class Comment {
         this.updationDate = new Date();
     }
 
-    // Getters and Setters
-    public Long getCommentId() { return commentId; }
-    public void setCommentId(Long commentId) { this.commentId = commentId; }
+    public Long getCommentId() {
+        return commentId;
+    }
 
-    public Lead getLead() { return lead; }
-    public void setLead(Lead lead) { this.lead = lead; }
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
 
-    public LoginUser getUser() { return user; }
-    public void setUser(LoginUser user) { this.user = user; }
+    public Lead getLead() {
+        return lead;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setLead(Lead lead) {
+        this.lead = lead;
+    }
 
-    public Date getCreationDate() { return creationDate; }
-    public void setCreationDate(Date creationDate) { this.creationDate = creationDate; }
+    public LoginUser getUser() {
+        return user;
+    }
 
-    public Date getUpdationDate() { return updationDate; }
-    public void setUpdationDate(Date updationDate) { this.updationDate = updationDate; }
-    
-    public Company getCompany() { return company; }
-    public void setCompany(Company company) { this.company = company; }
+    public void setUser(LoginUser user) {
+        this.user = user;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getUpdationDate() {
+        return updationDate;
+    }
+
+    public void setUpdationDate(Date updationDate) {
+        this.updationDate = updationDate;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

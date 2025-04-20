@@ -42,5 +42,4 @@ public class HelpDTO {
     public String toString() {
         return "HelpDTO [subject=" + subject + ", description=" + description + ", userId=" + userId + "]";
     }
-
 }

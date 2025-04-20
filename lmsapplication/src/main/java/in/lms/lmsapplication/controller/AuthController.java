@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,7 +24,6 @@ public class AuthController {
 
 	private final LoginService loginUserService;
 
-	@Autowired
 	public AuthController(LoginService loginUserService) {
 		this.loginUserService = loginUserService;
 	}
@@ -34,18 +32,16 @@ public class AuthController {
 	public ResponseEntity<String> signup(@RequestBody Map<String, Object> signupRequest) {
 
 		String fullName = (String) signupRequest.get("userFullName");
-	    String email = (String) signupRequest.get("userEmail");
-	    String phone = (String) signupRequest.get("userPhone");
-	    Long companyId = Long.valueOf(String.valueOf(signupRequest.get("userCompany"))); // Ensure Long
-	    String role = (String) signupRequest.get("role");
-	    String password = (String) signupRequest.get("userPassword");
+		String email = (String) signupRequest.get("userEmail");
+		String phone = (String) signupRequest.get("userPhone");
+		Long companyId = Long.valueOf(String.valueOf(signupRequest.get("userCompany")));
+		String role = (String) signupRequest.get("role");
+		String password = (String) signupRequest.get("userPassword");
 
 		try {
-			// Register the user
 			loginUserService.registerUser(fullName, email, phone, password, role, companyId);
 			return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
 		} catch (Exception e) {
-			// If an error occurs during registration
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error during signup: " + e.getMessage());
 		}
@@ -54,10 +50,13 @@ public class AuthController {
 	@GetMapping("/me")
 	public ResponseEntity<LoginUser> getLoggedInUser() {
 		LoginUser user = loginUserService.getLoggedInUser();
-		
+
+		if (Objects.isNull(user)) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
 		LoginUser proxy = new LoginUser();
 		Company proxyCompany = new Company();
-		proxyCompany.setCompanyName(user.getCompany().getCompanyName());               
+		proxyCompany.setCompanyName(user.getCompany().getCompanyName());
 		proxyCompany.setCompanyId(user.getCompany().getCompanyId());
 		proxy.setCompany(proxyCompany);
 		proxy.setId(user.getId());
@@ -65,12 +64,8 @@ public class AuthController {
 		proxy.setEmail(user.getEmail());
 		proxy.setRole(user.getRole());
 		proxy.setFullName(user.getFullName());
-		
-		if (Objects.nonNull(user)) {
-			return ResponseEntity.ok(proxy);
-		}
-		
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+		return ResponseEntity.ok(proxy);
 	}
 
 	@GetMapping("/admins")
@@ -78,12 +73,13 @@ public class AuthController {
 		List<UserDTO> admins = loginUserService.getAdmins();
 		return ResponseEntity.ok(admins);
 	}
-	
+
 	@GetMapping("/users")
 	public ResponseEntity<List<UserDTO>> getUsers() {
 		List<UserDTO> admins = loginUserService.getUsers();
 		return ResponseEntity.ok(admins);
 	}
+
 	@GetMapping("/users/{id}")
 	public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
 		LoginUser user = loginUserService.getUserById(id);
@@ -94,6 +90,7 @@ public class AuthController {
 			return ResponseEntity.notFound().build();
 		}
 	}
+
 	@DeleteMapping("/admins/{id}")
 	public ResponseEntity<String> deleteAdmin(@PathVariable Long id) {
 		try {
@@ -126,7 +123,6 @@ public class AuthController {
 
 	@PutMapping("/users/{userId}")
 	public ResponseEntity<String> editUser(@PathVariable Long userId, @RequestBody LoginUser updatedUser) {
-		System.out.println("-----------------------------------Updating user with ID:" + userId);
 		try {
 			boolean updated = loginUserService.updateUser(userId, updatedUser);
 			if (updated) {
@@ -139,5 +135,4 @@ public class AuthController {
 					.body("Error updating user: " + e.getMessage());
 		}
 	}
-	
 }

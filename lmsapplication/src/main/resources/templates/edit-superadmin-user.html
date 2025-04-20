@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <title>Edit User</title>
     <th:block th:replace="~{header :: head}"></th:block>
-</head>
-<body>
-<th:block th:replace="~{header :: body}"></th:block>
+  </head>
+  <body>
+    <th:block th:replace="~{header :: body}"></th:block>
 
-<section class="main-content">
-    <div class="form-container">
+    <section class="main-content">
+      <div class="form-container">
         <h3>Edit User Details</h3>
 
         <form id="editUserForm">
-            <input type="hidden" id="userId" name="userId">
+          <input type="hidden" id="userId" name="userId" />
 
-            <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" name="fullName" required>
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" name="fullName" required />
 
-            <label for="email">Email</label>
-            <input type="text" id="email" name="email" readonly>
+          <label for="email">Email</label>
+          <input type="text" id="email" name="email" readonly />
 
-            <label for="phoneNumber">Phone Number</label>
-            <input type="text" id="phoneNumber" name="phoneNumber" readonly>
+          <label for="phoneNumber">Phone Number</label>
+          <input type="text" id="phoneNumber" name="phoneNumber" readonly />
 
-            <label for="role">Role</label>
-            <input type="text" id="role" name="role" readonly>
+          <label for="role">Role</label>
+          <input type="text" id="role" name="role" readonly />
 
-            <button type="submit">Update User</button>
+          <button type="submit">Update User</button>
         </form>
-    </div>
-</section>
+      </div>
+    </section>
 
-<th:block th:replace="~{footer :: body}"></th:block>
-
-</body>
+    <th:block th:replace="~{footer :: body}"></th:block>
+  </body>
 </html>

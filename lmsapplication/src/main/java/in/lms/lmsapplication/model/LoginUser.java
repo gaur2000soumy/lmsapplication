@@ -16,7 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class LoginUser implements UserDetails{
+public class LoginUser implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -32,7 +32,8 @@ public class LoginUser implements UserDetails{
 	private String password;
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = false)
-    @JsonIgnoreProperties({"companyAddress", "companyCinNumber","companyContactPersonName", "companyContactPersonEmail","companyContactPersonPhone"})
+	@JsonIgnoreProperties({ "companyAddress", "companyCinNumber", "companyContactPersonName",
+			"companyContactPersonEmail", "companyContactPersonPhone" })
 	private Company company;
 
 	public LoginUser() {
@@ -120,7 +121,4 @@ public class LoginUser implements UserDetails{
 		return "LoginUser [id=" + id + ", email=" + email + ", phoneNumber=" + phoneNumber + ", fullName=" + fullName
 				+ ", role=" + role + ", password=" + password + ", company=" + company + "]";
 	}
-
-	
-
 }

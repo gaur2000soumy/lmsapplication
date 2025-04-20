@@ -1,73 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Help - LMS Application</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="/lmsfavicon.png">
-</head>
-<body>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" href="/lmsfavicon.png" />
+  </head>
+  <body>
+    <header>
+      <h1>Help & Support</h1>
+    </header>
 
-<header>
-    <h1>Help & Support</h1>
-</header>
+    <section>
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleAnswer(1)">
+          How do I reset my password?
+        </div>
+        <div class="faq-answer" id="answer1">
+          Go to the login page and click on "Forgot Password". Follow the
+          instructions to reset your password.
+        </div>
+      </div>
 
-<section>
-    <h2>Frequently Asked Questions</h2>
-    <div class="faq-item">
-        <div class="faq-question" onclick="toggleAnswer(1)">How do I reset my password?</div>
-        <div class="faq-answer" id="answer1">Go to the login page and click on "Forgot Password". Follow the instructions to reset your password.</div>
-    </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleAnswer(2)">
+          How do I add a new user?
+        </div>
+        <div class="faq-answer" id="answer2">
+          Navigate to the "Users" section in the dashboard and click "Add User".
+          Fill out the form and submit.
+        </div>
+      </div>
 
-    <div class="faq-item">
-        <div class="faq-question" onclick="toggleAnswer(2)">How do I add a new user?</div>
-        <div class="faq-answer" id="answer2">Navigate to the "Users" section in the dashboard and click "Add User". Fill out the form and submit.</div>
-    </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleAnswer(3)">
+          Who can access the admin panel?
+        </div>
+        <div class="faq-answer" id="answer3">
+          Only users with the "ADMIN" role can access the admin panel.
+        </div>
+      </div>
+    </section>
 
-    <div class="faq-item">
-        <div class="faq-question" onclick="toggleAnswer(3)">Who can access the admin panel?</div>
-        <div class="faq-answer" id="answer3">Only users with the "ADMIN" role can access the admin panel.</div>
-    </div>
-</section>
-
-<section class="contact-form">
-    <h2>Contact Support</h2>
-    <form id="supportForm">
-        <input type="text" id="name" placeholder="Your Name" required>
-        <input type="email" id="email" placeholder="Your Email" required>
-        <textarea id="message" placeholder="Describe your issue" required></textarea>
+    <section class="contact-form">
+      <h2>Contact Support</h2>
+      <form id="supportForm">
+        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="email" id="email" placeholder="Your Email" required />
+        <textarea
+          id="message"
+          placeholder="Describe your issue"
+          required
+        ></textarea>
         <button type="submit">Submit</button>
-    </form>
-    <p id="formResponse" style="color: green;"></p>
-</section>
+      </form>
+      <p id="formResponse" style="color: green"></p>
+    </section>
 
-<script>
-    function toggleAnswer(id) {
+    <script>
+      function toggleAnswer(id) {
         let answer = document.getElementById("answer" + id);
-        answer.style.display = answer.style.display === "block" ? "none" : "block";
-    }
+        answer.style.display =
+          answer.style.display === "block" ? "none" : "block";
+      }
 
-    document.getElementById("supportForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-        
-        let name = document.getElementById("name").value;
-        let email = document.getElementById("email").value;
-        let message = document.getElementById("message").value;
-        
-        if (!name || !email || !message) {
+      document
+        .getElementById("supportForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          let name = document.getElementById("name").value;
+          let email = document.getElementById("email").value;
+          let message = document.getElementById("message").value;
+
+          if (!name || !email || !message) {
             alert("Please fill in all fields.");
             return;
-        }
+          }
 
-        document.getElementById("formResponse").innerText = "Your request has been submitted. We'll contact you soon!";
-        
-        // Simulate form submission (this should be replaced with an API call)
-        setTimeout(() => {
+          document.getElementById("formResponse").innerText =
+            "Your request has been submitted. We'll contact you soon!";
+
+          // Simulate form submission (this should be replaced with an API call)
+          setTimeout(() => {
             document.getElementById("supportForm").reset();
-        }, 2000);
-    });
-</script>
-
-</body>
+          }, 2000);
+        });
+    </script>
+  </body>
 </html>

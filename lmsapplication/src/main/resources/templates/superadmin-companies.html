@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<title>Companies</title>
-<th:block th:replace="~{header :: head}"></th:block>
-</head>
-<body>
-	<div th:replace="~{header :: body}"></div>
-	<section class="all-content">
-		<h2>Companies</h2>
-		<div class="search-container">
-			<input type="text" id="searchCompany"
-				placeholder="Search by ID, Name, Email or Phone">
-				<p style="display: none;" id="searchResultMessage"></p>
-		</div>
-		<!-- Table container -->
-		<div class="table-container">
-			<table>
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Company Name</th>
-						<th>Contact Email</th>
-						<th>Contact Phone</th>
-						<th>Address</th>
-						<th>Contact Person</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody id="companyList">
-				</tbody>
-			</table>
-		</div>
-	</section>
-	<div th:replace="~{footer :: body}"></div>
-
-</body>
+  <head>
+    <title>Companies</title>
+    <th:block th:replace="~{header :: head}"></th:block>
+  </head>
+  <body>
+    <div th:replace="~{header :: body}"></div>
+    <section class="all-content">
+      <h2>Companies</h2>
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchCompany"
+          placeholder="Search by ID, Name, Email or Phone"
+        />
+        <p style="display: none" id="searchResultMessage"></p>
+      </div>
+      <!-- Table container -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Company Name</th>
+              <th>Contact Email</th>
+              <th>Contact Phone</th>
+              <th>Address</th>
+              <th>Contact Person</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="companyList"></tbody>
+        </table>
+      </div>
+    </section>
+    <div th:replace="~{footer :: body}"></div>
+  </body>
 </html>

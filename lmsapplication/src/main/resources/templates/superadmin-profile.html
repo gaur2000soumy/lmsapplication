@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <title>Profile</title>
     <div th:replace="~{header :: head}"></div>
-</head>
-<body>
+  </head>
+  <body>
     <div th:replace="~{header :: body}"></div>
     <div class="all-content">
-        <div class="profile">
-            <img src="/images/fav-icon-img.jpeg" alt="profile-picture" class="profile-pic">
-            <h2 class="name" id="name">John Doe</h2>
-            <p class="contact-info" id="role">Super-Admin</p>
-            <h3>Contact Information</h3>
-            <p>Email: <a href="#" id="email">johndoe@gmail.com</a></p>
-            <p>Phone: <span id="phone">(91) 2456-434</span></p>
-        </div>
+      <div class="profile">
+        <img src="/images/user.png" alt="profile-picture" class="profile-pic" />
+        <h2 class="name" id="name"></h2>
+        <h3>Contact Information</h3>
+        <p>Email: <a href="#" id="email"></a></p>
+        <p>Phone: <span id="phone"></span></p>
+      </div>
     </div>
     <div th:replace="~{footer :: body}"></div>
-</body>
+  </body>
 </html>

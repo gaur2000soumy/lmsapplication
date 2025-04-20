@@ -19,7 +19,7 @@ public class CommentController {
     public Comment createComment(@RequestBody Comment comment) {
         return commentService.addComment(comment);
     }
-    
+
     @GetMapping
     public List<Comment> getAllComments() {
         return commentService.getAllComments();
@@ -32,6 +32,11 @@ public class CommentController {
 
     @GetMapping("/{id}")
     public List<Comment> getCommentsByUserId(@PathVariable Long id) {
+        return commentService.getCommentsByUserId(id);
+    }
+
+    @GetMapping("superadmin-own-comments/{userId}")
+    public List<Comment> getCommentsById(@PathVariable("userId") Long id) {
         return commentService.getCommentsByUserId(id);
     }
 

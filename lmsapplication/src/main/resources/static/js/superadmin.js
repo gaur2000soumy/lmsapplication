@@ -1,241 +1,295 @@
 /*----------------- On Page Reload -----------------*/
 
 document.addEventListener("DOMContentLoaded", () => {
-	initEventListeners();
+  initEventListeners();
 
-	let currentPath = window.location.pathname;
-	if (currentPath.includes("dashboard")) {
-		fetchCompanies(); // Load companies only on the dashboard
-	} else if (currentPath.includes("superadmin-leads")) {
-		loadLeads(); // Load leads only on the leads page
-	} else if (currentPath.includes("companies")) {
-		fetchAndDisplayCompanies(); // Load companies only on the companies page
-	} else if (currentPath.includes("admins")) {
-		loadAdmins();
-	} else if (currentPath.includes("users")) {
-		loadUsers();
-	} else if (currentPath.includes("comments")) {
-		loadComments();
-	} 
-	else if (currentPath.includes("superadmin-asssigned-leads")) {
-		loadAssignedLeads();
-	}else if (currentPath.includes("view-superadmin-lead")) {
-		const leadId = currentPath.split("/").pop();
-		loadLeadDetails(leadId);
-	} else if (currentPath.includes("view-superadmin-user")) {
-		const userId = currentPath.split("/").pop();
-		loadUserDetails(userId);
-	} else if (currentPath.includes("edit-superadmin-user")) {
-		const userId = currentPath.split("/").pop();
-		loadEditUserForm();
-		handleUserEditFormSubmit();
-	} else if (currentPath.includes("profile")) {
-		fetch("/me")
-			.then(response => response.json())
-			.then(data => {
-				document.getElementById("name").textContent = data.fullName;
-				document.getElementById("role").textContent = data.role;
-				document.getElementById("email").textContent = data.email;
-				document.getElementById("phone").textContent = data.phoneNumber;
-			})
-			.catch(error => console.error("Error fetching user details:", error));
-	}
-	if (currentPath.includes("users")) {
-		document.getElementById("searchUser").addEventListener("keyup", function(event) {
-			if (event.key === "Enter") {
-				searchUsers();
-			}
-		});
-	}
-	if (currentPath.includes("superadmin-leads")) {
-		document.getElementById("searchLead").addEventListener("keyup", function(event) {
-			if (event.key === "Enter") {
-				searchLeads();
-			}
-		});
-	}
-	if (currentPath.includes("companies")) {
-		document.getElementById("searchCompany").addEventListener("keyup", function(event) {
-			if (event.key === "Enter") {
-				searchCompany();
-			}
-		});
-	}
-	if (currentPath.includes("comments")) {
-		document.getElementById("searchComments").addEventListener("keyup", function(event) {
-			if (event.key === "Enter") {
-				searchComments();
-			}
-		});
-	}
+  let currentPath = window.location.pathname;
+  if (currentPath.includes("dashboard")) {
+    fetchCompanies();
+  } else if (currentPath.includes("superadmin-leads")) {
+    loadLeads();
+  } else if (currentPath.includes("superadmin-owned-leads")) {
+    loadOwnLeads();
+  } else if (currentPath.includes("companies")) {
+    fetchAndDisplayCompanies();
+  } else if (currentPath.includes("admins")) {
+    loadAdmins();
+  } else if (currentPath.includes("users")) {
+    loadUsers();
+  } else if (currentPath.includes("superadmin-comments")) {
+    loadComments();
+  } else if (currentPath.includes("superadmin-own-comments")) {
+    loadOwnComments();
+  } else if (currentPath.includes("superadmin-assigned-leads")) {
+    loadAssignedLeads();
+  } else if (currentPath.includes("view-superadmin-lead")) {
+    const leadId = currentPath.split("/").pop();
+    loadLeadDetails(leadId);
+  } else if (currentPath.includes("view-superadmin-user")) {
+    const userId = currentPath.split("/").pop();
+    loadUserDetails(userId);
+  } else if (currentPath.includes("edit-superadmin-user")) {
+    const userId = currentPath.split("/").pop();
+    loadEditUserForm();
+    handleUserEditFormSubmit();
+  } else if (currentPath.includes("profile")) {
+    fetch("/me")
+      .then((response) => response.json())
+      .then((data) => {
+        document.getElementById("name").textContent = data.fullName;
+        document.getElementById("email").textContent = data.email;
+        document.getElementById("phone").textContent = data.phoneNumber;
+      })
+      .catch((error) => console.error("Error fetching user details:", error));
+  }
+  if (currentPath.includes("users")) {
+    document
+      .getElementById("searchUser")
+      .addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+          searchUsers();
+        }
+      });
+  }
+  if (currentPath.includes("superadmin-leads")) {
+    document
+      .getElementById("searchLead")
+      .addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+          searchLeads();
+        }
+      });
+  }
+  if (currentPath.includes("companies")) {
+    document
+      .getElementById("searchCompany")
+      .addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+          searchCompany();
+        }
+      });
+  }
+  if (currentPath.includes("superadmin-comments")) {
+    document
+      .getElementById("searchComments")
+      .addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+          searchComments();
+        }
+      });
+  }
 });
 
 function initEventListeners() {
-	document.getElementById("lmsLogo")?.addEventListener("click", () => {
-		window.location.href = "superadmin-dashboard";
-	});
+  document.getElementById("lmsLogo")?.addEventListener("click", () => {
+    window.location.href = "superadmin-dashboard";
+  });
 }
 
 /*-------------------- Dashboard --------------------*/
 
 async function fetchCompanies() {
-	try {
-		const response = await fetch("/companies");
-		const data = await response.json();
-		populateCompanyDropdowns(data);
-	} catch (error) {
-		console.error("Error fetching companies:", error);
-	}
+  try {
+    const response = await fetch("/companies");
+    const data = await response.json();
+    populateCompanyDropdowns(data);
+  } catch (error) {
+    console.error("Error fetching companies:", error);
+  }
 }
 function populateCompanyDropdowns(companies) {
-	const adminCompanySelect = document.getElementById("adminCompany");
-	const userCompanySelect = document.getElementById("userCompany");
+  const adminCompanySelect = document.getElementById("adminCompany");
+  const userCompanySelect = document.getElementById("userCompany");
 
-	companies.forEach(company => {
-		const option = new Option(company.companyName, company.companyId);
-		adminCompanySelect?.appendChild(option.cloneNode(true));
-		userCompanySelect?.appendChild(option);
-	});
+  companies.forEach((company) => {
+    const option = new Option(company.companyName, company.companyId);
+    adminCompanySelect?.appendChild(option.cloneNode(true));
+    userCompanySelect?.appendChild(option);
+  });
 }
 async function addLead() {
-	const user = await getLoggedInUser();
-	if (!user) return alert("User not authenticated");
+  const user = await getLoggedInUser();
+  if (!user) return alert("User not authenticated");
 
-	const fields = ["fullName", "email", "phoneNo", "address"];
-	const lead = getFormData(fields);
-	if (!lead) return;
-	if (!validateEmail(lead.email) || !validatePhone(lead.phoneNo)) return;
+  const fields = ["fullName", "email", "phoneNo", "address"];
+  const lead = getFormData(fields);
+  if (!lead) return;
+  if (!validateEmail(lead.email) || !validatePhone(lead.phoneNo)) return;
 
-	lead.status = "New";
-	lead.ownerUser = { id: user.id };
-	lead.assignedUser = { id: user.id };
-	lead.company = { companyId: user.company.companyId };
-	lead.creationDate = new Date();
-	lead.updationDate = new Date();
-	console.log(JSON.stringify(lead))
-	await submitData("/leads", lead, "Lead added successfully!");
+  lead.status = "New";
+  lead.ownerUser = { id: user.id };
+  lead.assignedUser = { id: user.id };
+  lead.company = { companyId: user.company.companyId };
+  lead.creationDate = new Date();
+  lead.updationDate = new Date();
+  await submitData("/leads", lead, "Lead added successfully!");
 }
-
 
 async function addCompany() {
-	const fields = ["companyName", "companyAddress", "companyCinNumber", "companyContactPersonName", "companyContactPersonPhone", "companyContactPersonEmail"];
-	const company = getFormData(fields);
+  const fields = [
+    "companyName",
+    "companyAddress",
+    "companyCinNumber",
+    "companyContactPersonName",
+    "companyContactPersonPhone",
+    "companyContactPersonEmail",
+  ];
+  const company = getFormData(fields);
 
-	if (!company) return;
-	if (!validateEmail(company.companyContactPersonEmail) || !validatePhone(company.companyContactPersonPhone)) return;
+  if (!company) return;
+  if (
+    !validateEmail(company.companyContactPersonEmail) ||
+    !validatePhone(company.companyContactPersonPhone)
+  )
+    return;
 
-	await submitData("/companies", company, "Company added successfully");
+  await submitData("/companies", company, "Company added successfully");
 }
 function addAdmin() {
-	return addUser("ADMIN");
+  return addUser("ADMIN");
 }
 function createUser() {
-	return addUser("USER");
+  return addUser("USER");
 }
 async function addUser(role) {
-	const fields = role === "ADMIN" ? ["adminFullName", "adminEmail", "adminPhone", "adminCompany", "adminPassword", "adminConfirmPassword"] :
-		["userFullName", "userEmail", "userPhone", "userCompany", "userPassword", "userConfirmPassword"];
-	const user = getFormData(fields);
-	if (!user) return;
-	if (!validateEmail(user.userEmail) || !validatePhone(user.userPhone) || user.userPassword !== user.userConfirmPassword) return alert("Passwords do not match");
+  const fields =
+    role === "ADMIN"
+      ? [
+          "adminFullName",
+          "adminEmail",
+          "adminPhone",
+          "adminCompany",
+          "adminPassword",
+          "adminConfirmPassword",
+        ]
+      : [
+          "userFullName",
+          "userEmail",
+          "userPhone",
+          "userCompany",
+          "userPassword",
+          "userConfirmPassword",
+        ];
+  const user = getFormData(fields);
+  if (!user) return;
+  if (
+    !validateEmail(user.userEmail) ||
+    !validatePhone(user.userPhone) ||
+    user.userPassword !== user.userConfirmPassword
+  )
+    return alert("Passwords do not match");
 
-	user.role = role;
-	await submitData("/signup", user, "User added successfully!");
+  user.role = role;
+  await submitData("/signup", user, "User added successfully!");
 }
 
 async function getLoggedInUser() {
-	try {
-		const response = await fetch("/me");
-		if (!response.ok) throw new Error("User not authenticated");
-		return await response.json();
-	} catch (error) {
-		console.error("Error fetching logged-in user:", error);
-		return null;
-	}
+  try {
+    const response = await fetch("/me");
+    if (!response.ok) throw new Error("User not authenticated");
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching logged-in user:", error);
+    return null;
+  }
 }
 
 function getFormData(fields) {
-	const data = {};
-	for (let field of fields) {
-		const value = document.getElementById(field)?.value.trim();
-		if (!value) {
-			alert("All fields are required");
-			return null;
-		}
-		data[field] = value;
-	}
-	return data;
+  const data = {};
+  for (let field of fields) {
+    const value = document.getElementById(field)?.value.trim();
+    if (!value) {
+      alert("All fields are required");
+      return null;
+    }
+    data[field] = value;
+  }
+  return data;
 }
 
 function validateEmail(email) {
-	return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) || (alert("Invalid email"), false);
+  return (
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) ||
+    (alert("Invalid email"), false)
+  );
 }
 
 function validatePhone(phone) {
-	return /^[0-9]{10}$/.test(phone) || (alert("Invalid phone number"), false);
+  return /^[0-9]{10}$/.test(phone) || (alert("Invalid phone number"), false);
 }
 
 async function submitData(url, data, successMessage) {
-	try {
-		const response = await fetch(url, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(data)
-		});
-		if (response.ok) {
-			alert(successMessage);
-			location.reload();
-		} else {
-			alert("Operation failed");
-		}
-	} catch (error) {
-		console.error("Error submitting data:", error);
-	}
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (response.ok) {
+      alert(successMessage);
+      location.reload();
+    } else {
+      alert("Operation failed");
+    }
+  } catch (error) {
+    console.error("Error submitting data:", error);
+  }
 }
 /*-------------------- All Leads --------------------*/
 
-
 async function searchLeads() {
-	const searchQuery = document.getElementById('searchLead').value.trim().toLowerCase();
-	const rows = document.querySelectorAll("#leadList tr");
-	let resultCount = 0;
-	const resultMessage = document.getElementById("searchResultMessage");
+  const searchQuery = document
+    .getElementById("searchLead")
+    .value.trim()
+    .toLowerCase();
+  const rows = document.querySelectorAll("#leadList tr");
+  let resultCount = 0;
+  const resultMessage = document.getElementById("searchResultMessage");
 
-	rows.forEach(row => {
-		const leadId = row.cells[0].textContent.toLowerCase();
-		const leadName = row.cells[1].textContent.toLowerCase();
-		const leadEmail = row.cells[2].textContent.toLowerCase();
-		const leadPhone = row.cells[3].textContent.toLowerCase().replace(/-/g, '');
-		const leadStatus = row.cells[5].textContent.toLowerCase();
+  rows.forEach((row) => {
+    const leadId = row.cells[0].textContent.toLowerCase();
+    const leadName = row.cells[1].textContent.toLowerCase();
+    const leadEmail = row.cells[2].textContent.toLowerCase();
+    const leadPhone = row.cells[3].textContent.toLowerCase().replace(/-/g, "");
+    const leadStatus = row.cells[5].textContent.toLowerCase();
 
-		if (leadId.includes(searchQuery) || leadName.includes(searchQuery) || leadPhone.includes(searchQuery) || leadEmail.includes(searchQuery) || leadStatus.includes(searchQuery)) {
-			row.style.display = "";
-			resultCount++;
-		} else {
-			row.style.display = "none";
-		}
-	});
+    if (
+      leadId.includes(searchQuery) ||
+      leadName.includes(searchQuery) ||
+      leadPhone.includes(searchQuery) ||
+      leadEmail.includes(searchQuery) ||
+      leadStatus.includes(searchQuery)
+    ) {
+      row.style.display = "";
+      resultCount++;
+    } else {
+      row.style.display = "none";
+    }
+  });
 
-	if (searchQuery.trim() === "") {
-		resultMessage.style.display = "none"; // Hide message if input is empty
-	} else {
-		resultMessage.style.display = "block"; // Show message only when searching
-		resultMessage.textContent = resultCount > 0 ? `${resultCount} result(s) found` : "No results found";
-		resultMessage.style.color = resultCount > 0 ? "green" : "red";
-	}
+  if (searchQuery.trim() === "") {
+    resultMessage.style.display = "none"; // Hide message if input is empty
+  } else {
+    resultMessage.style.display = "block"; // Show message only when searching
+    resultMessage.textContent =
+      resultCount > 0 ? `${resultCount} result(s) found` : "No results found";
+    resultMessage.style.color = resultCount > 0 ? "green" : "red";
+  }
 }
 
 async function loadLeads() {
-	try {
-		const response = await fetch("/leads");
-		const data = await response.json();
-		displayLeads(data);
-	} catch (error) {
-		console.error("Error loading leads:", error);
-	}
+  try {
+    const response = await fetch("/leads");
+    const data = await response.json();
+    displayLeads(data);
+  } catch (error) {
+    console.error("Error loading leads:", error);
+  }
 }
 function displayLeads(leads) {
-	document.getElementById("leadList").innerHTML = leads.map(lead => `
+  document.getElementById("leadList").innerHTML = leads
+    .map(
+      (lead) => `
         <tr>
             <td>${lead.leadId}</td>
             <td>${lead.fullName}</td>
@@ -250,67 +304,69 @@ function displayLeads(leads) {
                 <button onclick="addComment(${lead.leadId})">Add Comment</button>
             </td>
         </tr>
-    `).join('');
+    `
+    )
+    .join("");
 }
 
 function viewLead(id) {
-	window.location.href = `/view-superadmin-lead/${id}`;
+  window.location.href = `/view-superadmin-lead/${id}`;
 }
 
 function editLead(id) {
-	window.location.href = `/edit-superadmin-lead/${id}`;
+  window.location.href = `/edit-superadmin-lead/${id}`;
 }
 
 function addComment(id) {
-	window.location.href = `/add-superadmin-comment/${id}`;
+  window.location.href = `/add-superadmin-comment/${id}`;
 }
 
 function deleteLead(id) {
-	if (confirm("Are you sure you want to delete this lead?")) {
-		fetch(`/leads/${id}`, { method: "DELETE" })
-			.then(response => {
-				if (response.ok) {
-					alert("Lead deleted successfully");
-					loadLeads();
-				} else {
-					alert("Error deleting lead");
-				}
-			})
-			.catch(error => console.error("Error:", error));
-	}
+  if (confirm("Are you sure you want to delete this lead?")) {
+    fetch(`/leads/${id}`, { method: "DELETE" })
+      .then((response) => {
+        if (response.ok) {
+          alert("Lead deleted successfully");
+          loadLeads();
+        } else {
+          alert("Error deleting lead");
+        }
+      })
+      .catch((error) => console.error("Error:", error));
+  }
 }
 async function loadLeadDetails(leadId) {
-	try {
-		const leadRes = await fetch(`/leads/${leadId}`);
-		const lead = await leadRes.json();
-		displayLead(lead);
+  try {
+    const leadRes = await fetch(`/leads/${leadId}`);
+    const lead = await leadRes.json();
+    displayLead(lead);
 
-		const commentRes = await fetch(`/comments/lead/${leadId}`);
-		const comments = await commentRes.json();
-		displayComments(comments);
+    const commentRes = await fetch(`/comments/lead/${leadId}`);
+    const comments = await commentRes.json();
+    displayComments(comments);
 
-		document.getElementById("editLeadBtn").onclick = () =>
-			window.location.href = `/edit-superadmin-lead/${leadId}`;
+    document.getElementById("editLeadBtn").onclick = () =>
+      (window.location.href = `/edit-superadmin-lead/${leadId}`);
 
-		document.getElementById("deleteLeadBtn").onclick = async () => {
-			if (confirm("Are you sure?")) {
-				await fetch(`/leads/${leadId}`, { method: "DELETE" });
-				alert("Lead deleted.");
-				window.location.href = "/superadmin-leads";
-			}
-		};
+    document.getElementById("deleteLeadBtn").onclick = async () => {
+      if (confirm("Are you sure?")) {
+        await fetch(`/leads/${leadId}`, { method: "DELETE" });
+        alert("Lead deleted.");
+        window.location.href = "/superadmin-leads";
+      }
+    };
 
-		document.getElementById("addCommentBtn").onclick = () =>
-			window.location.href = `/add-superadmin-comment/${leadId}`;
-	} catch (e) {
-		console.error("Error loading lead or comments", e);
-	}
+    document.getElementById("addCommentBtn").onclick = () =>
+      (window.location.href = `/add-superadmin-comment/${leadId}`);
+  } catch (e) {
+    console.error("Error loading lead or comments", e);
+  }
 }
 
 function displayLead(lead) {
-	const div = document.getElementById("leadDetails");
-	if (!div) return;
-	div.innerHTML = `
+  const div = document.getElementById("leadDetails");
+  if (!div) return;
+  div.innerHTML = `
 		<p><strong>ID:</strong> ${lead.leadId}</p>
 		<p><strong>Name:</strong> ${lead.fullName}</p>
 		<p><strong>Email:</strong> ${lead.email}</p>
@@ -322,15 +378,14 @@ function displayLead(lead) {
 	`;
 }
 
-
 function displayComments(comments) {
-	const list = document.getElementById("leadCommentList");
-	if (!list) return;
+  const list = document.getElementById("leadCommentList");
+  if (!list) return;
 
-	comments.forEach(comment => {
-		const row = document.createElement('tr');
+  comments.forEach((comment) => {
+    const row = document.createElement("tr");
 
-		row.innerHTML = `
+    row.innerHTML = `
 					<td>${comment.commentId}</td>
 					<td style="text-align: left;">${comment.user.email}</td>
 					<td>${comment.lead.leadId}</td>
@@ -341,25 +396,28 @@ function displayComments(comments) {
 						<button onclick="editComment(${comment.commentId})">Edit</button>
 						<button onclick="deleteComment(${comment.commentId})">Delete</button>
 					</td>`;
-		list.appendChild(row);
-	});
+    list.appendChild(row);
+  });
 }
-
-
 
 /*------------------- Owned Leads -------------------*/
 
 async function loadOwnLeads() {
-	try {
-		const response = await fetch("/leads/own-leads");
-		const data = await response.json();
-		displayLeads(data);
-	} catch (error) {
-		console.error("Error loading leads:", error);
-	}
+  try {
+    const user = await getLoggedInUser();
+    const userId = user.id;
+    const response = await fetch(`/leads/own-leads/${userId}`);
+    const data = await response.json();
+    displayMyLeads(data);
+  } catch (error) {
+    console.error("Error loading leads:", error);
+  }
 }
-function displayLeads(leads) {
-	document.getElementById("leadList").innerHTML = leads.map(lead => `
+
+function displayMyLeads(leads) {
+  document.getElementById("myLeadsList").innerHTML = leads
+    .map(
+      (lead) => `
         <tr>
             <td>${lead.leadId}</td>
             <td>${lead.fullName}</td>
@@ -374,22 +432,26 @@ function displayLeads(leads) {
                 <button onclick="addComment(${lead.leadId})">Add Comment</button>
             </td>
         </tr>
-    `).join('');
+    `
+    )
+    .join("");
 }
 /*------------------ Assigned Leads -----------------*/
 async function loadAssignedLeads() {
-	try {
-		const user = await getLoggedInUser();
-
-		const response = await fetch(`/leads/assigned/${user.id}`);
-		const data = await response.json();
-		displayAssignedLeads(data);
-	} catch (error) {
-		console.error("Error loading leads:", error);
-	}
+  try {
+    const user = await getLoggedInUser();
+    const userId = user.id;
+    const response = await fetch(`/leads/assigned/${userId}`);
+    const data = await response.json();
+    displayAssignedLeads(data);
+  } catch (error) {
+    console.error("Error loading leads:", error);
+  }
 }
 function displayAssignedLeads(leads) {
-	document.getElementById("assignedLeadList").innerHTML = leads.map(lead => `
+  document.getElementById("assignedLeadList").innerHTML = leads
+    .map(
+      (lead) => `
         <tr>
             <td>${lead.leadId}</td>
             <td>${lead.fullName}</td>
@@ -404,23 +466,25 @@ function displayAssignedLeads(leads) {
                 <button onclick="addComment(${lead.leadId})">Add Comment</button>
             </td>
         </tr>
-    `).join('');
+    `
+    )
+    .join("");
 }
 /*-------------------- View Lead --------------------*/
 /*-------------------- Edit Lead --------------------*/
 /*-------------------- All Users --------------------*/
 
 function loadUsers() {
-	fetch('/users')
-		.then(response => response.json())
-		.then(data => {
-			const userList = document.getElementById('userList');
-			userList.innerHTML = ''; // Clear any existing content
+  fetch("/users")
+    .then((response) => response.json())
+    .then((data) => {
+      const userList = document.getElementById("userList");
+      userList.innerHTML = ""; // Clear any existing content
 
-			data.forEach(user => {
-				const row = document.createElement('tr');
+      data.forEach((user) => {
+        const row = document.createElement("tr");
 
-				row.innerHTML = `
+        row.innerHTML = `
                     <td>${user.id}</td>
                     <td>${user.fullName}</td>
                     <td>${user.email}</td>
@@ -432,41 +496,40 @@ function loadUsers() {
                     </td>
                 `;
 
-				userList.appendChild(row);
-			});
-		})
-		.catch(error => console.error('Error loading users:', error));
+        userList.appendChild(row);
+      });
+    })
+    .catch((error) => console.error("Error loading users:", error));
 }
 async function loadUserDetails(userId) {
-	try {
-		const userRes = await fetch(`/users/${userId}`);
-		const user = await userRes.json();
-		displayUser(user);
+  try {
+    const userRes = await fetch(`/users/${userId}`);
+    const user = await userRes.json();
+    displayUser(user);
 
-		const commentRes = await fetch(`/comments/${userId}`);
-		const comments = await commentRes.json();
-		displayUserComments(comments);
+    const commentRes = await fetch(`/comments/${userId}`);
+    const comments = await commentRes.json();
+    displayUserComments(comments);
 
-		document.getElementById("editUserBtn").onclick = () =>
-			window.location.href = `/edit-superadmin-user/${userId}`;
+    document.getElementById("editUserBtn").onclick = () =>
+      (window.location.href = `/edit-superadmin-user/${userId}`);
 
-		document.getElementById("deleteUserBtn").onclick = async () => {
-			if (confirm("Are you sure?")) {
-				await fetch(`/admins/${userId}`, { method: "DELETE" });
-				alert("User deleted.");
-				window.location.href = "/superadmin-users";
-			}
-		};
-
-	} catch (e) {
-		console.error("Error loading User or comments", e);
-	}
+    document.getElementById("deleteUserBtn").onclick = async () => {
+      if (confirm("Are you sure?")) {
+        await fetch(`/admins/${userId}`, { method: "DELETE" });
+        alert("User deleted.");
+        window.location.href = "/superadmin-users";
+      }
+    };
+  } catch (e) {
+    console.error("Error loading User or comments", e);
+  }
 }
 
 function displayUser(user) {
-	const div = document.getElementById("userDetails");
-	if (!div) return;
-	div.innerHTML = `
+  const div = document.getElementById("userDetails");
+  if (!div) return;
+  div.innerHTML = `
 		<p><strong>Name:</strong> ${user.fullName}</p>
 		<p><strong>Email:</strong> ${user.email}</p>
 		<p><strong>Phone:</strong> ${user.phoneNumber}</p>
@@ -475,13 +538,13 @@ function displayUser(user) {
 }
 
 function displayUserComments(comments) {
-	const list = document.getElementById("leadCommentList");
-	if (!list) return;
+  const list = document.getElementById("leadCommentList");
+  if (!list) return;
 
-	comments.forEach(comment => {
-		const row = document.createElement('tr');
+  comments.forEach((comment) => {
+    const row = document.createElement("tr");
 
-		row.innerHTML = `
+    row.innerHTML = `
 					<td>${comment.commentId}</td>
 					<td style="text-align: left;">${comment.user.email}</td>
 					<td>${comment.lead.leadId}</td>
@@ -492,115 +555,124 @@ function displayUserComments(comments) {
 						<button onclick="editComment(${comment.commentId})">Edit</button>
 						<button onclick="deleteComment(${comment.commentId})">Delete</button>
 					</td>`;
-		list.appendChild(row);
-	});
+    list.appendChild(row);
+  });
 }
 function searchUsers() {
-	const searchQuery = document.getElementById("searchUser").value.trim().toLowerCase();
-	const rows = document.querySelectorAll("#userList tr");
-	let resultCount = 0;
-	const resultMessage = document.getElementById("searchResultMessage");
+  const searchQuery = document
+    .getElementById("searchUser")
+    .value.trim()
+    .toLowerCase();
+  const rows = document.querySelectorAll("#userList tr");
+  let resultCount = 0;
+  const resultMessage = document.getElementById("searchResultMessage");
 
-	rows.forEach(row => {
-		const userId = row.cells[0].textContent.toLowerCase();
-		const userName = row.cells[1].textContent.toLowerCase();
-		const userEmail = row.cells[2].textContent.toLowerCase();
-		const userPhone = row.cells[3].textContent.toLowerCase().replace(/-/g, '');
+  rows.forEach((row) => {
+    const userId = row.cells[0].textContent.toLowerCase();
+    const userName = row.cells[1].textContent.toLowerCase();
+    const userEmail = row.cells[2].textContent.toLowerCase();
+    const userPhone = row.cells[3].textContent.toLowerCase().replace(/-/g, "");
 
-		if (userId.includes(searchQuery) || userName.includes(searchQuery) || userPhone.includes(searchQuery) || userEmail.includes(searchQuery)) {
-			row.style.display = "";
-			resultCount++;
-		} else {
-			row.style.display = "none";
-		}
-	});
+    if (
+      userId.includes(searchQuery) ||
+      userName.includes(searchQuery) ||
+      userPhone.includes(searchQuery) ||
+      userEmail.includes(searchQuery)
+    ) {
+      row.style.display = "";
+      resultCount++;
+    } else {
+      row.style.display = "none";
+    }
+  });
 
-	if (searchQuery.trim() === "") {
-		resultMessage.style.display = "none"; // Hide message if input is empty
-	} else {
-		resultMessage.style.display = "block"; // Show message only when searching
-		resultMessage.textContent = resultCount > 0 ? `${resultCount} result(s) found` : "No results found";
-		resultMessage.style.color = resultCount > 0 ? "green" : "red";
-	}
+  if (searchQuery.trim() === "") {
+    resultMessage.style.display = "none"; // Hide message if input is empty
+  } else {
+    resultMessage.style.display = "block"; // Show message only when searching
+    resultMessage.textContent =
+      resultCount > 0 ? `${resultCount} result(s) found` : "No results found";
+    resultMessage.style.color = resultCount > 0 ? "green" : "red";
+  }
 }
 function viewUser(userId) {
-	window.location.href = `/view-superadmin-user/${userId}`;
+  window.location.href = `/view-superadmin-user/${userId}`;
 }
 function editUser(userId) {
-	window.location.href = `/edit-superadmin-user/${userId}`; // Redirect to edit page with user ID
+  window.location.href = `/edit-superadmin-user/${userId}`; // Redirect to edit page with user ID
 }
 async function loadEditUserForm() {
-    const userId = window.location.pathname.split("/").pop();
-    try {
-        const response = await fetch(`/users/${userId}`);
-        const user = await response.json();
+  const userId = window.location.pathname.split("/").pop();
+  try {
+    const response = await fetch(`/users/${userId}`);
+    const user = await response.json();
 
-        document.getElementById("userId").value = user.id;
-        document.getElementById("fullName").value = user.fullName;
-        document.getElementById("email").value = user.email;
-        document.getElementById("phoneNumber").value = user.phoneNumber;
-        document.getElementById("role").value = user.role;
-    } catch (error) {
-        console.error("Failed to load user data:", error);
-        alert("Failed to load user details.");
-    }
+    document.getElementById("userId").value = user.id;
+    document.getElementById("fullName").value = user.fullName;
+    document.getElementById("email").value = user.email;
+    document.getElementById("phoneNumber").value = user.phoneNumber;
+    document.getElementById("role").value = user.role;
+  } catch (error) {
+    console.error("Failed to load user data:", error);
+    alert("Failed to load user details.");
+  }
 }
 
 function handleUserEditFormSubmit() {
-    const form = document.getElementById("editUserForm");
-    if (!form) return;
+  const form = document.getElementById("editUserForm");
+  if (!form) return;
 
-    form.addEventListener("submit", async function (e) {
-        e.preventDefault();
-        const userId = document.getElementById("userId").value;
-        const fullName = document.getElementById("fullName").value;
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const userId = document.getElementById("userId").value;
+    const fullName = document.getElementById("fullName").value;
 
-        const response = await fetch(`/users/${userId}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ fullName })
-        });
-
-        if (response.ok) {
-            alert("User updated successfully!");
-            window.location.href = "/superadmin-users";
-        } else {
-            alert("Failed to update user.");
-        }
+    const response = await fetch(`/users/${userId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fullName }),
     });
+
+    if (response.ok) {
+      alert("User updated successfully!");
+      window.location.href = "/superadmin-users";
+    } else {
+      alert("Failed to update user.");
+    }
+  });
 }
 
 function deleteUser(id) {
-	if (confirm('Are you sure you want to delete this user?')) {
-		fetch(`/users/${id}`, {
-			method: 'DELETE',
-		})
-			.then(response => {
-				if (response.ok) {
-					alert('User deleted successfully');
-					loadUsers(); // Reload the users list after deletion
-				} else {
-					alert('Failed to delete user');
-				}
-			})
-			.catch(error => console.error('Error deleting user:', error));
-	}
+  if (confirm("Are you sure you want to delete this user?")) {
+    fetch(`/users/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("User deleted successfully");
+          loadUsers(); // Reload the users list after deletion
+        } else {
+          alert("Failed to delete user");
+        }
+      })
+      .catch((error) => console.error("Error deleting user:", error));
+  }
 }
 /*-------------------- View User --------------------*/
 /*-------------------- Edit User --------------------*/
 /*-------------------- All Admins -------------------*/
 
 function loadAdmins() {
-	fetch('/admins')
-		.then(response => response.json())
-		.then(data => {
-			const adminList = document.getElementById('adminList');
-			adminList.innerHTML = ''; // Clear any existing content
+  fetch("/admins")
+    .then((response) => response.json())
+    .then((data) => {
+      const adminList = document.getElementById("adminList");
+      adminList.innerHTML = ""; // Clear any existing content
 
-			data.forEach(admin => {
-				const row = document.createElement('tr');
+      data.forEach((admin) => {
+        const row = document.createElement("tr");
 
-				row.innerHTML = `
+        row.innerHTML = `
                     <td>${admin.id}</td>
                     <td>${admin.fullName}</td>
                     <td>${admin.email}</td>
@@ -611,73 +683,76 @@ function loadAdmins() {
                     </td>
                 `;
 
-				adminList.appendChild(row);
-			});
-		})
-		.catch(error => console.error('Error loading admins:', error));
+        adminList.appendChild(row);
+      });
+    })
+    .catch((error) => console.error("Error loading admins:", error));
 }
 
 function searchAdmins() {
-	const searchQuery = document.getElementById('searchAdmin').value.toLowerCase();
-	const rows = document.querySelectorAll('#adminList tr');
+  const searchQuery = document
+    .getElementById("searchAdmin")
+    .value.toLowerCase();
+  const rows = document.querySelectorAll("#adminList tr");
 
-	rows.forEach(row => {
-		const adminId = row.cells[0].textContent.toLowerCase();
-		const adminName = row.cells[1].textContent.toLowerCase();
+  rows.forEach((row) => {
+    const adminId = row.cells[0].textContent.toLowerCase();
+    const adminName = row.cells[1].textContent.toLowerCase();
 
-		if (adminId.includes(searchQuery) || adminName.includes(searchQuery)) {
-			row.style.display = '';
-		} else {
-			row.style.display = 'none';
-		}
-	});
+    if (adminId.includes(searchQuery) || adminName.includes(searchQuery)) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
 }
 
 function editAdmin(id) {
-	window.location.href = `/edit-superadmin-admin/${id}`; // Redirect to edit page with admin ID
+  window.location.href = `/edit-superadmin-admin/${id}`; // Redirect to edit page with admin ID
 }
 
 function deleteAdmin(id) {
-	if (confirm('Are you sure you want to delete this admin?')) {
-		fetch(`/admins/${id}`, {
-			method: 'DELETE',
-		})
-			.then(response => {
-				if (response.ok) {
-					alert('Admin deleted successfully');
-					loadAdmins(); // Reload the admins list after deletion
-				} else {
-					alert('Failed to delete admin');
-				}
-			})
-			.catch(error => console.error('Error deleting admin:', error));
-	}
+  if (confirm("Are you sure you want to delete this admin?")) {
+    fetch(`/admins/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("Admin deleted successfully");
+          loadAdmins(); // Reload the admins list after deletion
+        } else {
+          alert("Failed to delete admin");
+        }
+      })
+      .catch((error) => console.error("Error deleting admin:", error));
+  }
 }
-
 
 /*-------------------- View Admin -------------------*/
 /*-------------------- Edit Admin -------------------*/
 /*------------------- All Comments ------------------*/
 
-
 function loadComments() {
-	fetch('/comments')
-		.then(response => response.json())
-		.then(data => {
-			const userList = document.getElementById('commentList');
-			userList.innerHTML = ''; // Clear any existing content
+  fetch("/comments")
+    .then((response) => response.json())
+    .then((data) => {
+      const userList = document.getElementById("commentList");
+      userList.innerHTML = ""; // Clear any existing content
 
-			data.forEach(comment => {
-				const row = document.createElement('tr');
-				const formattedDate = new Date(comment.creationDate).toLocaleString('en-GB', {
-					day: '2-digit',
-					month: 'short',
-					year: 'numeric',
-					hour: '2-digit',
-					minute: '2-digit',
-					hour12: true
-				});
-				row.innerHTML = `
+      data.forEach((comment) => {
+        const row = document.createElement("tr");
+        const formattedDate = new Date(comment.creationDate).toLocaleString(
+          "en-GB",
+          {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }
+        );
+        row.innerHTML = `
                     <td>${comment.commentId}</td>
                     <td style="text-align: left;">${comment.user.email}</td>
                     <td>${comment.lead.leadId}</td>
@@ -690,109 +765,170 @@ function loadComments() {
                     </td>
                 `;
 
-				commentList.appendChild(row);
-			});
-		})
-		.catch(error => console.error('Error loading comments:', error));
+        commentList.appendChild(row);
+      });
+    })
+    .catch((error) => console.error("Error loading comments:", error));
 }
 
-
 function searchComments() {
-	const searchQuery = document.getElementById("searchComments").value.trim().toLowerCase();
-	const rows = document.querySelectorAll("#commentList tr");
-	let resultCount = 0;
-	const resultMessage = document.getElementById("searchResultMessage");
+  const searchQuery = document
+    .getElementById("searchComments")
+    .value.trim()
+    .toLowerCase();
+  const rows = document.querySelectorAll("#commentList tr");
+  let resultCount = 0;
+  const resultMessage = document.getElementById("searchResultMessage");
 
-	rows.forEach(row => {
-		const commentId = row.cells[0].textContent.toLowerCase();
-		const userName = row.cells[1].textContent.toLowerCase();
-		const leadId = row.cells[2].textContent.toLowerCase();
-		const status = row.cells[3].textContent.toLowerCase();
+  rows.forEach((row) => {
+    const commentId = row.cells[0].textContent.toLowerCase();
+    const userName = row.cells[1].textContent.toLowerCase();
+    const leadId = row.cells[2].textContent.toLowerCase();
+    const status = row.cells[3].textContent.toLowerCase();
 
-		if (commentId.includes(searchQuery) || userName.includes(searchQuery) || leadId.includes(searchQuery) || status.includes(searchQuery)) {
-			row.style.display = "";
-			resultCount++;
-		} else {
-			row.style.display = "none";
-		}
-	});
+    if (
+      commentId.includes(searchQuery) ||
+      userName.includes(searchQuery) ||
+      leadId.includes(searchQuery) ||
+      status.includes(searchQuery)
+    ) {
+      row.style.display = "";
+      resultCount++;
+    } else {
+      row.style.display = "none";
+    }
+  });
 
-	if (searchQuery.trim() === "") {
-		resultMessage.style.display = "none"; // Hide message if input is empty
-	} else {
-		resultMessage.style.display = "block"; // Show message only when searching
-		resultMessage.textContent = resultCount > 0 ? `${resultCount} result(s) found` : "No results found";
-		resultMessage.style.color = resultCount > 0 ? "green" : "red";
-	}
+  if (searchQuery.trim() === "") {
+    resultMessage.style.display = "none"; // Hide message if input is empty
+  } else {
+    resultMessage.style.display = "block"; // Show message only when searching
+    resultMessage.textContent =
+      resultCount > 0 ? `${resultCount} result(s) found` : "No results found";
+    resultMessage.style.color = resultCount > 0 ? "green" : "red";
+  }
 }
 
 function editComment(id) {
-	window.location.href = `/edit-superadmin-comment/${id}`; // Redirect to edit page with user ID
+  window.location.href = `/edit-superadmin-comment/${id}`; // Redirect to edit page with user ID
 }
 
 function deleteComment(id) {
-	if (confirm('Are you sure you want to delete this Comment?')) {
-		fetch(`/comments/${id}`, {
-			method: 'DELETE',
-		})
-			.then(response => {
-				if (response.ok) {
-					alert('Comment deleted successfully');
-					loadComments(); // Reload the users list after deletion
-				} else {
-					alert('Failed to delete Comment');
-				}
-			})
-			.catch(error => console.error('Error deleting user:', error));
-	}
+  if (confirm("Are you sure you want to delete this Comment?")) {
+    fetch(`/comments/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("Comment deleted successfully");
+          loadComments(); // Reload the users list after deletion
+        } else {
+          alert("Failed to delete Comment");
+        }
+      })
+      .catch((error) => console.error("Error deleting user:", error));
+  }
 }
 
+/*------------------- Own Comments ------------------*/
+
+async function loadOwnComments() {
+  const user = await getLoggedInUser();
+  const userId = user.id;
+  fetch(`/comments/superadmin-own-comments/${userId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const userList = document.getElementById("myCommentList");
+      userList.innerHTML = ""; // Clear any existing content
+
+      data.forEach((comment) => {
+        const row = document.createElement("tr");
+        const formattedDate = new Date(comment.creationDate).toLocaleString(
+          "en-GB",
+          {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          }
+        );
+        row.innerHTML = `
+                    <td>${comment.commentId}</td>
+                    <td style="text-align: left;">${comment.user.email}</td>
+                    <td>${comment.lead.leadId}</td>
+                    <td>${comment.status}</td>
+                    <td>${formattedDate}</td>
+                    <td>${comment.description}</td>
+                    <td>
+                        <button onclick="editComment(${comment.commentId})">Edit</button>
+                        <button onclick="deleteComment(${comment.commentId})">Delete</button>
+                    </td>
+                `;
+        myCommentList.appendChild(row);
+      });
+    })
+    .catch((error) => console.error("Error loading comments:", error));
+}
 /*------------------- Edit Comment ------------------*/
 /*------------------- View Comment ------------------*/
 /*------------------- All Companies -----------------*/
 
 async function searchCompany() {
-	const searchQuery = document.getElementById('searchCompany').value.trim().toLowerCase();
-	const rows = document.querySelectorAll("#companyList tr");
-	let resultCount = 0;
-	const resultMessage = document.getElementById("searchResultMessage");
+  const searchQuery = document
+    .getElementById("searchCompany")
+    .value.trim()
+    .toLowerCase();
+  const rows = document.querySelectorAll("#companyList tr");
+  let resultCount = 0;
+  const resultMessage = document.getElementById("searchResultMessage");
 
-	rows.forEach(row => {
-		const companyId = row.cells[0].textContent.toLowerCase();
-		const companyName = row.cells[1].textContent.toLowerCase();
-		const companyEmail = row.cells[2].textContent.toLowerCase();
-		const companyPhone = row.cells[3].textContent.toLowerCase().replace(/-/g, '');
+  rows.forEach((row) => {
+    const companyId = row.cells[0].textContent.toLowerCase();
+    const companyName = row.cells[1].textContent.toLowerCase();
+    const companyEmail = row.cells[2].textContent.toLowerCase();
+    const companyPhone = row.cells[3].textContent
+      .toLowerCase()
+      .replace(/-/g, "");
 
-		if (companyId.includes(searchQuery) || companyName.includes(searchQuery) || companyPhone.includes(searchQuery)) {
-			row.style.display = "";
-			resultCount++;
-		} else {
-			row.style.display = "none";
-		}
-	});
+    if (
+      companyId.includes(searchQuery) ||
+      companyName.includes(searchQuery) ||
+      companyPhone.includes(searchQuery)
+    ) {
+      row.style.display = "";
+      resultCount++;
+    } else {
+      row.style.display = "none";
+    }
+  });
 
-	if (searchQuery.trim() === "") {
-		resultMessage.style.display = "none"; // Hide message if input is empty
-	} else {
-		resultMessage.style.display = "block"; // Show message only when searching
-		resultMessage.textContent = resultCount > 0 ? `${resultCount} result(s) found` : "No results found";
-		resultMessage.style.color = resultCount > 0 ? "green" : "red";
-	}
+  if (searchQuery.trim() === "") {
+    resultMessage.style.display = "none"; // Hide message if input is empty
+  } else {
+    resultMessage.style.display = "block"; // Show message only when searching
+    resultMessage.textContent =
+      resultCount > 0 ? `${resultCount} result(s) found` : "No results found";
+    resultMessage.style.color = resultCount > 0 ? "green" : "red";
+  }
 }
 
 async function fetchAndDisplayCompanies() {
-	try {
-		const response = await fetch("/companies");
-		const data = await response.json();
-		displayCompanies(data);
-	} catch (error) {
-		console.error("Error fetching companies for table:", error);
-	}
+  try {
+    const response = await fetch("/companies");
+    const data = await response.json();
+    displayCompanies(data);
+  } catch (error) {
+    console.error("Error fetching companies for table:", error);
+  }
 }
 
 function displayCompanies(companies) {
-	const tableBody = document.getElementById("companyList");
-	tableBody.innerHTML = companies.map(company => `
+  const tableBody = document.getElementById("companyList");
+  tableBody.innerHTML = companies
+    .map(
+      (company) => `
         <tr>
             <td>${company.companyId}</td>
             <td>${company.companyName}</td>
@@ -806,64 +942,55 @@ function displayCompanies(companies) {
                 <button onclick="deleteCompany(${company.companyId})">Delete</button>
             </td>
         </tr>
-    `).join('');
+    `
+    )
+    .join("");
 }
 
 async function deleteCompany(id) {
-	if (confirm("Are you sure you want to delete this company?")) {
-		await fetch(`/companies/${id}`, { method: "DELETE" });
-		alert("Company deleted successfully.");
-		fetchAndDisplayCompanies();
-	}
+  if (confirm("Are you sure you want to delete this company?")) {
+    await fetch(`/companies/${id}`, { method: "DELETE" });
+    alert("Company deleted successfully.");
+    fetchAndDisplayCompanies();
+  }
 }
 /*-------------------- View Company -----------------*/
 
-
-
-
-
 /*-------------------- Edit Company -----------------*/
-
-
-
 
 /*------------------------ Help ---------------------*/
 
 function showRequests(type) {
-	const tabs = document.querySelectorAll('.tabs button');
-	const lists = document.querySelectorAll('.request-list');
+  const tabs = document.querySelectorAll(".tabs button");
+  const lists = document.querySelectorAll(".request-list");
 
-	tabs.forEach(tab => tab.classList.remove('active'));
-	lists.forEach(list => list.classList.remove('active'));
+  tabs.forEach((tab) => tab.classList.remove("active"));
+  lists.forEach((list) => list.classList.remove("active"));
 
-	document.querySelector('.tabs button[onclick="showRequests(\'' + type + '\')"]').classList.add('active');
-	document.getElementById(type).classList.add('active');
+  document
+    .querySelector(".tabs button[onclick=\"showRequests('" + type + "')\"]")
+    .classList.add("active");
+  document.getElementById(type).classList.add("active");
 }
 
 function addHelpRequest() {
-	const fullName = document.getElementById('fullName').value;
-	const email = document.getElementById('email').value;
-	const phoneNo = document.getElementById('phoneNo').value;
-	const subject = document.getElementById('subject').value;
-	const note = document.getElementById('note').value;
+  const fullName = document.getElementById("fullName").value;
+  const email = document.getElementById("email").value;
+  const phoneNo = document.getElementById("phoneNo").value;
+  const subject = document.getElementById("subject").value;
+  const note = document.getElementById("note").value;
 
-	if (!fullName || !email || !phoneNo || !subject || !note) {
-		alert("Please fill in all fields.");
-		return;
-	}
+  if (!fullName || !email || !phoneNo || !subject || !note) {
+    alert("Please fill in all fields.");
+    return;
+  }
 
-	alert("Help request created successfully!");
-	document.getElementById('fullName').value = '';
-	document.getElementById('email').value = '';
-	document.getElementById('phoneNo').value = '';
-	document.getElementById('subject').value = '';
-	document.getElementById('note').value = '';
+  alert("Help request created successfully!");
+  document.getElementById("fullName").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("phoneNo").value = "";
+  document.getElementById("subject").value = "";
+  document.getElementById("note").value = "";
 }
 
-
-
 /*---------------------- Profile --------------------*/
-
-
-
-

@@ -96,7 +96,7 @@ public class LoginService implements UserDetailsService {
             admin.setFullName(updatedAdmin.getFullName());
             admin.setEmail(updatedAdmin.getEmail());
             admin.setPhoneNumber(updatedAdmin.getPhoneNumber());
-            admin.setPassword(updatedAdmin.getPassword()); // Ensure proper password handling
+            admin.setPassword(updatedAdmin.getPassword());
             admin.setRole(updatedAdmin.getRole());
             userRepository.save(admin);
             return true;

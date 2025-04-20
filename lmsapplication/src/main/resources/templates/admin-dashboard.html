@@ -1,37 +1,73 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<th:block th:replace="~{header :: head}"></th:block>
-<title>Dashboard</title>
-</head>
-<body>
-<th:block th:replace="~{header :: body}"></th:block>
+  <head>
+    <th:block th:replace="~{header :: head}"></th:block>
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <th:block th:replace="~{header :: body}"></th:block>
     <section class="main-content">
-        <div class="form-container">
-            <h3>Add Lead</h3>
-            <input type="text" id="leadName" placeholder="Full Name" required>
-            <input type="email" id="leadEmail" placeholder="Email Address" required>
-            <input type="tel" id="leadPhone" placeholder="Phone Number" required>
-            <input type="tel" id="leadAltPhone" placeholder="Alternate Phone Number">
-            <input type="text" id="leadAddress" placeholder="Address" required>
-            <input type="text" id="leadNote" placeholder="Description">
-            <button onclick="addLead()">Add Lead</button>
-        </div>
+      <div class="form-container">
+        <h3>Add Lead</h3>
+        <input type="text" id="leadName" placeholder="Full Name" required />
+        <input
+          type="email"
+          id="leadEmail"
+          placeholder="Email Address"
+          required
+        />
+        <input type="tel" id="leadPhone" placeholder="Phone Number" required />
+        <input
+          type="tel"
+          id="leadAltPhone"
+          placeholder="Alternate Phone Number"
+        />
+        <input type="text" id="leadAddress" placeholder="Address" required />
+        <input type="text" id="leadNote" placeholder="Description" />
+        <button onclick="addLead()">Add Lead</button>
+      </div>
 
-        
-        <div class="form-container">
-            <h3>Add User</h3>
-            <input type="text" id="userFullName" placeholder="Full Name" required>
-            <input type="email" id="userEmail" placeholder="Email Address" required>
-            <input type="tel" id="userPhone" placeholder="Phone Number" pattern="^\d{10}$" title="Please enter a 10-digit phone number" required>
-            <input type="tel" id="userAltPhone" placeholder="Alternate Phone Number" pattern="^\d{10}$" title="Please enter a 10-digit phone number" required>
-            <input type="password" id="userPassword" placeholder="Password" required>
-            <input type="password" id="userConfirmPassword" placeholder="Confirm Password" required>
-            <button onclick="addUser()">Add User</button>
-        </div>
+      <div class="form-container">
+        <h3>Add User</h3>
+        <input type="text" id="userFullName" placeholder="Full Name" required />
+        <input
+          type="email"
+          id="userEmail"
+          placeholder="Email Address"
+          required
+        />
+        <input
+          type="tel"
+          id="userPhone"
+          placeholder="Phone Number"
+          pattern="^\d{10}$"
+          title="Please enter a 10-digit phone number"
+          required
+        />
+        <input
+          type="tel"
+          id="userAltPhone"
+          placeholder="Alternate Phone Number"
+          pattern="^\d{10}$"
+          title="Please enter a 10-digit phone number"
+          required
+        />
+        <input
+          type="password"
+          id="userPassword"
+          placeholder="Password"
+          required
+        />
+        <input
+          type="password"
+          id="userConfirmPassword"
+          placeholder="Confirm Password"
+          required
+        />
+        <button onclick="addUser()">Add User</button>
+      </div>
     </section>
-    
-    	<th:block th:replace="~{footer :: body}"></th:block>
 
-</body>
+    <th:block th:replace="~{footer :: body}"></th:block>
+  </body>
 </html>

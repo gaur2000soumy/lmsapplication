@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<th:block th:replace="~{header :: head}"></th:block>
-<title>Assigned Leads</title>
-</head>
-<body>
-<th:block th:replace="~{header :: body}"></th:block>
+  <head>
+    <th:block th:replace="~{header :: head}"></th:block>
+    <title>Assigned Leads</title>
+  </head>
+  <body>
+    <th:block th:replace="~{header :: body}"></th:block>
 
-	<section class="all-content">
-		<h2>Assigned Leads</h2>
-		<div class="search-container">
-			<input type="text" id="searchAssignedLeads"
-				placeholder="Search by Name or ID">
-		</div>
-		
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Company</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-				<tbody id="assignedCompanyList">
-				</tbody>
-			</table>
-		</div>
-	</section>
+    <section class="all-content">
+      <h2>Assigned Leads</h2>
+      <!-- <div class="search-container">
+        <input
+          type="text"
+          id="searchAssignedLeads"
+          placeholder="Search by Name or ID"
+        />
+      </div> -->
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Company</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="assignedLeadList"></tbody>
+        </table>
+      </div>
+    </section>
     <div th:replace="~{footer :: body}"></div>
-
-</body>
+  </body>
 </html>
